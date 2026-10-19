@@ -88,7 +88,7 @@ footer{color:#64748b;font-size:11px;text-align:center;padding:18px 4px 8px}
       <div class="logo">✦</div>
       <div><h1>Motif Finder</h1><p>Textile reference search workspace</p></div>
     </div>
-    <div class="badge">Phase 1 • Crop + Search Launchers</div>
+    <div class="badge">Phase 1.2 • Upload Fix</div>
   </div>
 
   <div class="grid">
@@ -166,7 +166,7 @@ footer{color:#64748b;font-size:11px;text-align:center;padding:18px 4px 8px}
       </div>
     </aside>
   </div>
-  <footer>Motif Finder • built for textile reference hunting • Phase 1</footer>
+  <footer>Motif Finder • built for textile reference hunting • Phase 1.2</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
@@ -182,19 +182,38 @@ footer{color:#64748b;font-size:11px;text-align:center;padding:18px 4px 8px}
 
   function enableEditor(on){ controls.forEach(b=>b.disabled=!on); $('#statusPill').textContent=on?'Image loaded':'Waiting for image'); }
   function setImage(file){
-    if(!file || !file.type.startsWith('image/')) return;
-    const url=URL.createObjectURL(file);
-    if(cropper){cropper.destroy();cropper=null}
-    workImage.onload=()=>{
-      empty.style.display='none';workImage.style.display='block';
-      cropper=new Cropper(workImage,{
-        viewMode:1,dragMode:'move',autoCropArea:.55,responsive:true,background:false,
-        guides:true,center:true,highlight:false,checkOrientation:true,
-        cropBoxMovable:true,cropBoxResizable:true,toggleDragModeOnDblclick:false
-      });
-      enableEditor(true);
+    if(!file){ $('#statusPill').textContent='No file selected'; return; }
+    if(!(file.type||'').startsWith('image/')){ $('#statusPill').textContent='Unsupported file'; alert('Please choose a JPG, PNG or WEBP image.'); return; }
+
+    $('#statusPill').textContent='Loading image…';
+    const reader=new FileReader();
+    reader.onerror=()=>{ $('#statusPill').textContent='Read failed'; alert('Image read nahi ho paayi. Dusri image try kijiye.'); };
+    reader.onload=()=>{
+      if(cropper){cropper.destroy();cropper=null}
+      workImage.onload=()=>{
+        empty.style.display='none';
+        workImage.style.display='block';
+        try{
+          if(window.Cropper){
+            cropper=new Cropper(workImage,{
+              viewMode:1,dragMode:'move',autoCropArea:.55,responsive:true,background:false,
+              guides:true,center:true,highlight:false,checkOrientation:true,
+              cropBoxMovable:true,cropBoxResizable:true,toggleDragModeOnDblclick:false
+            });
+            enableEditor(true);
+          }else{
+            $('#statusPill').textContent='Crop tool failed to load';
+            alert('Crop tool load nahi hua. Page refresh kijiye.');
+          }
+        }catch(err){
+          $('#statusPill').textContent='Crop error';
+          alert('Crop editor start nahi hua. Page refresh karke phir try kijiye.');
+        }
+      };
+      workImage.onerror=()=>{ $('#statusPill').textContent='Image decode failed'; alert('Image open nahi ho paayi. Dusri JPG/PNG try kijiye.'); };
+      workImage.src=reader.result;
     };
-    workImage.src=url;
+    reader.readAsDataURL(file);
   }
   fileInput.addEventListener('change',e=>setImage(e.target.files && e.target.files[0]));
 
