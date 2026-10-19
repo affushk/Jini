@@ -40,10 +40,15 @@ button{cursor:pointer}
 .btn.good{background:#0b6f58;border-color:#11816a}
 .btn.ghost{background:transparent}
 .btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
-.filePick{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
-.filePick input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:100px}
-.nativeFallback{margin-top:10px;display:none;width:100%;color:#cbd5e1;background:#111827;border:1px solid #334155;border-radius:12px;padding:10px}
-@media(max-width:700px){.nativeFallback{display:block}}
+.nativeFile{
+  display:block;width:100%;margin-top:10px;padding:12px;border-radius:12px;
+  border:1px solid #3b4a63;background:#111827;color:#e5e7eb
+}
+.nativeFile::file-selector-button{
+  margin-right:12px;border:0;border-radius:10px;padding:10px 14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:700
+}
+.uploadHelp{margin-top:9px;padding:10px 12px;border:1px solid #334155;border-radius:12px;background:#0d1524;color:#cbd5e1;font-size:12px;line-height:1.5}
 .editor{height:560px;background:#05070b;border-radius:14px;overflow:hidden;border:1px solid #1f2937;display:grid;place-items:center;position:relative}
 .editor img{display:block;max-width:100%}
 .empty{text-align:center;color:var(--muted);padding:30px}
@@ -95,13 +100,13 @@ footer{color:#64748b;font-size:11px;text-align:center;padding:18px 4px 8px}
           <strong>Drop a garment / motif image here</strong>
           <small>JPG, PNG, WEBP • or paste with Ctrl+V</small>
           <div class="row" style="justify-content:center;margin-top:12px">
-            <label class="btn primary filePick" id="chooseBtn">Choose image
-              <input id="fileInput" type="file" accept="image/*"/>
-            </label>
             <button class="btn" id="pasteBtn" type="button">Paste image</button>
           </div>
-          <input id="fileInputFallback" class="nativeFallback" type="file" accept="image/*" aria-label="Android gallery fallback"/>
-          <div class="hint" style="margin-top:8px">Android par agar purple button se gallery na khule, niche wala native file selector use kijiye.</div>
+          <input id="fileInput" class="nativeFile" type="file" accept="image/*" aria-label="Choose textile image"/>
+          <div class="uploadHelp">
+            <b>Android:</b> upar jo asli file selector dikh raha hai usi par tap kijiye.
+            Agar in-app browser gallery na khole, page ko Chrome me open karke wahi selector use kijiye.
+          </div>
         </div>
 
         <div style="height:12px"></div>
@@ -168,9 +173,9 @@ footer{color:#64748b;font-size:11px;text-align:center;padding:18px 4px 8px}
 <script>
 (() => {
   const $ = s => document.querySelector(s);
-  const fileInput=$('#fileInput'), fileInputFallback=$('#fileInputFallback'), workImage=$('#workImage'), empty=$('#emptyState');
+  const fileInput=$('#fileInput'), workImage=$('#workImage'), empty=$('#emptyState');
   const dropzone=$('#dropzone'), preview=$('#previewBox'), cropInfo=$('#cropInfo'), refTime=$('#refTime');
-  const chooseBtn=$('#chooseBtn'), pasteBtn=$('#pasteBtn'), makeRef=$('#makeRef'), copyBtn=$('#copyBtn'), downloadBtn=$('#downloadBtn');
+  const pasteBtn=$('#pasteBtn'), makeRef=$('#makeRef'), copyBtn=$('#copyBtn'), downloadBtn=$('#downloadBtn');
   const controls=['#zoomIn','#zoomOut','#rotL','#rotR','#reset','#makeRef'].map($);
   const sources=[...document.querySelectorAll('.source')];
   let cropper=null, refBlob=null, refUrl=null, refName='motif-reference.png';
@@ -191,10 +196,7 @@ footer{color:#64748b;font-size:11px;text-align:center;padding:18px 4px 8px}
     };
     workImage.src=url;
   }
-  fileInput.addEventListener('click',()=>{ fileInput.value=''; });
   fileInput.addEventListener('change',e=>setImage(e.target.files && e.target.files[0]));
-  fileInputFallback.addEventListener('click',()=>{ fileInputFallback.value=''; });
-  fileInputFallback.addEventListener('change',e=>setImage(e.target.files && e.target.files[0]));
 
   ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.add('drag')}));
   ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.remove('drag')}));
