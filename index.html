@@ -60,6 +60,10 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .syncAdjust{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:8px}
 .syncAdjust button{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:10px;padding:7px 10px;font-size:11px;font-weight:750}
 .syncAdjust span{display:inline-flex;align-items:center;color:#b9d4cd;font-size:11px;padding:0 5px}
+.calBox{display:none;margin-top:9px;padding:12px;border-radius:14px;border:1px solid #7b6840;background:#2a2414}
+.calBox.show{display:block}.calTitle{font-weight:800;color:#ffe7a0;font-size:13px}.calHelp{font-size:11px;line-height:1.5;color:#dfd3ad;margin-top:5px}
+.calTap{width:100%;margin-top:10px;border:0;border-radius:12px;padding:14px;background:#f4c95d;color:#19211e;font-weight:900;font-size:17px}
+.calTap:disabled{opacity:.45}.calDone{color:#8ef0d0;font-weight:800}
 .progressRow input{width:100%;accent-color:#34c29a}
 .ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}
 .audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 0;color:#b8d0ca;font-size:12px}
@@ -104,6 +108,12 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
           <span id="syncValue">Sync 0.00s</span>
           <button id="syncPlus">Glow +0.25s</button>
           <button id="syncReset">Reset</button>
+          <button id="calibrateBtn">Fix Word Sync</button>
+        </div>
+        <div class="calBox" id="calBox">
+          <div class="calTitle" id="calTitle">Word Sync Calibration</div>
+          <div class="calHelp" id="calHelp">Voice chalegi. Jis waqt screen par diya word bolna START ho, neeche yellow button ek baar tap kijiye. Sirf 7 taps, ek hi baar.</div>
+          <button class="calTap" id="calTap" disabled>Start calibration</button>
         </div>
         <div class="learnRow">
           <button class="smallBtn active" id="normalBtn">Normal text</button>
@@ -148,7 +158,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.4.1 • word-by-word sync + cache fix</div>
+  <div class="footer">Phase 1.5 • exact 7-tap word sync calibration</div>
 </div>
 
 <script>
@@ -188,7 +198,7 @@ function render(){
  }
  q('#voiceLabel').textContent=k.name+' voice';
  q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
- q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word highlight hoga. Agar glow thoda aage/piche lage to Sync buttons se 0.25s adjust kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
+ q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word highlight hoga. Agar glow aage/piche ho to “Fix Word Sync” se 7 taps me isi voice ke exact timestamps save kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
  q('#syncAdjust').style.display=k.n===1?'flex':'none';
  loadVoice(k.video);
  renderNav();
@@ -228,7 +238,7 @@ function loadVoice(id){
  if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
 }
 let syncOffset=0;
-const firstKalmaWordTimes=[
+let firstKalmaWordTimes=[
  {i:1,s:2.10,e:2.85,label:'La'},
  {i:2,s:2.85,e:3.75,label:'ilaha'},
  {i:3,s:3.75,e:4.55,label:'illa'},
@@ -237,6 +247,10 @@ const firstKalmaWordTimes=[
  {i:6,s:8.65,e:10.15,label:'Rasoolu'},
  {i:7,s:10.15,e:12.40,label:'llah'}
 ];
+try{
+ const saved=JSON.parse(localStorage.getItem('kalma1WordSync')||'null');
+ if(Array.isArray(saved)&&saved.length===7) firstKalmaWordTimes=saved;
+}catch(e){}
 function updateSyncLabel(){
  q('#syncValue').textContent='Sync '+(syncOffset>=0?'+':'')+syncOffset.toFixed(2)+'s';
 }
@@ -259,6 +273,59 @@ q('#syncMinus').onclick=()=>{syncOffset=Math.max(-2,syncOffset-.25);updateSyncLa
 q('#syncPlus').onclick=()=>{syncOffset=Math.min(2,syncOffset+.25);updateSyncLabel()};
 q('#syncReset').onclick=()=>{syncOffset=0;updateSyncLabel()};
 updateSyncLabel();
+
+const calWords=['La','ilaha','illa','llahu','Muhammadur','Rasoolu','llah'];
+let calibrating=false, calStep=0, calStarts=[];
+function setCalUI(){
+ const box=q('#calBox'), tap=q('#calTap');
+ box.classList.toggle('show',calibrating);
+ if(!calibrating)return;
+ if(calStep===0){tap.textContent='Start calibration';tap.disabled=false;return}
+ if(calStep<=7){
+   tap.textContent='Tap when “'+calWords[calStep-1]+'” starts';
+   tap.disabled=false;
+ }
+}
+q('#calibrateBtn').onclick=()=>{
+ if(kalmas[current].n!==1)return;
+ calibrating=!calibrating;calStep=0;calStarts=[];
+ q('#calTitle').textContent='Word Sync Calibration';
+ q('#calHelp').textContent='Voice chalegi. Jis waqt diya word bolna START ho, yellow button tap kijiye. 7 taps ke baad timing save ho jayegi.';
+ setCalUI();
+};
+q('#calTap').onclick=()=>{
+ if(!ytReady||!yt){q('#calHelp').textContent='Voice player abhi load ho raha hai. 2 second baad try kijiye.';return}
+ if(calStep===0){
+   calStarts=[];calStep=1;
+   yt.setPlaybackRate(1);
+   yt.seekTo(1.2,true);yt.playVideo();
+   q('#calHelp').textContent='Dhyan se suniye. “La” start hote hi tap kijiye.';
+   setCalUI();return;
+ }
+ const t=yt.getCurrentTime();
+ calStarts.push(t);
+ calStep++;
+ if(calStep<=7){
+   q('#calHelp').textContent='Saved '+calStarts.length+'/7. Ab “'+calWords[calStep-1]+'” start hote hi tap kijiye.';
+   setCalUI();return;
+ }
+ // Build intervals from the user's exact taps.
+ firstKalmaWordTimes=calStarts.map((s,idx)=>({
+   i:idx+1,
+   s:s,
+   e:idx<calStarts.length-1?calStarts[idx+1]:s+2.4,
+   label:calWords[idx]
+ }));
+ localStorage.setItem('kalma1WordSync',JSON.stringify(firstKalmaWordTimes));
+ calibrating=false;
+ q('#calTitle').innerHTML='<span class="calDone">Sync saved ✓</span>';
+ q('#calHelp').textContent='Ab test ke liye voice wapas shuru se chal rahi hai. Ye timing isi phone/browser me save rahegi.';
+ q('#calBox').classList.add('show');
+ q('#calTap').textContent='Calibrated';
+ q('#calTap').disabled=true;
+ yt.seekTo(Math.max(0,firstKalmaWordTimes[0].s-1),true);yt.playVideo();
+ setTimeout(()=>q('#calBox').classList.remove('show'),5000);
+};
 
 function startProgress(){
  if(progressTimer)clearInterval(progressTimer);
