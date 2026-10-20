@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#062f2a">
+<title>5 Kalme Kids</title>
+<link rel="manifest" href="app.webmanifest">
+<style>
+:root{
+  --bg:#071a18;--bg2:#0b2723;--card:#0e342f;--line:#245149;--text:#f7f5ea;--muted:#bdd2cc;
+  --gold:#f4c95d;--green:#1e8c72;--green2:#2fb88f;--cream:#fff8df;--shadow:0 20px 55px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+ radial-gradient(circle at 20% 0%,#12463f 0,#071a18 38%,#04100f 100%);
+ color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button{font:inherit}
+.app{max-width:1100px;margin:auto;padding:14px 14px 40px}
+.hero{position:sticky;top:0;z-index:10;padding:10px 0 12px;background:linear-gradient(180deg,rgba(7,26,24,.98),rgba(7,26,24,.88),transparent);backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandLeft{display:flex;align-items:center;gap:11px}
+.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#0f6d5a,#31b58f);display:grid;place-items:center;box-shadow:0 10px 28px rgba(27,181,143,.22);font-size:24px}
+h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+.pill{padding:7px 10px;border-radius:999px;border:1px solid #32675d;color:#d9eee8;font-size:11px;background:#0b302a}
+.nav{display:flex;gap:8px;overflow:auto;padding:8px 1px 3px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.kbtn{min-width:76px;border:1px solid #2a5c52;background:#0b2d28;color:#d8e8e4;border-radius:14px;padding:10px 9px;text-align:center;font-weight:800}
+.kbtn small{display:block;font-size:10px;font-weight:600;color:#9fc1b8;margin-top:2px}
+.kbtn.active{background:linear-gradient(135deg,#16735f,#239b7c);border-color:#35b99a;color:white}
+.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:14px}
+.card{background:linear-gradient(180deg,rgba(14,52,47,.97),rgba(8,34,31,.98));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.cardHead{padding:16px 16px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.cardHead h2{margin:0;font-size:18px}.cardHead .mini{font-size:11px;color:var(--muted)}
+.body{padding:16px}
+.arabicWrap{background:linear-gradient(180deg,#fffaf0,#fff4d7);color:#14332c;border-radius:18px;padding:20px 18px;border:2px solid rgba(244,201,93,.75)}
+.arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;direction:rtl;text-align:center;font-size:clamp(34px,6vw,54px);line-height:1.85;font-weight:700}
+.romanTitle{font-size:12px;color:#dfefe9;margin:16px 0 7px;font-weight:800;letter-spacing:.3px}
+.roman{font-size:19px;line-height:1.7;color:#f7f6ed;background:#0a2a26;border:1px solid #275b51;border-radius:15px;padding:14px}
+.learnRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.smallBtn{border:1px solid #347267;background:#0c302b;color:white;border-radius:12px;padding:10px 12px;font-weight:750}
+.smallBtn.active{background:#1a7d67;border-color:#39a98f}
+.note{font-size:11px;line-height:1.55;color:#a9c2bb;margin-top:10px}
+.playerBox{aspect-ratio:16/9;background:#020807;border:1px solid #245149;border-radius:16px;overflow:hidden}
+.playerBox iframe{width:100%;height:100%;border:0}
+.audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:10px 0 0;color:#b8d0ca;font-size:12px}
+.voiceBadge{display:inline-flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;background:#35d19e;box-shadow:0 0 0 5px rgba(53,209,158,.12)}
+.credit{margin-top:10px;padding:10px 12px;background:#092621;border:1px solid #245149;border-radius:13px;color:#b8d0ca;font-size:11px;line-height:1.5}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.tile{border:1px solid #2e6359;background:#0a2b26;border-radius:13px;padding:10px;color:#dcece7;text-align:center}
+.tile b{display:block;font-size:14px}.tile span{display:block;color:#93b9af;font-size:10px;margin-top:3px}
+.footer{text-align:center;color:#6f9990;font-size:11px;padding:20px 8px 0}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.playerCard{order:-1}.playerBox{max-height:270px}}
+@media(max-width:520px){.app{padding:10px 10px 30px}.brandRight{display:none}.card{border-radius:16px}.body{padding:12px}.cardHead{padding:13px 12px 0}.arabicWrap{padding:16px 12px}.roman{font-size:17px}.grid5{grid-template-columns:repeat(5,minmax(76px,1fr));overflow:auto}.tile{min-width:76px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="brand">
+      <div class="brandLeft">
+        <div class="logo">☪</div>
+        <div><h1>5 Kalme Kids</h1><div class="sub">Arabic • Roman Urdu • Kids Madani Channel voice</div></div>
+      </div>
+      <div class="brandRight pill">Personal learning app</div>
+    </div>
+    <div class="nav" id="nav"></div>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <div class="cardHead">
+        <div><h2 id="title">Pehla Kalma Tayyibah</h2><div class="mini" id="number">Kalma 1 of 5</div></div>
+        <div class="pill" id="shortName">Tayyibah</div>
+      </div>
+      <div class="body">
+        <div class="arabicWrap"><div class="arabic" id="arabic"></div></div>
+        <div class="romanTitle">ROMAN URDU</div>
+        <div class="roman" id="roman"></div>
+        <div class="learnRow">
+          <button class="smallBtn active" id="normalBtn">Normal text</button>
+          <button class="smallBtn" id="largeBtn">Large Arabic</button>
+        </div>
+        <div class="note">Arabic aur Roman Urdu ko ek saath dekh kar sunne ke liye banaaya gaya hai. Voice official YouTube player se stream hoti hai, isliye internet chahiye.</div>
+
+        <div class="grid5" id="tiles"></div>
+      </div>
+    </section>
+
+    <aside class="card playerCard">
+      <div class="cardHead">
+        <div><h2>Voice Player</h2><div class="mini">Wahi Kids Madani Channel wali voice</div></div>
+        <div class="pill">Official YouTube</div>
+      </div>
+      <div class="body">
+        <div class="playerBox">
+          <iframe id="player" title="Kalma voice" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="audioMeta">
+          <div class="voiceBadge"><span class="dot"></span><span id="voiceLabel">Pehla Kalma voice</span></div>
+          <span id="videoId"></span>
+        </div>
+        <div class="credit">Voice/video Kids Madani Channel ke official YouTube embed se chalti hai. Audio ko copy ya APK ke andar extract nahi kiya gaya. Isliye aapko wahi original voice sunai degi jab internet available ho.</div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="footer">Phase 1 • 5 Kalme text + exact channel voice streaming</div>
+</div>
+
+<script>
+const kalmas=[
+ {n:1,name:'Pehla Kalma Tayyibah',short:'Tayyibah',video:'jSoEVLNeHw0',
+  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ',
+  ro:'La ilaha illallahu, Muhammadur Rasoolullah.'},
+ {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'54JnsbHQPbM',
+  ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',
+  ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.'},
+ {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',
+  ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
+  ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.'},
+ {n:4,name:'Chautha Kalma Tauheed',short:'Tauheed',video:'d05LzqfnpmY',
+  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا، ذُو الْجَلَالِ وَالْإِكْرَامِ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+  ro:'La ilaha illallahu wahdahu la shareeka lah, lahul mulku wa lahul hamdu, yuhyi wa yumitu, wa huwa hayyun la yamutu abadan abada, zul jalali wal ikram, biyadihil khair, wa huwa ala kulli shai-in qadeer.'},
+ {n:5,name:'Panchwa Kalma Astaghfar',short:'Astaghfar',video:'2WrQw-L53fU',
+  ar:'أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ عَمْدًا أَوْ خَطَأً، سِرًّا أَوْ عَلَانِيَةً، وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ، وَسَتَّارُ الْعُيُوبِ، وَغَفَّارُ الذُّنُوبِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
+  ro:'Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu amadan aw khata-an, sirran aw alaniyatan, wa atubu ilaihi minaz-zanbillazi alamu wa minaz-zanbillazi la alamu. Innaka anta allamul-ghuyubi, wa sattarul-uyubi, wa ghaffaruz-zunubi, wa la hawla wa la quwwata illa billahil aliyyil azeem.'}
+];
+let current=0;
+const q=s=>document.querySelector(s);
+function renderNav(){
+ q('#nav').innerHTML=kalmas.map((k,i)=>'<button class="kbtn '+(i===current?'active':'')+'" data-i="'+i+'">'+k.n+'<small>'+k.short+'</small></button>').join('');
+ q('#tiles').innerHTML=kalmas.map((k,i)=>'<button class="tile" data-i="'+i+'"><b>'+k.n+'</b><span>'+k.short+'</span></button>').join('');
+ document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{current=Number(b.dataset.i);render()});
+}
+function render(){
+ const k=kalmas[current];
+ q('#title').textContent=k.name;q('#number').textContent='Kalma '+k.n+' of 5';q('#shortName').textContent=k.short;
+ q('#arabic').textContent=k.ar;q('#roman').textContent=k.ro;q('#voiceLabel').textContent=k.name+' voice';
+ q('#videoId').textContent='Video '+k.n;
+ q('#player').src='https://www.youtube.com/embed/'+k.video+'?rel=0&modestbranding=1&playsinline=1';
+ renderNav();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+q('#largeBtn').onclick=()=>{q('#arabic').style.fontSize='clamp(44px,8vw,70px)';q('#largeBtn').classList.add('active');q('#normalBtn').classList.remove('active')};
+q('#normalBtn').onclick=()=>{q('#arabic').style.fontSize='';q('#normalBtn').classList.add('active');q('#largeBtn').classList.remove('active')};
+render();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
