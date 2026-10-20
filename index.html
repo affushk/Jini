@@ -34,7 +34,12 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .cardHead h2{margin:0;font-size:18px}.cardHead .mini{font-size:11px;color:var(--muted)}
 .body{padding:16px}
 .arabicWrap{background:linear-gradient(180deg,#fffaf0,#fff4d7);color:#14332c;border-radius:18px;padding:20px 18px;border:2px solid rgba(244,201,93,.75)}
-.arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;direction:rtl;text-align:center;font-size:clamp(34px,6vw,54px);line-height:1.85;font-weight:700}
+.arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;direction:rtl;text-align:center;font-size:clamp(34px,6vw,54px);line-height:1.85;font-weight:700;transition:.22s}
+.arabicWrap.voiceOn{box-shadow:0 0 0 3px rgba(47,184,143,.28),0 0 30px rgba(47,184,143,.22);transform:translateY(-1px)}
+.arabicWrap.voiceOn .arabic{color:#0d5f4e;text-shadow:0 0 18px rgba(38,180,137,.2)}
+.roman.voiceOn{border-color:#42b99d;box-shadow:0 0 0 2px rgba(47,184,143,.18),0 0 24px rgba(47,184,143,.12)}
+.followLine{margin-top:12px;padding:10px 12px;border-radius:13px;background:#0a2a26;border:1px solid #2d6458;color:#bfe0d7;font-size:12px;display:flex;align-items:center;gap:8px}
+.followDot{width:9px;height:9px;border-radius:50%;background:#406861}.followLine.on .followDot{background:#39d7aa;box-shadow:0 0 0 6px rgba(57,215,170,.12)}
 .romanTitle{font-size:12px;color:#dfefe9;margin:16px 0 7px;font-weight:800;letter-spacing:.3px}
 .roman{font-size:19px;line-height:1.7;color:#f7f6ed;background:#0a2a26;border:1px solid #275b51;border-radius:15px;padding:14px}
 .learnRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -85,6 +90,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
         <div class="arabicWrap"><div class="arabic" id="arabic"></div></div>
         <div class="romanTitle">ROMAN URDU</div>
         <div class="roman" id="roman"></div>
+        <div class="followLine" id="followLine"><span class="followDot"></span><span id="followText">Voice start kijiye — Arabic aur Roman Urdu live glow honge.</span></div>
         <div class="learnRow">
           <button class="smallBtn active" id="normalBtn">Normal text</button>
           <button class="smallBtn" id="largeBtn">Large Arabic</button>
@@ -128,7 +134,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.1 • audio-style voice player + 5 Kalme text</div>
+  <div class="footer">Phase 1.2 • voice-follow highlight + audio-style player</div>
 </div>
 
 <script>
@@ -170,6 +176,10 @@ function fmt(s){s=Math.max(0,Math.floor(Number(s)||0));return Math.floor(s/60)+'
 function setPlayUI(playing){
  q('#playBtn').textContent=playing?'❚❚':'▶';
  q('#playState').textContent=playing?'Playing':'Paused';
+ q('.arabicWrap').classList.toggle('voiceOn',playing);
+ q('#roman').classList.toggle('voiceOn',playing);
+ q('#followLine').classList.toggle('on',playing);
+ q('#followText').textContent=playing?'Voice chal rahi hai — text ko saath follow kijiye.':'Voice paused.';
 }
 window.onYouTubeIframeAPIReady=function(){
  yt=new YT.Player('ytPlayer',{
@@ -189,6 +199,7 @@ window.onYouTubeIframeAPIReady=function(){
 function loadVoice(id){
  pendingVideo=id;
  setPlayUI(false);
+ q('#followText').textContent='Voice start kijiye — Arabic aur Roman Urdu live glow honge.';
  q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
  if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
 }
