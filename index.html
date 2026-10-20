@@ -542,7 +542,7 @@ document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.que
 $('#focusMode').onclick=()=>{focusOn=!focusOn;$('#focusMode').classList.toggle('active',focusOn);$('#focusMode').textContent='Focus animation: '+(focusOn?'On':'Off');if(!focusOn)showWaiting();else lastCueKey=''};
 $('#fullTextToggle').onclick=()=>$('#fullTextCard').classList.toggle('compact');
 render();
-if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=8',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
