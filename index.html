@@ -53,7 +53,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
 .ctrl.active{background:#1a7d67;border-color:#42bd9d}
 .progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:10px;color:#9fc1b8;font-size:11px}
-.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:background-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:transform .12s ease,box-shadow .12s ease}
 .seg.active{background:#f4c95d;color:#07231f;box-shadow:0 0 0 2px rgba(244,201,93,.18),0 0 14px rgba(244,201,93,.22);transform:scale(1.035)}
 .roman .seg.active{color:#07231f;background:#f4c95d}
 .syncNote{font-size:11px;color:#b9d4cd;margin-top:8px;text-align:center}
@@ -159,7 +159,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.7 • smooth repeating word sync</div>
+  <div class="footer">Phase 1.8 • stable no-flicker word sync</div>
 </div>
 
 <script>
@@ -199,7 +199,7 @@ function render(){
  }
  q('#voiceLabel').textContent=k.name+' voice';
  q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
- q('#syncNote').textContent=k.n===1?'Pehla Kalma ab har repeat me word-by-word highlight hoga. Sirf current word glow karega; poora Arabic/Roman box glow nahi karega.':'Is Kalme ka exact word timing next sync pass me add hoga.';
+ q('#syncNote').textContent=k.n===1?'Pehla Kalma me highlight calibrated start 15.76s se chalega. Sirf current word active rahega; same word ko har timer tick par dobara animate nahi kiya jayega.':'Is Kalme ka exact word timing next sync pass me add hoga.';
  q('#syncAdjust').style.display=k.n===1?'flex':'none';
  loadVoice(k.video);
  renderNav();
@@ -234,7 +234,7 @@ function loadVoice(id){
  pendingVideo=id;
  setPlayUI(false);
  q('#followText').textContent='Voice start kijiye — Arabic aur Roman Urdu live glow honge.';
- document.querySelectorAll('.seg').forEach(s=>s.classList.remove('active'));
+ setActiveWord(0);
  q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
  if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
 }
@@ -255,35 +255,46 @@ function updateSyncLabel(){
 }
 const repeatCycleSeconds=5.34;
 const calibratedCycleStart=15.76;
-const firstUsableCycleStart=5.08;
+const firstUsableCycleStart=calibratedCycleStart;
+let lastActiveWord=0;
 const relativeWordTimes=firstKalmaWordTimes.map((x,idx)=>({
   i:x.i,
   s:x.s-calibratedCycleStart,
   e:(idx<firstKalmaWordTimes.length-1?firstKalmaWordTimes[idx+1].s:20.80)-calibratedCycleStart,
   label:x.label
 }));
+function setActiveWord(wordIndex){
+  if(lastActiveWord===wordIndex)return;
+  if(lastActiveWord){
+    document.querySelectorAll('.seg[data-seg="'+lastActiveWord+'"]').forEach(s=>s.classList.remove('active'));
+  }
+  lastActiveWord=wordIndex||0;
+  if(lastActiveWord){
+    document.querySelectorAll('.seg[data-seg="'+lastActiveWord+'"]').forEach(s=>s.classList.add('active'));
+  }
+}
 function updatePhraseSync(t){
- const segs=[...document.querySelectorAll('.seg')];
- segs.forEach(s=>s.classList.remove('active'));
- if(kalmas[current].n!==1)return;
+  if(kalmas[current].n!==1){setActiveWord(0);return;}
+  const tt=t+syncOffset;
 
- const tt=t+syncOffset;
- if(tt<firstUsableCycleStart){
-   q('#followText').textContent='Voice intro chal rahi hai…';
-   return;
- }
+  if(tt<firstUsableCycleStart){
+    setActiveWord(0);
+    q('#followText').textContent='Kalma recitation start hone ka wait…';
+    return;
+  }
 
- const cycleIndex=Math.floor((tt-firstUsableCycleStart)/repeatCycleSeconds);
- const cycleStart=firstUsableCycleStart+(cycleIndex*repeatCycleSeconds);
- const rel=tt-cycleStart;
- const hit=relativeWordTimes.find(x=>rel>=x.s&&rel<x.e);
+  const cycleIndex=Math.floor((tt-firstUsableCycleStart)/repeatCycleSeconds);
+  const cycleStart=firstUsableCycleStart+(cycleIndex*repeatCycleSeconds);
+  const rel=tt-cycleStart;
+  const hit=relativeWordTimes.find(x=>rel>=x.s&&rel<x.e);
 
- if(hit){
-   document.querySelectorAll('.seg[data-seg="'+hit.i+'"]').forEach(s=>s.classList.add('active'));
-   q('#followText').textContent=hit.label+' — isi word ko voice ke saath follow kijiye.';
- }else{
-   q('#followText').textContent='Agli repetition ka wait…';
- }
+  if(hit){
+    setActiveWord(hit.i);
+    q('#followText').textContent=hit.label+' — isi word ko voice ke saath follow kijiye.';
+  }else{
+    setActiveWord(0);
+    q('#followText').textContent='Agli repetition ka wait…';
+  }
 }
 
 function startProgress(){
