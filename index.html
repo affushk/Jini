@@ -3,60 +3,169 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071311">
+<meta name="theme-color" content="#fff4f8">
 <title>5 Kalme Kids</title>
 <link rel="manifest" href="app.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#07110f;--surface:#0b1815;--surface-2:#0f211d;--surface-3:#132a25;
-  --text:#f7f5ef;--muted:#8fa39d;--soft:#c8d5d1;--mint:#6be2bf;--mint-2:#2fb78f;
-  --gold:#efd38a;--line:rgba(255,255,255,.075);--line-strong:rgba(107,226,191,.22);
-  --shadow:0 24px 70px rgba(0,0,0,.32)
+  --bg:#fff4f8;--cream:#fffaf4;--pink:#f7d2e2;--pink-2:#efb7cf;--pink-3:#e89ab9;
+  --peach:#ffd9cc;--gold:#f5d58f;--text:#5b3b49;--muted:#947582;
+  --line:rgba(164,92,122,.12);--white:#ffffff;--shadow:0 18px 44px rgba(174,100,132,.14)
 }
 *{box-sizing:border-box}
-html{background:var(--bg);scroll-behavior:smooth}
-body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:
-radial-gradient(circle at 12% -8%,rgba(47,183,143,.13),transparent 28%),
-radial-gradient(circle at 92% 8%,rgba(239,211,138,.06),transparent 22%),
-linear-gradient(180deg,#081411 0%,#06100e 100%)}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.11;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(to bottom,#000 0%,transparent 58%)}
-button,input{font:inherit}.app{width:min(100%,820px);margin:auto;padding:12px 12px 38px}
-.top{position:sticky;top:0;z-index:40;padding:8px 0 10px;background:linear-gradient(180deg,rgba(7,17,15,.97),rgba(7,17,15,.84),transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brandLeft{display:flex;align-items:center;gap:11px}
-.mark{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;font-size:20px;background:linear-gradient(145deg,#163a31,#0d211c);border:1px solid rgba(107,226,191,.2);box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 26px rgba(0,0,0,.22)}
-.brand h1{font-size:18px;line-height:1;margin:0;letter-spacing:-.35px}.brand p{margin:5px 0 0;color:var(--muted);font-size:10px;letter-spacing:.2px}
-.liveTag{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:999px;padding:7px 10px;color:#b8cbc5;font-size:9px;font-weight:750;letter-spacing:.35px;text-transform:uppercase}.liveTag:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(107,226,191,.07)}
-.nav{display:flex;gap:7px;overflow:auto;margin-top:11px;padding:1px 1px 4px;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
-.tab{position:relative;min-width:78px;border:1px solid var(--line);border-radius:14px;padding:9px 9px;background:rgba(255,255,255,.02);color:#cad8d4;font-size:12px;font-weight:850;transition:transform .2s ease,border-color .2s ease,background .2s ease,color .2s ease}
-.tab small{display:block;margin-top:3px;color:#6f8981;font-size:9px;font-weight:650}.tab:active{transform:scale(.97)}.tab.active{background:linear-gradient(135deg,rgba(107,226,191,.13),rgba(47,183,143,.07));border-color:rgba(107,226,191,.28);color:#fff;box-shadow:inset 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.12)}.tab.active small{color:#9ebdb4}.tab.active:after{content:"";position:absolute;left:50%;bottom:-5px;width:20px;height:2px;border-radius:9px;transform:translateX(-50%);background:var(--mint)}
-.shell{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,rgba(13,30,26,.92),rgba(7,20,17,.98));box-shadow:var(--shadow)}
-.meta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 17px 8px}.meta h2{margin:0;font-size:17px;letter-spacing:-.3px}.meta .sub{margin-top:4px;color:var(--muted);font-size:10px}.count{min-width:54px;text-align:center;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:999px;padding:7px 10px;color:#9eb4ad;font-size:10px;font-weight:750}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Nunito,Inter,ui-rounded,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:
+radial-gradient(circle at 10% 5%,rgba(255,217,204,.68),transparent 23%),
+radial-gradient(circle at 92% 8%,rgba(247,210,226,.72),transparent 24%),
+linear-gradient(180deg,#fff8fb 0%,#fff2f7 58%,#fffaf5 100%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(183,120,146,.08) 1.2px,transparent 1.2px);background-size:24px 24px;opacity:.55}
+button,input{font:inherit}.app{width:min(100%,820px);margin:auto;padding:12px 12px 36px}
+.top{position:sticky;top:0;z-index:40;padding:8px 0 10px;background:linear-gradient(180deg,rgba(244,255,249,.96),rgba(244,255,249,.84),transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}.brandLeft{display:flex;align-items:center;gap:11px}
+.mark{position:relative;width:48px;height:48px;border-radius:17px;display:grid;place-items:center;font-size:22px;background:linear-gradient(145deg,#ffddea,#f2b7cf);border:2px solid rgba(255,255,255,.75);box-shadow:0 10px 24px rgba(207,126,160,.18),inset 0 1px rgba(255,255,255,.8)}
+.mark:after{content:"★";position:absolute;right:-3px;top:-6px;font-size:12px;color:#f3c95f;filter:drop-shadow(0 2px 2px rgba(0,0,0,.08));animation:twinkle 1.9s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:scale(.8) rotate(-8deg);opacity:.65}50%{transform:scale(1.15) rotate(8deg);opacity:1}}
+.brand h1{font-size:18px;line-height:1;margin:0;color:#5a3d49;letter-spacing:-.25px}.brand p{margin:5px 0 0;color:#9a7a87;font-size:10px}
+.liveTag{display:flex;align-items:center;gap:6px;border:1px solid rgba(220,126,164,.18);background:#ffffffcc;border-radius:999px;padding:7px 10px;color:#a15f7a;font-size:9px;font-weight:850;box-shadow:0 6px 16px rgba(76,137,116,.08)}
+.liveTag:before{content:"❤";font-size:10px;color:#e990b2}
+.nav{display:flex;gap:8px;overflow:auto;margin-top:11px;padding:2px 1px 5px;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
+.tab{position:relative;min-width:82px;border:1px solid var(--line);border-radius:16px;padding:10px 9px;background:#fffdfdcc;color:#8a6474;font-size:12px;font-weight:900;box-shadow:0 7px 18px rgba(171,104,132,.07);transition:.2s ease}.tab small{display:block;margin-top:3px;color:#aa8c98;font-size:9px;font-weight:750}.tab:active{transform:scale(.96)}
+.tab:nth-child(2){background:#fff4f8}.tab:nth-child(3){background:#fff6fb}.tab:nth-child(4){background:#fff8fb}.tab:nth-child(5){background:#fff9f0}
+.tab.active{background:linear-gradient(145deg,#f8d3e3,#efb1ca);border-color:rgba(220,126,164,.28);color:#6b4355;box-shadow:0 10px 24px rgba(220,126,164,.16)}.tab.active small{color:#9b6179}.tab.active:after{content:"";position:absolute;left:50%;bottom:-6px;width:24px;height:4px;border-radius:10px;transform:translateX(-50%);background:#e58fb1}
+.shell{overflow:hidden;border:1px solid rgba(177,105,134,.13);border-radius:30px;background:#ffffffd9;box-shadow:var(--shadow)}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 17px 9px}.meta h2{margin:0;font-size:17px;color:#674353}.meta .sub{margin-top:4px;color:#a1838f;font-size:10px}.count{min-width:58px;text-align:center;border:1px solid rgba(183,110,141,.13);background:#fff8fb;border-radius:999px;padding:7px 10px;color:#9b697d;font-size:10px;font-weight:850}
 .stageWrap{padding:7px 11px 13px}
-.stage{position:relative;min-height:348px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(255,255,255,.065);border-radius:25px;background:
-radial-gradient(circle at 50% 43%,rgba(107,226,191,.115),transparent 26%),
-radial-gradient(circle at 52% 48%,rgba(255,255,255,.018),transparent 44%),
-linear-gradient(180deg,#10251f,#0a1916)}
-.stage:before{content:"";position:absolute;width:255px;height:255px;border-radius:50%;border:1px solid rgba(107,226,191,.085);box-shadow:0 0 0 42px rgba(107,226,191,.016),0 0 0 84px rgba(107,226,191,.01);transition:transform .6s ease,opacity .6s ease}
-.stage.playing:before{animation:haloBreath 3.4s ease-in-out infinite;opacity:.95}@keyframes haloBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
-.stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 24%,transparent 76%,rgba(0,0,0,.12))}
-.speaker{position:absolute;z-index:3;left:15px;top:14px;display:flex;align-items:center;gap:7px;color:#8ea69f;font-size:9px;font-weight:700;letter-spacing:.25px}.pulse{width:7px;height:7px;border-radius:50%;background:#50756b;transition:.25s ease}.stage.playing .pulse{background:var(--mint);animation:pulse 1.6s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(107,226,191,.3)}70%{box-shadow:0 0 0 9px rgba(107,226,191,0)}100%{box-shadow:0 0 0 0 rgba(107,226,191,0)}}
-.visualizer{position:absolute;z-index:3;right:15px;top:14px;height:18px;display:flex;align-items:center;gap:3px;opacity:.45}.visualizer i{display:block;width:2px;height:5px;border-radius:9px;background:#8eb5aa;transform-origin:center;animation:bars 1s ease-in-out infinite paused}.visualizer i:nth-child(2){animation-delay:.12s}.visualizer i:nth-child(3){animation-delay:.24s}.visualizer i:nth-child(4){animation-delay:.08s}.visualizer i:nth-child(5){animation-delay:.18s}.stage.playing .visualizer i{animation-play-state:running;color:var(--mint)}@keyframes bars{0%,100%{height:4px}50%{height:16px}}
-.focus{position:relative;z-index:2;width:min(91%,700px);padding:48px 14px 32px;text-align:center;transform-origin:center;will-change:transform,opacity,filter}
-.kind{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.075);border-radius:999px;padding:6px 9px;background:rgba(0,0,0,.12);color:#87a49b;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
-.arabicWord,.urduWord{text-wrap:balance;text-shadow:0 12px 38px rgba(0,0,0,.3)}
-.arabicWord{direction:rtl;margin-top:16px;font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;font-size:clamp(50px,11vw,88px);font-weight:700;line-height:1.38;color:#fff9eb}
-.urduWord{direction:rtl;margin-top:16px;font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu","Traditional Arabic",serif;font-size:clamp(37px,8.2vw,62px);font-weight:700;line-height:1.52;color:#fff9eb}
-.romanWord{margin-top:9px;color:#e5eee9;font-size:clamp(17px,4.2vw,25px);font-weight:820;letter-spacing:-.1px}.meaning{margin-top:7px;color:#7f9c93;font-size:11px;line-height:1.5}
-.waiting .arabicWord,.waiting .urduWord{font-size:31px;color:#cbd7d3}.waiting .romanWord{font-size:14px;font-weight:650;color:#91a69f}
-.player{margin-top:11px;border:1px solid var(--line);border-radius:21px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012));box-shadow:inset 0 1px rgba(255,255,255,.025)}
-.playRow{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:center}.play{width:54px;height:54px;border:0;border-radius:17px;background:linear-gradient(145deg,#35c79b,#1d7f65);color:#fff;font-size:20px;box-shadow:0 10px 28px rgba(47,183,143,.2),inset 0 1px rgba(255,255,255,.18);transition:transform .18s ease,box-shadow .18s ease}.play:active{transform:scale(.95)}.play.playing{box-shadow:0 12px 34px rgba(47,183,143,.28),0 0 0 5px rgba(107,226,191,.045)}.trackTitle{font-size:13px;font-weight:850}.trackSub{margin-top:3px;color:#748f87;font-size:9px}
-.timeline{display:grid;grid-template-columns:34px 1fr 34px;align-items:center;gap:8px;margin-top:12px;color:#708b83;font-size:9px}.timeline input{--p:0%;width:100%;height:4px;appearance:none;border-radius:99px;outline:0;background:linear-gradient(90deg,var(--mint) 0 var(--p),rgba(255,255,255,.09) var(--p) 100%)}.timeline input::-webkit-slider-thumb{appearance:none;width:14px;height:14px;border-radius:50%;background:#ecfff8;border:3px solid var(--mint-2);box-shadow:0 2px 8px rgba(0,0,0,.25)}.timeline input::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:#ecfff8;border:3px solid var(--mint-2)}
-.actions{display:flex;gap:7px;overflow:auto;margin-top:11px;padding-bottom:2px;scrollbar-width:none}.actions::-webkit-scrollbar{display:none}.action{white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.018);color:#adbfba;border-radius:11px;padding:8px 10px;font-size:9px;font-weight:760;transition:.18s ease}.action:active{transform:scale(.97)}.action.active{border-color:rgba(107,226,191,.26);background:rgba(107,226,191,.08);color:#eafff8}
-.fullText{margin-top:11px;border:1px solid var(--line);border-radius:18px;padding:0;background:rgba(255,255,255,.014);overflow:hidden}.fullTextHead{width:100%;border:0;background:transparent;color:var(--text);display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 13px}.fullTextHead strong{display:block;margin-top:2px;font-size:11px}.label{display:block;margin:0;color:#607c74;font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.chev{color:#78958c;font-size:18px;transition:transform .22s ease}.fullTextBody{padding:0 14px 14px;max-height:300px;opacity:1;transition:max-height .28s ease,opacity .18s ease,padding .28s ease}.fullText.compact .fullTextBody{max-height:0;opacity:0;padding-top:0;padding-bottom:0;overflow:hidden}.fullText:not(.compact) .chev{transform:rotate(180deg)}.fullArabic{direction:rtl;text-align:center;font-family:"Noto Naskh Arabic","Traditional Arabic",serif;font-size:29px;line-height:1.8;color:#eee8d9}.fullRoman{margin-top:4px;text-align:center;color:#9eb1ab;font-size:12px;line-height:1.7}
-.notice{margin-top:10px;text-align:center;color:#657f77;font-size:9px;line-height:1.45}.ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}.footer{text-align:center;color:#4f6a62;font-size:8px;padding:17px 6px}
-@media(max-width:600px){.app{padding-left:8px;padding-right:8px}.stage{min-height:330px}.stageWrap{padding:6px 8px 10px}.meta{padding:14px 12px 7px}.focus{padding-left:7px;padding-right:7px}.fullArabic{font-size:27px}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+.stage{position:relative;min-height:355px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(190,112,145,.10);border-radius:27px;background:
+radial-gradient(circle at 50% 43%,rgba(247,210,226,.31),transparent 28%),
+linear-gradient(180deg,#fffafb,#fff1f6)}
+.stage:before{content:"";position:absolute;width:250px;height:250px;border-radius:50%;border:2px dashed rgba(221,150,178,.14);box-shadow:0 0 0 34px rgba(247,210,226,.055),0 0 0 70px rgba(247,210,226,.025)}
+.stage:after{content:"☁  ✦  ☾";position:absolute;right:16px;top:13px;color:#b7cfc6;font-size:17px;letter-spacing:6px;opacity:.72}
+.stage.playing:before{animation:haloBreath 3.2s ease-in-out infinite}@keyframes haloBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+.speaker{position:absolute;z-index:3;left:15px;top:14px;display:flex;align-items:center;gap:7px;color:#9a7b88;font-size:9px;font-weight:800}.pulse{width:8px;height:8px;border-radius:50%;background:#c9a9b6}.stage.playing .pulse{background:#e49ab8;animation:pulse 1.55s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(234,154,186,.3)}70%{box-shadow:0 0 0 10px rgba(234,154,186,0)}100%{box-shadow:0 0 0 0 rgba(234,154,186,0)}}
+.visualizer{position:absolute;z-index:3;right:15px;top:15px;height:18px;display:flex;align-items:center;gap:3px;opacity:.55}.visualizer i{display:block;width:3px;height:5px;border-radius:9px;background:#e2a2bb;animation:bars 1s ease-in-out infinite paused}.visualizer i:nth-child(2){animation-delay:.12s}.visualizer i:nth-child(3){animation-delay:.24s}.visualizer i:nth-child(4){animation-delay:.08s}.visualizer i:nth-child(5){animation-delay:.18s}.stage.playing .visualizer i{animation-play-state:running}@keyframes bars{0%,100%{height:5px}50%{height:17px}}
+.focus{position:relative;z-index:2;width:min(91%,700px);padding:50px 14px 32px;text-align:center;will-change:transform,opacity,filter}
+.kind{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(220,126,164,.14);border-radius:999px;padding:6px 10px;background:#ffffffbd;color:#9f7385;font-size:9px;font-weight:900;letter-spacing:.65px;text-transform:uppercase;box-shadow:0 5px 15px rgba(171,104,132,.06)}
+.arabicWord,.urduWord{text-wrap:balance}
+.arabicWord{direction:rtl;margin-top:16px;font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;font-size:clamp(54px,11.5vw,94px);font-weight:600;line-height:1.48;color:#6a4353;text-shadow:0 7px 20px rgba(68,127,108,.08)}
+.urduWord{direction:rtl;margin-top:16px;font-family:"Noto Naskh Arabic","Noto Nastaliq Urdu","Traditional Arabic",serif;font-size:clamp(38px,8.4vw,63px);font-weight:700;line-height:1.55;color:#6d4656;text-shadow:0 7px 20px rgba(68,127,108,.07)}
+.romanWord{margin-top:9px;color:#8e5f73;font-size:clamp(17px,4.2vw,25px);font-weight:900}.meaning{display:inline-block;margin-top:9px;padding:6px 10px;border-radius:999px;background:#fff5df;color:#a06f47;font-size:10px;font-weight:800}
+.waiting .arabicWord,.waiting .urduWord{font-size:32px;color:#a77f8f}.waiting .romanWord{font-size:14px;font-weight:750;color:#aa8c98}
+.player{margin-top:11px;border:1px solid rgba(177,105,134,.10);border-radius:22px;padding:12px;background:#fffdfd;box-shadow:0 8px 20px rgba(171,104,132,.06)}
+.playRow{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:center}.play{width:56px;height:56px;border:0;border-radius:19px;background:linear-gradient(145deg,#f0b5cd,#df83aa);color:#fff;font-size:20px;box-shadow:0 11px 25px rgba(225,137,174,.21),inset 0 1px rgba(255,255,255,.4);transition:.18s ease}.play:active{transform:scale(.95)}.play.playing{box-shadow:0 12px 30px rgba(225,137,174,.28),0 0 0 6px rgba(117,221,184,.11)}.trackTitle{font-size:13px;font-weight:900;color:#765062}.trackSub{margin-top:3px;color:#a68a95;font-size:9px}
+.timeline{display:grid;grid-template-columns:34px 1fr 34px;align-items:center;gap:8px;margin-top:12px;color:#7b988f;font-size:9px}.timeline input{--p:0%;width:100%;height:5px;appearance:none;border-radius:99px;outline:0;background:linear-gradient(90deg,#e8a3bf 0 var(--p),#f1dce5 var(--p) 100%)}.timeline input::-webkit-slider-thumb{appearance:none;width:15px;height:15px;border-radius:50%;background:#fff;border:4px solid #e49ab8;box-shadow:0 2px 7px rgba(177,105,134,.18)}
+.actions{display:flex;gap:7px;overflow:auto;margin-top:11px;padding-bottom:2px;scrollbar-width:none}.actions::-webkit-scrollbar{display:none}.action{white-space:nowrap;border:1px solid rgba(177,105,134,.10);background:#fff;color:#92717e;border-radius:12px;padding:8px 10px;font-size:9px;font-weight:850;box-shadow:0 5px 12px rgba(171,104,132,.04)}.action:active{transform:scale(.97)}.action.active{border-color:rgba(220,126,164,.20);background:#fff0f6;color:#a85f7d}
+.fullText{margin-top:11px;border:1px solid rgba(177,105,134,.10);border-radius:19px;background:#fffaf6;overflow:hidden}.fullTextHead{width:100%;border:0;background:transparent;color:#755062;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 13px}.fullTextHead strong{display:block;margin-top:2px;font-size:11px}.label{display:block;margin:0;color:#ae929d;font-size:8px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.chev{color:#ae8797;font-size:18px;transition:.22s ease}.fullTextBody{padding:0 14px 14px;max-height:300px;opacity:1;transition:max-height .28s ease,opacity .18s ease,padding .28s ease}.fullText.compact .fullTextBody{max-height:0;opacity:0;padding-bottom:0;overflow:hidden}.fullText:not(.compact) .chev{transform:rotate(180deg)}.fullArabic{direction:rtl;text-align:center;font-family:"Noto Naskh Arabic","Traditional Arabic",serif;font-size:29px;line-height:1.8;color:#6f4a5a}.fullRoman{text-align:center;color:#987985;font-size:12px;line-height:1.7;margin-top:4px}
+.notice{margin-top:10px;text-align:center;color:#9e808c;font-size:9px}.ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}.footer{text-align:center;color:#aa8c98;font-size:8px;padding:17px 6px}
+@media(max-width:600px){.app{padding-left:8px;padding-right:8px}.stage{min-height:336px}.stageWrap{padding:6px 8px 10px}.meta{padding:14px 12px 7px}.focus{padding-left:7px;padding-right:7px}.fullArabic{font-size:27px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+
+/* ===== FINAL BABY PREMIUM POLISH ===== */
+.shell{
+  position:relative;
+  box-shadow:
+    0 26px 58px rgba(103,48,72,.13),
+    0 10px 24px rgba(103,48,72,.08),
+    0 0 0 1px rgba(255,255,255,.88),
+    0 0 0 4px rgba(246,205,222,.34);
+}
+.stage{
+  box-shadow:
+    0 18px 38px rgba(115,56,82,.11),
+    0 7px 16px rgba(115,56,82,.07),
+    inset 0 0 0 1px rgba(255,255,255,.88),
+    inset 0 0 0 5px rgba(255,255,255,.24);
+}
+.player,.fullText{
+  box-shadow:
+    0 13px 28px rgba(117,63,86,.10),
+    0 5px 12px rgba(117,63,86,.055),
+    0 0 0 1px rgba(255,255,255,.88),
+    0 0 0 3px rgba(248,220,232,.22);
+}
+.tab,.action,.count,.liveTag{
+  box-shadow:
+    0 9px 20px rgba(117,63,86,.085),
+    0 3px 8px rgba(117,63,86,.045),
+    0 0 0 1px rgba(255,255,255,.78);
+}
+.play{
+  box-shadow:
+    0 15px 30px rgba(214,119,157,.24),
+    0 6px 14px rgba(120,62,87,.08),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 0 0 1px rgba(255,255,255,.84),
+    0 0 0 4px rgba(239,183,207,.18);
+}
+.tab.active,.action.active{
+  box-shadow:
+    0 13px 28px rgba(211,124,159,.18),
+    0 5px 12px rgba(117,63,86,.06),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 0 0 1px rgba(255,255,255,.86);
+}
+.tab,.action,.play,.fullTextHead{
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  transition:
+    transform .16s cubic-bezier(.2,.75,.2,1),
+    filter .16s ease,
+    box-shadow .20s ease,
+    background-color .20s ease,
+    border-color .20s ease;
+}
+.tab:active,.action:active,.play:active,.fullTextHead:active{
+  transform:scale(.965);
+  filter:brightness(.985);
+}
+.touch-pop{animation:touchPop .24s cubic-bezier(.2,.75,.2,1)}
+@keyframes touchPop{
+  0%{transform:scale(1)}
+  42%{transform:scale(.965)}
+  100%{transform:scale(1)}
+}
+.soft-ripple{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.62) 0%,rgba(255,255,255,.28) 45%,rgba(255,255,255,0) 72%);
+  transform:translate(-50%,-50%) scale(.15);
+  opacity:.9;
+  animation:softRipple .52s ease-out forwards;
+  z-index:20;
+}
+@keyframes softRipple{
+  to{transform:translate(-50%,-50%) scale(1);opacity:0}
+}
+.stage.playing{
+  box-shadow:
+    0 20px 42px rgba(198,116,150,.14),
+    0 8px 18px rgba(110,58,80,.07),
+    inset 0 0 0 1px rgba(255,255,255,.92),
+    inset 0 0 0 5px rgba(255,255,255,.28),
+    0 0 0 3px rgba(245,205,222,.14);
+}
+.kind,.meaning{
+  box-shadow:
+    0 6px 16px rgba(116,62,85,.055),
+    0 0 0 1px rgba(255,255,255,.72);
+}
+.arabicWord{
+  text-shadow:
+    0 7px 18px rgba(108,56,79,.08),
+    0 1px 0 rgba(255,255,255,.48);
+}
+.urduWord,.romanWord{
+  text-shadow:0 4px 10px rgba(108,56,79,.045);
+}
+@media (hover:hover){
+  .tab:hover,.action:hover,.fullTextHead:hover{transform:translateY(-1px)}
+  .play:hover{transform:translateY(-1px) scale(1.01)}
+}
+
 </style>
 </head>
 <body>
@@ -64,7 +173,7 @@ linear-gradient(180deg,#10251f,#0a1916)}
   <header class="top">
     <div class="brand">
       <div class="brandLeft"><div class="mark">☪</div><div><h1>5 Kalme Kids</h1><p>Listen • See • Repeat</p></div></div>
-      <div class="liveTag">Live Focus</div>
+      <div class="liveTag">Pink Baby</div>
     </div>
     <nav class="nav" id="nav"></nav>
   </header>
@@ -114,7 +223,7 @@ linear-gradient(180deg,#10251f,#0a1916)}
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Focus UI v2 • smoother word flow • Arabic + Urdu + Tarjuma</div>
+  <div class="footer">Final Baby Pink UI • Quran-style Arabic • soft touch animation • 5 Kalme ready</div>
 </div>
 
 <script>
@@ -180,10 +289,130 @@ const K=[
     ...pc(123.262,126.322,'urdu','ماشاء اللہ بچوں','MashaAllah bachcho'),
     ...pc(126.382,131.202,'urdu','بچوں کا مدنی چینل آ گیا بچوں کا آ گیا آ گیا','Bachcho ka Madani Channel aa gaya bachcho ka aa gaya aa gaya')
   ]},
- {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'54JnsbHQPbM',ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.'},
- {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.'},
- {n:4,name:'Chautha Kalma Tauheed',short:'Tauheed',video:'d05LzqfnpmY',ar:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا، ذُو الْجَلَالِ وَالْإِكْرَامِ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',ro:'La ilaha illallahu wahdahu la shareeka lah, lahul mulku wa lahul hamdu, yuhyi wa yumitu, wa huwa hayyun la yamutu abadan abada, zul jalali wal ikram, biyadihil khair, wa huwa ala kulli shai-in qadeer.'},
- {n:5,name:'Panchwa Kalma Astaghfar',short:'Astaghfar',video:'2WrQw-L53fU',ar:'أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ عَمْدًا أَوْ خَطَأً، سِرًّا أَوْ عَلَانِيَةً، وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ، وَسَتَّارُ الْعُيُوبِ، وَغَفَّارُ الذُّنُوبِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',ro:'Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu amadan aw khata-an, sirran aw alaniyatan, wa atubu ilaihi minaz-zanbillazi alamu wa minaz-zanbillazi la alamu. Innaka anta allamul-ghuyubi, wa sattarul-uyubi, wa ghaffaruz-zunubi, wa la hawla wa la quwwata illa billahil aliyyil azeem.'}
+ {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'dfsIVAcTzYE',
+  ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',
+  ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.',
+  cues:[
+    ...pc(0.350,6.029,'urdu','آئیے بچوں آج ہم آپ کو دوسرا کلمہ سکھائیں گے','Aaiye bachcho aaj hum aapko dusra kalma sikhayenge'),
+    ...pc(6.170,12.530,'urdu','دوسرا کلمہ شہادت شہادت معنی گواہی','Dusra kalma Shahadat Shahadat maayne gawahi'),
+    ...pc(14.090,19.430,'urdu','پہلے میں پڑھتا ہوں پھر آپ میرے ساتھ مل کر پڑھیں ریڈی','Pehle main padhta hoon phir aap mere saath milkar padhein ready'),
+
+    ...pc(19.900,27.839,'arabic','أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','Ashhadu an la ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(27.839,34.099,'arabic','أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','Ashhadu an la ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(34.099,46.420,'arabic','وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ','Wa ashhadu anna Muhammadan abduhu wa rasooluhu'),
+    ...pc(46.900,55.339,'arabic','وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ','Wa ashhadu anna Muhammadan abduhu wa rasooluhu'),
+
+    ...pc(56.110,57.850,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(58.230,59.870,'urdu','چلیے پھر سے پڑھتے ہیں','Chaliye phir se padhte hain'),
+
+    ...pc(59.920,68.080,'arabic','أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','Ashhadu an la ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(68.880,77.320,'arabic','أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','Ashhadu an la ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(77.920,86.420,'arabic','وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ','Wa ashhadu anna Muhammadan abduhu wa rasooluhu'),
+    ...pc(86.900,95.160,'arabic','وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ','Wa ashhadu anna Muhammadan abduhu wa rasooluhu'),
+
+    ...pc(96.050,98.030,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(98.130,100.870,'urdu','چلیے ایک بار پھر سے پڑھتے ہیں','Chaliye ek baar phir se padhte hain'),
+
+    ...pc(100.920,109.160,'arabic','أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','Ashhadu an la ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(109.920,118.160,'arabic','وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ','Wa ashhadu anna Muhammadan abduhu wa rasooluhu'),
+
+    ...pc(118.730,120.270,'urdu','سبحان اللہ','SubhanAllah'),
+    ...pc(120.690,122.490,'urdu','ماشاء اللہ','MashaAllah')
+  ]},
+ {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',
+  ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
+  ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.',
+  cues:[
+    ...pc(0.274,5.174,'urdu','آئیے بچوں آج ہم آپ کو تیسرا کلمہ سکھائیں گے','Aaiye bachcho aaj hum aapko teesra kalma sikhayenge'),
+    ...pc(5.214,12.25,'urdu','تیسرا کلمہ تمجید تمجید معنی بزرگی','Teesra kalma Tamjeed Tamjeed maana buzurgi'),
+    ...pc(12.25,19.454,'urdu','تیسرا کلمہ تمجید تمجید معنی بزرگی','Teesra kalma Tamjeed Tamjeed maana buzurgi'),
+    ...pc(19.974,24.934,'urdu','پہلے میں پڑھتا ہوں پھر آپ میرے ساتھ مل کر پڑھیں ریڈی','Pehle main padhta hoon phir aap mere saath milkar padhein ready'),
+
+    ...pc(25.514,31.00,'arabic','سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ','Subhanallahi walhamdu lillahi wa la ilaha illallah'),
+    ...pc(31.00,39.90,'arabic','سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ','Subhanallahi walhamdu lillahi wa la ilaha illallah'),
+    ...pc(39.962,45.55,'arabic','وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wallahu akbar wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+    ...pc(45.55,51.00,'arabic','وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wallahu akbar wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+    ...pc(51.042,61.182,'arabic','وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wallahu akbar wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+
+    ...pc(61.182,62.002,'urdu','چلیے پھر سے پڑھتے ہیں','Chaliye phir se padhte hain'),
+
+    ...pc(62.042,71.102,'arabic','سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ','Subhanallahi walhamdu lillahi wa la ilaha illallah'),
+    ...pc(71.202,80.582,'arabic','سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ','Subhanallahi walhamdu lillahi wa la ilaha illallah'),
+    ...pc(80.682,87.10,'arabic','وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wallahu akbar wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+    ...pc(87.10,97.222,'arabic','وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wallahu akbar wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+
+    ...pc(97.322,99.25,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(99.25,101.142,'urdu','چلیے پھر سے پڑھتے ہیں','Chaliye phir se padhte hain'),
+
+    ...pc(101.222,110.10,'arabic','سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ','Subhanallahi walhamdu lillahi wa la ilaha illallah'),
+    ...pc(110.10,118.90,'arabic','وَاللّٰهُ أَكْبَرُ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wallahu akbar wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+
+    ...pc(118.90,119.55,'urdu','سبحان اللہ','SubhanAllah'),
+    ...pc(119.698,121.438,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(121.738,126.898,'urdu','بچوں کا مدنی چینل آ گیا بچوں کا آ گیا آ گیا','Bachcho ka Madani Channel aa gaya bachcho ka aa gaya aa gaya')
+  ]},
+ {n:4,name:'Chautha Kalma Tauheed',short:'Tauheed',video:'d05LzqfnpmY',
+  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا، ذُو الْجَلَالِ وَالْإِكْرَامِ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+  ro:'La ilaha illallahu wahdahu la shareeka lah, lahul mulku wa lahul hamdu, yuhyi wa yumitu, wa huwa hayyun la yamutu abadan abada, zul jalali wal ikram, biyadihil khair, wa huwa ala kulli shai-in qadeer.',
+  cues:[
+    ...pc(1.330,6.130,'urdu','آئیے بچوں آج ہم آپ کو چوتھا کلمہ سکھائیں گے','Aaiye bachcho aaj hum aapko chautha kalma sikhayenge'),
+    ...pc(6.189,13.530,'urdu','چوتھا کلمہ توحید چوتھا کلمہ توحید','Chautha kalma Tauheed Chautha kalma Tauheed'),
+    ...pc(13.630,15.350,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(15.390,24.390,'urdu','چوتھا کلمہ توحید چوتھا کلمہ توحید چوتھا کلمہ توحید چوتھا کلمہ توحید','Chautha kalma Tauheed Chautha kalma Tauheed Chautha kalma Tauheed Chautha kalma Tauheed'),
+    ...pc(24.410,29.010,'urdu','پہلے میں پڑھتا ہوں پھر آپ میرے ساتھ مل کر پڑھیں','Pehle main padhta hoon phir aap mere saath milkar padhein'),
+
+    ...pc(29.090,36.870,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','La ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(36.970,45.849,'arabic','لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ','Lahul mulku wa lahul hamdu yuhyi wa yumitu'),
+    ...pc(45.910,55.629,'arabic','وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا','Wa huwa hayyun la yamutu abadan abada'),
+    ...pc(55.629,63.80,'arabic','ذُو الْجَلَالِ وَالْإِكْرَامِ بِيَدِهِ الْخَيْرُ','Zul jalali wal ikram biyadihil khair'),
+    ...pc(63.80,73.60,'arabic','وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ','Wa huwa ala kulli shai-in qadeer'),
+
+    ...pc(74.814,84.154,'urdu','چوتھا کلمہ توحید چوتھا کلمہ توحید چوتھا کلمہ توحید چوتھا کلمہ توحید','Chautha kalma Tauheed Chautha kalma Tauheed Chautha kalma Tauheed Chautha kalma Tauheed'),
+    ...pc(84.193,86.154,'urdu','چلیں پھر سے پڑھتے ہیں','Chalen phir se padhte hain'),
+
+    ...pc(86.234,94.014,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ','La ilaha illallahu wahdahu la shareeka lahu'),
+    ...pc(94.094,99.193,'arabic','لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ','Lahul mulku wa lahul hamdu yuhyi wa yumitu'),
+    ...pc(99.193,107.60,'arabic','وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا','Wa huwa hayyun la yamutu abadan abada'),
+    ...pc(107.60,113.50,'arabic','ذُو الْجَلَالِ وَالْإِكْرَامِ بِيَدِهِ الْخَيْرُ','Zul jalali wal ikram biyadihil khair'),
+    ...pc(113.50,118.20,'arabic','وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ','Wa huwa ala kulli shai-in qadeer'),
+
+    ...pc(118.20,118.45,'urdu','سبحان اللہ','SubhanAllah'),
+    ...pc(118.458,119.658,'urdu','سبحان اللہ','SubhanAllah'),
+    ...pc(120.217,121.958,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(123.917,129.097,'urdu','بچوں کا مدنی چینل آ گیا بچوں کا آ گیا آ گیا','Bachcho ka Madani Channel aa gaya bachcho ka aa gaya aa gaya')
+  ]},
+ {n:5,name:'Panchwa Kalma Astaghfar',short:'Astaghfar',video:'2WrQw-L53fU',
+  ar:'أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ عَمْدًا أَوْ خَطَأً، سِرًّا أَوْ عَلَانِيَةً، وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ، وَسَتَّارُ الْعُيُوبِ، وَغَفَّارُ الذُّنُوبِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
+  ro:'Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu amadan aw khata-an, sirran aw alaniyatan, wa atubu ilaihi minaz-zanbillazi alamu wa minaz-zanbillazi la alamu. Innaka anta allamul-ghuyubi, wa sattarul-uyubi, wa ghaffaruz-zunubi, wa la hawla wa la quwwata illa billahil aliyyil azeem.',
+  cues:[
+    ...pc(0.310,5.170,'urdu','آئیے بچوں آج ہم آپ کو پانچواں کلمہ سکھائیں گے','Aaiye bachcho aaj hum aapko paanchwa kalma sikhayenge'),
+    ...pc(5.210,11.10,'urdu','پانچواں کلمہ استغفار یعنی مغفرت چاہنا','Paanchwa kalma Astaghfar yaani maghfirat chahna'),
+    ...pc(11.10,16.329,'urdu','پہلے میں پڑھتا ہوں پھر آپ میرے ساتھ مل کر پڑھیں','Pehle main padhta hoon phir aap mere saath milkar padhein'),
+
+    ...pc(16.390,25.770,'arabic','أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ','Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu'),
+    ...pc(26.470,33.910,'arabic','أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ','Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu'),
+    ...pc(34.490,40.350,'arabic','عَمْدًا أَوْ خَطَأً سِرًّا أَوْ عَلَانِيَةً','Amadan aw khata-an sirran aw alaniyatan'),
+    ...pc(40.470,46.390,'arabic','عَمْدًا أَوْ خَطَأً سِرًّا أَوْ عَلَانِيَةً','Amadan aw khata-an sirran aw alaniyatan'),
+    ...pc(47.890,53.370,'arabic','وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ','Wa atubu ilaihi minaz-zanbillazi alamu'),
+    ...pc(53.790,60.050,'arabic','وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ','Wa atubu ilaihi minaz-zanbillazi alamu'),
+    ...pc(60.050,66.20,'arabic','وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ','Wa minaz-zanbillazi la alamu'),
+    ...pc(66.20,72.70,'arabic','وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ','Wa minaz-zanbillazi la alamu'),
+    ...pc(72.886,77.726,'arabic','إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ وَسَتَّارُ الْعُيُوبِ وَغَفَّارُ الذُّنُوبِ','Innaka anta allamul-ghuyubi wa sattarul-uyubi wa ghaffaruz-zunubi'),
+    ...pc(78.446,85.766,'arabic','إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ وَسَتَّارُ الْعُيُوبِ وَغَفَّارُ الذُّنُوبِ','Innaka anta allamul-ghuyubi wa sattarul-uyubi wa ghaffaruz-zunubi'),
+    ...pc(86.286,94.20,'arabic','وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+
+    ...pc(94.402,98.262,'urdu','ماشاء اللہ ایک بار پھر سے پڑھتے ہیں','MashaAllah ek baar phir se padhte hain'),
+
+    ...pc(98.321,106.40,'arabic','أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ','Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu'),
+    ...pc(106.40,112.40,'arabic','عَمْدًا أَوْ خَطَأً سِرًّا أَوْ عَلَانِيَةً','Amadan aw khata-an sirran aw alaniyatan'),
+    ...pc(112.40,119.70,'arabic','وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ','Wa atubu ilaihi minaz-zanbillazi alamu'),
+    ...pc(119.70,126.90,'arabic','وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ','Wa minaz-zanbillazi la alamu'),
+    ...pc(127.089,135.250,'arabic','إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ وَسَتَّارُ الْعُيُوبِ وَغَفَّارُ الذُّنُوبِ','Innaka anta allamul-ghuyubi wa sattarul-uyubi wa ghaffaruz-zunubi'),
+    ...pc(135.250,143.10,'arabic','وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ','Wa la hawla wa la quwwata illa billahil aliyyil azeem'),
+
+    ...pc(143.326,145.106,'urdu','ماشاء اللہ','MashaAllah'),
+    ...pc(145.686,150.866,'urdu','بچوں کا مدنی چینل آ گیا بچوں کا آ گیا آ گیا','Bachcho ka Madani Channel aa gaya bachcho ka aa gaya aa gaya')
+  ]}
 ];
 const $=s=>document.querySelector(s);
 let current=0,yt=null,ready=false,timer=null,lastCueKey='',focusOn=true,pending=K[0].video,swapTimer=null;
@@ -198,7 +427,7 @@ function render(){
  $('#title').textContent=k.name;$('#subtitle').textContent='Kids learning • single-focus reading';$('#count').textContent=k.n+' / 5';
  $('#trackTitle').textContent=k.name;$('#source').href='https://www.youtube.com/watch?v='+k.video;
  $('#fullArabic').textContent=k.ar;$('#fullRoman').textContent=k.ro;
- $('#notice').textContent=k.n===1?'Pehla Kalma ka poora 2:13 audio transcript map ho gaya hai. Arabic, Urdu narration, tarjuma aur ending — sab current spoken word ke hisab se animate honge.':'Minimal UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
+ $('#notice').textContent=k.cues?((['Pehla','Dusra','Teesra','Chautha','Panchwa'][k.n-1]||('Kalma '+k.n))+' Kalma full audio mapped hai. Spoken words smooth focus animation ke saath chalenge.'):'Baby UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
  nav();showWaiting();
  if(ready){yt.cueVideoById(k.video);$('#speakerState').textContent='Ready'}else pending=k.video;
 }
@@ -257,7 +486,31 @@ function swapCue(c){
  }
  animateFocus();
 }
-function switchKalma(i){current=i;lastCueKey='';render();window.scrollTo({top:0,behavior:'smooth'})}
+function switchKalma(i){current=i;lastCueKey='';
+function addSoftTouch(e){
+  const el=e.target.closest('.tab,.action,.play,.fullTextHead');
+  if(!el)return;
+
+  el.classList.remove('touch-pop');
+  void el.offsetWidth;
+  el.classList.add('touch-pop');
+
+  const r=el.getBoundingClientRect();
+  const size=Math.max(r.width,r.height)*1.55;
+  const dot=document.createElement('span');
+  dot.className='soft-ripple';
+  dot.style.width=size+'px';
+  dot.style.height=size+'px';
+  const x=(typeof e.clientX==='number'&&e.clientX)?e.clientX-r.left:r.width/2;
+  const y=(typeof e.clientY==='number'&&e.clientY)?e.clientY-r.top:r.height/2;
+  dot.style.left=x+'px';
+  dot.style.top=y+'px';
+  el.appendChild(dot);
+  setTimeout(()=>dot.remove(),560);
+}
+document.addEventListener('pointerdown',addSoftTouch,{passive:true});
+
+render();window.scrollTo({top:0,behavior:'smooth'})}
 window.onYouTubeIframeAPIReady=()=>{
  yt=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:pending,playerVars:{playsinline:1,rel:0,controls:0},events:{
   onReady(){ready=true;$('#speakerState').textContent='Ready';startTimer()},
