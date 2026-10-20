@@ -47,12 +47,16 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .smallBtn.active{background:#1a7d67;border-color:#39a98f}
 .note{font-size:11px;line-height:1.55;color:#a9c2bb;margin-top:10px}
 .voicePanel{background:linear-gradient(180deg,#0b2c27,#071f1c);border:1px solid #2f665b;border-radius:18px;padding:18px}
-.voiceArt{width:104px;height:104px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#47d0a6,#15745f 55%,#0a3d34);box-shadow:0 12px 34px rgba(28,179,142,.28);font-size:42px;border:5px solid rgba(255,255,255,.08)}
+.voiceArt{width:78px;height:78px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#47d0a6,#15745f 55%,#0a3d34);box-shadow:0 10px 26px rgba(28,179,142,.24);font-size:32px;border:4px solid rgba(255,255,255,.08)}
 .voiceTitle{text-align:center;font-weight:850;font-size:18px}.voiceSub{text-align:center;color:#a9c8c0;font-size:12px;margin-top:4px}
-.bigPlay{width:72px;height:72px;border-radius:50%;border:0;display:grid;place-items:center;margin:16px auto 12px;background:linear-gradient(135deg,#20a37f,#36c59a);color:white;font-size:30px;box-shadow:0 12px 30px rgba(43,192,149,.28)}
+.bigPlay{width:62px;height:62px;border-radius:50%;border:0;display:grid;place-items:center;margin:12px auto 10px;background:linear-gradient(135deg,#20a37f,#36c59a);color:white;font-size:26px;box-shadow:0 10px 26px rgba(43,192,149,.24)}
 .playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
 .ctrl.active{background:#1a7d67;border-color:#42bd9d}
-.progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:13px;color:#9fc1b8;font-size:11px}
+.progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:10px;color:#9fc1b8;font-size:11px}
+.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:.2s ease}
+.seg.active{background:#2fb88f;color:#062f2a;box-shadow:0 0 0 3px rgba(47,184,143,.18),0 0 22px rgba(47,184,143,.22)}
+.roman .seg.active{color:#fff;background:#1f8d73}
+.syncNote{font-size:11px;color:#b9d4cd;margin-top:8px;text-align:center}
 .progressRow input{width:100%;accent-color:#34c29a}
 .ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}
 .audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 0;color:#b8d0ca;font-size:12px}
@@ -91,6 +95,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
         <div class="romanTitle">ROMAN URDU</div>
         <div class="roman" id="roman"></div>
         <div class="followLine" id="followLine"><span class="followDot"></span><span id="followText">Voice start kijiye — Arabic aur Roman Urdu live glow honge.</span></div>
+        <div class="syncNote" id="syncNote">Pehle Kalme ke verified starting phrases timing ke saath highlight honge.</div>
         <div class="learnRow">
           <button class="smallBtn active" id="normalBtn">Normal text</button>
           <button class="smallBtn" id="largeBtn">Large Arabic</button>
@@ -134,7 +139,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.2 • voice-follow highlight + audio-style player</div>
+  <div class="footer">Phase 1.3 • first Kalma phrase sync + compact voice player</div>
 </div>
 
 <script>
@@ -165,8 +170,16 @@ function renderNav(){
 function render(){
  const k=kalmas[current];
  q('#title').textContent=k.name;q('#number').textContent='Kalma '+k.n+' of 5';q('#shortName').textContent=k.short;
- q('#arabic').textContent=k.ar;q('#roman').textContent=k.ro;q('#voiceLabel').textContent=k.name+' voice';
+ if(k.n===1){
+   q('#arabic').innerHTML='<span class="seg" data-seg="1">لَا إِلٰهَ إِلَّا اللّٰهُ</span> <span class="seg" data-seg="2">مُحَمَّدٌ رَّسُولُ اللّٰهِ</span>';
+   q('#roman').innerHTML='<span class="seg" data-seg="1">La ilaha illallahu</span>, <span class="seg" data-seg="2">Muhammadur Rasoolullah</span>.';
+ }else{
+   q('#arabic').textContent=k.ar;
+   q('#roman').textContent=k.ro;
+ }
+ q('#voiceLabel').textContent=k.name+' voice';
  q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
+ q('#syncNote').textContent=k.n===1?'Pehle Kalme ke verified starting phrases timing ke saath highlight honge.':'Is Kalme ka exact phrase timing next sync pass me add hoga.';
  loadVoice(k.video);
  renderNav();
  window.scrollTo({top:0,behavior:'smooth'});
@@ -200,8 +213,23 @@ function loadVoice(id){
  pendingVideo=id;
  setPlayUI(false);
  q('#followText').textContent='Voice start kijiye — Arabic aur Roman Urdu live glow honge.';
+ document.querySelectorAll('.seg').forEach(s=>s.classList.remove('active'));
  q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
  if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
+}
+function updatePhraseSync(t){
+ const segs=[...document.querySelectorAll('.seg')];
+ segs.forEach(s=>s.classList.remove('active'));
+ if(kalmas[current].n!==1)return;
+ let active=0;
+ if(t>=2 && t<7) active=1;
+ else if(t>=7 && t<13) active=2;
+ if(active){
+   document.querySelectorAll('.seg[data-seg="'+active+'"]').forEach(s=>s.classList.add('active'));
+   q('#followText').textContent=active===1?'La ilaha illallahu — is phrase ko follow kijiye.':'Muhammadur Rasoolullah — is phrase ko follow kijiye.';
+ } else if(t>=13){
+   q('#followText').textContent='Poem/repeat section — full text ko voice ke saath follow kijiye.';
+ }
 }
 function startProgress(){
  if(progressTimer)clearInterval(progressTimer);
@@ -209,6 +237,7 @@ function startProgress(){
    if(!ytReady||!yt)return;
    const d=yt.getDuration?yt.getDuration():0, t=yt.getCurrentTime?yt.getCurrentTime():0;
    q('#curTime').textContent=fmt(t);q('#durTime').textContent=fmt(d);
+   updatePhraseSync(t);
    if(d>0&&!q('#seek').matches(':active'))q('#seek').value=Math.round((t/d)*1000);
  },500);
 }
