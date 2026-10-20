@@ -1,0 +1,9 @@
+{
+  "name": "5 Kalme Kids",
+  "short_name": "5 Kalme",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#071a18",
+  "theme_color": "#062f2a",
+  "description": "5 Kalme in Arabic and Roman Urdu with official Kids Madani Channel YouTube voice."
+}
