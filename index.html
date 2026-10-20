@@ -148,7 +148,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.4 • first Kalma word-by-word sync + timing adjust</div>
+  <div class="footer">Phase 1.4.1 • word-by-word sync + cache fix</div>
 </div>
 
 <script>
@@ -284,7 +284,7 @@ q('#seek').addEventListener('input',()=>{if(ytReady&&yt){const d=yt.getDuration(
 q('#largeBtn').onclick=()=>{q('#arabic').style.fontSize='clamp(44px,8vw,70px)';q('#largeBtn').classList.add('active');q('#normalBtn').classList.remove('active')};
 q('#normalBtn').onclick=()=>{q('#arabic').style.fontSize='';q('#normalBtn').classList.add('active');q('#largeBtn').classList.remove('active')};
 render();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=2',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
