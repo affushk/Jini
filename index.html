@@ -34,9 +34,9 @@ button,input{font:inherit}.app{max-width:920px;margin:auto;padding:14px 12px 40p
 .stage:after{content:"☾";position:absolute;right:18px;top:12px;color:rgba(244,213,123,.22);font-size:38px}
 .speaker{position:absolute;left:16px;top:15px;display:flex;align-items:center;gap:7px;color:#9eb7b0;font-size:10px}.pulse{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(105,224,189,.35);animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(105,224,189,.28)}70%{box-shadow:0 0 0 9px rgba(105,224,189,0)}100%{box-shadow:0 0 0 0 rgba(105,224,189,0)}}
-.focus{position:relative;z-index:2;width:min(90%,720px);padding:44px 18px 28px;text-align:center;transform-origin:center;transition:opacity .18s ease,transform .22s cubic-bezier(.2,.75,.2,1),filter .18s ease}
+.focus{position:relative;z-index:2;width:min(90%,720px);padding:44px 18px 28px;text-align:center;transform-origin:center;transition:opacity .12s ease,transform .18s cubic-bezier(.2,.75,.2,1),filter .12s ease}
 .focus.swapOut{opacity:0;transform:translateY(10px) scale(.965);filter:blur(7px)}
-.focus.swapIn{animation:focusIn .34s cubic-bezier(.18,.8,.25,1)}
+.focus.swapIn{animation:focusIn .26s cubic-bezier(.18,.8,.25,1)}
 @keyframes focusIn{0%{opacity:0;transform:translateY(-9px) scale(.96);filter:blur(8px)}100%{opacity:1;transform:none;filter:none}}
 .kind{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:6px 9px;color:#8eaaa2;font-size:9px;letter-spacing:.7px;text-transform:uppercase;background:rgba(0,0,0,.12)}
 .arabicWord{direction:rtl;font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;font-size:clamp(48px,11vw,92px);font-weight:700;line-height:1.38;margin-top:14px;text-shadow:0 10px 34px rgba(0,0,0,.26)}
@@ -100,47 +100,71 @@ button,input{font:inherit}.app{max-width:920px;margin:auto;padding:14px 12px 40p
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Website Preview • Minimal Focus UI • smooth word / narration animation</div>
+  <div class="footer">Full Pehla Kalma mapped • 2:13 audio • Arabic + Urdu + Tarjuma • smooth focus animation</div>
 </div>
 
 <script>
+function wordCues(start,end,type,display,roman){
+  const d=(display||'').trim().split(/\s+/);
+  const r=(roman||'').trim().split(/\s+/);
+  if(!d.length)return[];
+  const weights=d.map((w,i)=>Math.max(1,(r[i]||w).replace(/[^\p{L}\p{N}]/gu,'').length));
+  const total=weights.reduce((a,b)=>a+b,0), span=end-start;
+  let t=start;
+  return d.map((w,i)=>{
+    const dur=i===d.length-1?end-t:span*(weights[i]/total);
+    const out={s:+t.toFixed(3),e:+Math.min(end,t+dur).toFixed(3),type};
+    if(type==='arabic') out.a=w; else out.u=w;
+    out.r=r[i]||'';
+    t+=dur;
+    return out;
+  });
+}
+function pc(s,e,type,text,roman){return wordCues(s,e,type,text,roman)}
 const K=[
  {n:1,name:'Pehla Kalma Tayyibah',short:'Tayyibah',video:'jSoEVLNeHw0',
   ar:'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ',
   ro:'La ilaha illallahu, Muhammadur Rasoolullah.',
   cues:[
-    {s:15.76,e:16.37,type:'arabic',a:'لَا',r:'La'},
-    {s:16.37,e:17.17,type:'arabic',a:'إِلٰهَ',r:'ilaha'},
-    {s:17.17,e:17.77,type:'arabic',a:'إِلَّا',r:'illa'},
-    {s:17.77,e:18.54,type:'arabic',a:'اللّٰهُ',r:'llahu'},
-    {s:18.54,e:19.29,type:'arabic',a:'مُحَمَّدٌ',r:'Muhammadur'},
-    {s:19.29,e:19.89,type:'arabic',a:'رَّسُولُ',r:'Rasoolu'},
-    {s:19.89,e:20.80,type:'arabic',a:'اللّٰهِ',r:'llah'},
+    ...pc(0.302,4.962,'urdu','آئیے بچوں آج ہم آپ کو پہلا کلمہ سکھائیں گے','Aaiye bachcho aaj hum aapko pehla kalma sikhayenge'),
 
-    {s:26.00,e:27.60,type:'urdu',u:'ترجمہ',r:'Tarjuma'},
-    {s:27.60,e:29.20,type:'urdu',u:'اللہ کے سوا',r:'Allah ke siwa'},
-    {s:29.20,e:31.10,type:'urdu',u:'کوئی معبود نہیں',r:'koi mabood nahin'},
-    {s:31.10,e:33.20,type:'urdu',u:'محمد ﷺ',r:'Muhammad ﷺ'},
-    {s:33.20,e:36.10,type:'urdu',u:'اللہ کے رسول ہیں',r:'Allah ke Rasool hain'},
-    {s:36.10,e:39.00,type:'pause',r:'Next recitation...'},
+    ...pc(5.021,10.95,'urdu','پہلا کلمہ طیب طیب معنی پاک','Pehla kalma Tayyib Tayyib maana paak'),
+    ...pc(10.95,16.15,'urdu','پہلا کلمہ طیب طیب معنی پاک','Pehla kalma Tayyib Tayyib maana paak'),
 
-    {s:39.00,e:39.61,type:'arabic',a:'لَا',r:'La'},
-    {s:39.61,e:40.41,type:'arabic',a:'إِلٰهَ',r:'ilaha'},
-    {s:40.41,e:41.01,type:'arabic',a:'إِلَّا',r:'illa'},
-    {s:41.01,e:41.78,type:'arabic',a:'اللّٰهُ',r:'llahu'},
-    {s:41.78,e:42.53,type:'arabic',a:'مُحَمَّدٌ',r:'Muhammadur'},
-    {s:42.53,e:43.13,type:'arabic',a:'رَّسُولُ',r:'Rasoolu'},
-    {s:43.13,e:44.04,type:'arabic',a:'اللّٰهِ',r:'llah'},
+    ...pc(16.15,20.95,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ','La ilaha illallahu Muhammadur Rasoolullah'),
+    ...pc(20.95,25.842,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ','La ilaha illallahu Muhammadur Rasoolullah'),
 
-    {s:44.34,e:44.95,type:'arabic',a:'لَا',r:'La'},
-    {s:44.95,e:45.75,type:'arabic',a:'إِلٰهَ',r:'ilaha'},
-    {s:45.75,e:46.35,type:'arabic',a:'إِلَّا',r:'illa'},
-    {s:46.35,e:47.12,type:'arabic',a:'اللّٰهُ',r:'llahu'},
-    {s:47.12,e:47.87,type:'arabic',a:'مُحَمَّدٌ',r:'Muhammadur'},
-    {s:47.87,e:48.47,type:'arabic',a:'رَّسُولُ',r:'Rasoolu'},
-    {s:48.47,e:49.38,type:'arabic',a:'اللّٰهِ',r:'llah'},
+    ...pc(26.682,29.662,'urdu','ماشاء اللہ چلیں ایک بار پھر سے پڑھتے ہیں','MashaAllah chalen ek baar phir se padhte hain'),
 
-    {s:50.00,e:134.00,type:'narration',u:'اردو بیان',r:'Urdu narration',m:'Exact spoken-word caption timing is ready to be filled here without changing the UI.'}
+    ...pc(29.682,35.65,'urdu','پہلا کلمہ طیب طیب معنی پاک','Pehla kalma Tayyib Tayyib maana paak'),
+    ...pc(35.65,41.45,'urdu','پہلا کلمہ طیب طیب معنی پاک','Pehla kalma Tayyib Tayyib maana paak'),
+
+    ...pc(41.45,46.10,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ','La ilaha illallahu Muhammadur Rasoolullah'),
+    ...pc(46.10,50.842,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ','La ilaha illallahu Muhammadur Rasoolullah'),
+
+    ...pc(50.902,53.042,'urdu','چلیں اب ترجمہ پڑھتے ہیں','Chalen ab tarjuma padhte hain'),
+
+    ...pc(53.122,57.35,'urdu','اللہ کے سوا کوئی عبادت کے لائق نہیں','Allah ke siwa koi ibadat ke laayiq nahin'),
+    ...pc(57.35,61.622,'urdu','اللہ کے سوا کوئی عبادت کے لائق نہیں','Allah ke siwa koi ibadat ke laayiq nahin'),
+    ...pc(61.682,67.10,'urdu','محمد صلی اللہ علیہ وسلم ہیں رسول اللہ','Muhammad sallallahu alaihi wasallam hain Rasoolullah'),
+    ...pc(67.10,74.962,'urdu','محمد صلی اللہ علیہ وسلم ہیں رسول اللہ','Muhammad sallallahu alaihi wasallam hain Rasoolullah'),
+
+    ...pc(75.042,76.522,'urdu','چلیے پھر سے پڑھتے ہیں','Chaliye phir se padhte hain'),
+
+    ...pc(77.122,81.55,'urdu','اللہ کے سوا کوئی عبادت کے لائق نہیں','Allah ke siwa koi ibadat ke laayiq nahin'),
+    ...pc(81.55,85.942,'urdu','اللہ کے سوا کوئی عبادت کے لائق نہیں','Allah ke siwa koi ibadat ke laayiq nahin'),
+    ...pc(86.042,91.90,'urdu','محمد صلی اللہ علیہ وسلم ہیں رسول اللہ','Muhammad sallallahu alaihi wasallam hain Rasoolullah'),
+    ...pc(91.90,99.20,'urdu','محمد صلی اللہ علیہ وسلم ہیں رسول اللہ','Muhammad sallallahu alaihi wasallam hain Rasoolullah'),
+
+    ...pc(99.20,104.10,'urdu','پہلا کلمہ طیب طیب معنی پاک','Pehla kalma Tayyib Tayyib maana paak'),
+    ...pc(104.10,110.122,'arabic','لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ','La ilaha illallahu Muhammadur Rasoolullah'),
+
+    ...pc(110.222,112.582,'urdu','چلو اب ترجمہ پڑھتے ہیں','Chalo ab tarjuma padhte hain'),
+    ...pc(112.682,117.35,'urdu','اللہ کے سوا کوئی عبادت کے لائق نہیں','Allah ke siwa koi ibadat ke laayiq nahin'),
+    ...pc(117.35,123.202,'urdu','محمد صلی اللہ علیہ وسلم ہیں رسول اللہ','Muhammad sallallahu alaihi wasallam hain Rasoolullah'),
+
+    ...pc(123.262,126.322,'urdu','ماشاء اللہ بچوں','MashaAllah bachcho'),
+    ...pc(126.382,131.202,'urdu','بچوں کا مدنی چینل آ گیا بچوں کا آ گیا آ گیا','Bachcho ka Madani Channel aa gaya bachcho ka aa gaya aa gaya')
   ]},
  {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'54JnsbHQPbM',ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.'},
  {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.'},
@@ -160,7 +184,7 @@ function render(){
  $('#title').textContent=k.name;$('#subtitle').textContent='Kids learning • single-focus reading';$('#count').textContent=k.n+' / 5';
  $('#trackTitle').textContent=k.name;$('#source').href='https://www.youtube.com/watch?v='+k.video;
  $('#fullArabic').textContent=k.ar;$('#fullRoman').textContent=k.ro;
- $('#notice').textContent=k.n===1?'Pehla Kalma me new Focus Animation enabled hai. Arabic aur Urdu dono same stage par appear honge.':'Minimal UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
+ $('#notice').textContent=k.n===1?'Pehla Kalma ka poora 2:13 audio transcript map ho gaya hai. Arabic, Urdu narration, tarjuma aur ending — sab current spoken word ke hisab se animate honge.':'Minimal UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
  nav();showWaiting();
  if(ready){yt.cueVideoById(k.video);$('#speakerState').textContent='Ready'}else pending=k.video;
 }
@@ -186,7 +210,7 @@ function swapCue(c){
      $('#kind').textContent='Arabic';$('#arabicWord').style.display='block';$('#urduWord').style.display='none';
      $('#arabicWord').textContent=c.a||'';$('#romanWord').textContent=c.r||'';$('#meaning').textContent='Suno • dekho • saath bolo';
    }else if(c.type==='urdu'){
-     $('#kind').textContent='Urdu';$('#arabicWord').style.display='none';$('#urduWord').style.display='block';
+     $('#kind').textContent='Urdu / Tarjuma';$('#arabicWord').style.display='none';$('#urduWord').style.display='block';
      $('#urduWord').textContent=c.u||'';$('#romanWord').textContent=c.r||'';$('#meaning').textContent='Audio narration';
    }else if(c.type==='narration'){
      $('#kind').textContent='Urdu narration';$('#arabicWord').style.display='none';$('#urduWord').style.display='block';
@@ -196,7 +220,7 @@ function swapCue(c){
      $('#romanWord').textContent=c.r||'';$('#meaning').textContent='';
    }
    f.classList.remove('swapOut');void f.offsetWidth;f.classList.add('swapIn');
- },145);
+ },90);
 }
 function switchKalma(i){current=i;lastCueKey='';render();window.scrollTo({top:0,behavior:'smooth'})}
 window.onYouTubeIframeAPIReady=()=>{
@@ -211,7 +235,7 @@ function startTimer(){clearInterval(timer);timer=setInterval(()=>{
  const k=K[current],t=yt.getCurrentTime?yt.getCurrentTime():0,d=yt.getDuration?yt.getDuration():0;
  $('#cur').textContent=fmt(t);$('#dur').textContent=fmt(d);if(d>0&&!$('#seek').matches(':active'))$('#seek').value=Math.round(t/d*1000);
  if(focusOn&&k.cues)swapCue(cueFor(k,t));
-},55)}
+},45)}
 $('#play').onclick=()=>{if(!ready)return;if(yt.getPlayerState()===YT.PlayerState.PLAYING)yt.pauseVideo();else yt.playVideo()};
 $('#restart').onclick=()=>{if(!ready)return;lastCueKey='';yt.seekTo(0,true);yt.playVideo()};
 $('#seek').oninput=()=>{if(!ready)return;lastCueKey='';yt.seekTo((+$('#seek').value/1000)*(yt.getDuration()||0),true)};
