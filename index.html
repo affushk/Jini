@@ -53,8 +53,8 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
 .ctrl.active{background:#1a7d67;border-color:#42bd9d}
 .progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:10px;color:#9fc1b8;font-size:11px}
-.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:.12s ease}
-.seg.active{background:#f4c95d;color:#07231f;box-shadow:0 0 0 3px rgba(244,201,93,.22),0 0 18px rgba(244,201,93,.30)}
+.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:background-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+.seg.active{background:#f4c95d;color:#07231f;box-shadow:0 0 0 2px rgba(244,201,93,.18),0 0 14px rgba(244,201,93,.22);transform:scale(1.035)}
 .roman .seg.active{color:#07231f;background:#f4c95d}
 .syncNote{font-size:11px;color:#b9d4cd;margin-top:8px;text-align:center}
 .syncAdjust{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:8px}
@@ -159,7 +159,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.6 • permanent Pehla Kalma word sync</div>
+  <div class="footer">Phase 1.7 • smooth repeating word sync</div>
 </div>
 
 <script>
@@ -199,7 +199,7 @@ function render(){
  }
  q('#voiceLabel').textContent=k.name+' voice';
  q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
- q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word sync permanently calibrated hai. Agar future me voice timing change ho to “Fix Word Sync” se dobara calibrate kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
+ q('#syncNote').textContent=k.n===1?'Pehla Kalma ab har repeat me word-by-word highlight hoga. Sirf current word glow karega; poora Arabic/Roman box glow nahi karega.':'Is Kalme ka exact word timing next sync pass me add hoga.';
  q('#syncAdjust').style.display=k.n===1?'flex':'none';
  loadVoice(k.video);
  renderNav();
@@ -210,8 +210,8 @@ function fmt(s){s=Math.max(0,Math.floor(Number(s)||0));return Math.floor(s/60)+'
 function setPlayUI(playing){
  q('#playBtn').textContent=playing?'❚❚':'▶';
  q('#playState').textContent=playing?'Playing':'Paused';
- q('.arabicWrap').classList.toggle('voiceOn',playing);
- q('#roman').classList.toggle('voiceOn',playing);
+ q('.arabicWrap').classList.remove('voiceOn');
+ q('#roman').classList.remove('voiceOn');
  q('#followLine').classList.toggle('on',playing);
  q('#followText').textContent=playing?'Voice chal rahi hai — text ko saath follow kijiye.':'Voice paused.';
 }
@@ -253,92 +253,38 @@ localStorage.setItem('kalma1WordSync',JSON.stringify(firstKalmaWordTimes));
 function updateSyncLabel(){
  q('#syncValue').textContent='Sync '+(syncOffset>=0?'+':'')+syncOffset.toFixed(2)+'s';
 }
+const repeatCycleSeconds=5.34;
+const calibratedCycleStart=15.76;
+const firstUsableCycleStart=5.08;
+const relativeWordTimes=firstKalmaWordTimes.map((x,idx)=>({
+  i:x.i,
+  s:x.s-calibratedCycleStart,
+  e:(idx<firstKalmaWordTimes.length-1?firstKalmaWordTimes[idx+1].s:20.80)-calibratedCycleStart,
+  label:x.label
+}));
 function updatePhraseSync(t){
  const segs=[...document.querySelectorAll('.seg')];
  segs.forEach(s=>s.classList.remove('active'));
  if(kalmas[current].n!==1)return;
+
  const tt=t+syncOffset;
- const hit=firstKalmaWordTimes.find(x=>tt>=x.s&&tt<x.e);
+ if(tt<firstUsableCycleStart){
+   q('#followText').textContent='Voice intro chal rahi hai…';
+   return;
+ }
+
+ const cycleIndex=Math.floor((tt-firstUsableCycleStart)/repeatCycleSeconds);
+ const cycleStart=firstUsableCycleStart+(cycleIndex*repeatCycleSeconds);
+ const rel=tt-cycleStart;
+ const hit=relativeWordTimes.find(x=>rel>=x.s&&rel<x.e);
+
  if(hit){
    document.querySelectorAll('.seg[data-seg="'+hit.i+'"]').forEach(s=>s.classList.add('active'));
    q('#followText').textContent=hit.label+' — isi word ko voice ke saath follow kijiye.';
- }else if(tt>=12.4){
-   q('#followText').textContent='Poem/repeat section — first recitation sync complete.';
  }else{
-   q('#followText').textContent='Voice start ho rahi hai…';
+   q('#followText').textContent='Agli repetition ka wait…';
  }
 }
-q('#syncMinus').onclick=()=>{syncOffset=Math.max(-2,syncOffset-.25);updateSyncLabel()};
-q('#syncPlus').onclick=()=>{syncOffset=Math.min(2,syncOffset+.25);updateSyncLabel()};
-q('#syncReset').onclick=()=>{syncOffset=0;updateSyncLabel()};
-updateSyncLabel();
-
-const calWords=['La','ilaha','illa','llahu','Muhammadur','Rasoolu','llah'];
-let calibrating=false, calStep=0, calStarts=[];
-function setCalUI(){
- const box=q('#calBox'), tap=q('#calTap');
- box.classList.toggle('show',calibrating);
- if(!calibrating)return;
- if(calStep===0){tap.textContent='Start calibration';tap.disabled=false;return}
- if(calStep<=7){
-   tap.textContent='Tap when “'+calWords[calStep-1]+'” starts';
-   tap.disabled=false;
- }
-}
-q('#copySyncBtn').onclick=async()=>{
-  try{
-    const saved=localStorage.getItem('kalma1WordSync');
-    if(!saved){alert('Pehle Fix Word Sync complete kijiye.');return;}
-    const arr=JSON.parse(saved);
-    const compact=arr.map(x=>Number(x.s).toFixed(2)).join(', ');
-    await navigator.clipboard.writeText(compact);
-    q('#copySyncBtn').textContent='Copied ✓';
-    setTimeout(()=>q('#copySyncBtn').textContent='Copy Saved Sync',1500);
-  }catch(e){
-    alert('Copy nahi hua. Sync dobara open karke try kijiye.');
-  }
-};
-
-q('#calibrateBtn').onclick=()=>{
- if(kalmas[current].n!==1)return;
- calibrating=!calibrating;calStep=0;calStarts=[];
- q('#calTitle').textContent='Word Sync Calibration';
- q('#calHelp').textContent='Voice chalegi. Jis waqt diya word bolna START ho, yellow button tap kijiye. 7 taps ke baad timing save ho jayegi.';
- setCalUI();
-};
-q('#calTap').onclick=()=>{
- if(!ytReady||!yt){q('#calHelp').textContent='Voice player abhi load ho raha hai. 2 second baad try kijiye.';return}
- if(calStep===0){
-   calStarts=[];calStep=1;
-   yt.setPlaybackRate(1);
-   yt.seekTo(1.2,true);yt.playVideo();
-   q('#calHelp').textContent='Dhyan se suniye. “La” start hote hi tap kijiye.';
-   setCalUI();return;
- }
- const t=yt.getCurrentTime();
- calStarts.push(t);
- calStep++;
- if(calStep<=7){
-   q('#calHelp').textContent='Saved '+calStarts.length+'/7. Ab “'+calWords[calStep-1]+'” start hote hi tap kijiye.';
-   setCalUI();return;
- }
- // Build intervals from the user's exact taps.
- firstKalmaWordTimes=calStarts.map((s,idx)=>({
-   i:idx+1,
-   s:s,
-   e:idx<calStarts.length-1?calStarts[idx+1]:s+2.4,
-   label:calWords[idx]
- }));
- localStorage.setItem('kalma1WordSync',JSON.stringify(firstKalmaWordTimes));
- calibrating=false;
- q('#calTitle').innerHTML='<span class="calDone">Sync saved ✓</span>';
- q('#calHelp').textContent='Ab test ke liye voice wapas shuru se chal rahi hai. Ye timing isi phone/browser me save rahegi.';
- q('#calBox').classList.add('show');
- q('#calTap').textContent='Calibrated';
- q('#calTap').disabled=true;
- yt.seekTo(Math.max(0,firstKalmaWordTimes[0].s-1),true);yt.playVideo();
- setTimeout(()=>q('#calBox').classList.remove('show'),5000);
-};
 
 function startProgress(){
  if(progressTimer)clearInterval(progressTimer);
@@ -348,7 +294,7 @@ function startProgress(){
    q('#curTime').textContent=fmt(t);q('#durTime').textContent=fmt(d);
    updatePhraseSync(t);
    if(d>0&&!q('#seek').matches(':active'))q('#seek').value=Math.round((t/d)*1000);
- },500);
+ },60);
 }
 q('#playBtn').onclick=()=>{
  if(!ytReady||!yt){q('#playState').textContent='Loading…';return}
