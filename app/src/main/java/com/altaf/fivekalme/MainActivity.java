@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("https://raw.githack.com/affushk/Jini/main/index.html?apk=1");
+        webView.loadUrl("https://raw.githack.com/affushk/Jini/main/index.html?apk=3");
     }
 
     @Override
