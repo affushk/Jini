@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#062f2a">
+<title>5 Kalme Kids</title>
+<link rel="manifest" href="app.webmanifest">
+<style>
+:root{
+  --bg:#071a18;--bg2:#0b2723;--card:#0e342f;--line:#245149;--text:#f7f5ea;--muted:#bdd2cc;
+  --gold:#f4c95d;--green:#1e8c72;--green2:#2fb88f;--cream:#fff8df;--shadow:0 20px 55px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:
+ radial-gradient(circle at 20% 0%,#12463f 0,#071a18 38%,#04100f 100%);
+ color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button{font:inherit}
+.app{max-width:1100px;margin:auto;padding:14px 14px 40px}
+.hero{position:sticky;top:0;z-index:10;padding:10px 0 12px;background:linear-gradient(180deg,rgba(7,26,24,.98),rgba(7,26,24,.88),transparent);backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandLeft{display:flex;align-items:center;gap:11px}
+.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#0f6d5a,#31b58f);display:grid;place-items:center;box-shadow:0 10px 28px rgba(27,181,143,.22);font-size:24px}
+h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+.pill{padding:7px 10px;border-radius:999px;border:1px solid #32675d;color:#d9eee8;font-size:11px;background:#0b302a}
+.nav{display:flex;gap:8px;overflow:auto;padding:8px 1px 3px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.kbtn{min-width:76px;border:1px solid #2a5c52;background:#0b2d28;color:#d8e8e4;border-radius:14px;padding:10px 9px;text-align:center;font-weight:800}
+.kbtn small{display:block;font-size:10px;font-weight:600;color:#9fc1b8;margin-top:2px}
+.kbtn.active{background:linear-gradient(135deg,#16735f,#239b7c);border-color:#35b99a;color:white}
+.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:14px}
+.card{background:linear-gradient(180deg,rgba(14,52,47,.97),rgba(8,34,31,.98));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.cardHead{padding:16px 16px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.cardHead h2{margin:0;font-size:18px}.cardHead .mini{font-size:11px;color:var(--muted)}
+.body{padding:16px}
+.arabicWrap{background:linear-gradient(180deg,#fffaf0,#fff4d7);color:#14332c;border-radius:18px;padding:20px 18px;border:2px solid rgba(244,201,93,.75)}
+.arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;direction:rtl;text-align:center;font-size:clamp(34px,6vw,54px);line-height:1.85;font-weight:700;transition:.22s}
+.arabicWrap.voiceOn{box-shadow:0 0 0 3px rgba(47,184,143,.28),0 0 30px rgba(47,184,143,.22);transform:translateY(-1px)}
+.arabicWrap.voiceOn .arabic{color:#0d5f4e;text-shadow:0 0 18px rgba(38,180,137,.2)}
+.roman.voiceOn{border-color:#42b99d;box-shadow:0 0 0 2px rgba(47,184,143,.18),0 0 24px rgba(47,184,143,.12)}
+.followLine{margin-top:12px;padding:10px 12px;border-radius:13px;background:#0a2a26;border:1px solid #2d6458;color:#bfe0d7;font-size:12px;display:flex;align-items:center;gap:8px}
+.followDot{width:9px;height:9px;border-radius:50%;background:#406861}.followLine.on .followDot{background:#39d7aa;box-shadow:0 0 0 6px rgba(57,215,170,.12)}
+.romanTitle{font-size:12px;color:#dfefe9;margin:16px 0 7px;font-weight:800;letter-spacing:.3px}
+.roman{font-size:19px;line-height:1.7;color:#f7f6ed;background:#0a2a26;border:1px solid #275b51;border-radius:15px;padding:14px}
+.learnRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.smallBtn{border:1px solid #347267;background:#0c302b;color:white;border-radius:12px;padding:10px 12px;font-weight:750}
+.smallBtn.active{background:#1a7d67;border-color:#39a98f}
+.note{font-size:11px;line-height:1.55;color:#a9c2bb;margin-top:10px}
+.voicePanel{background:linear-gradient(180deg,#0b2c27,#071f1c);border:1px solid #2f665b;border-radius:18px;padding:18px}
+.voiceArt{width:78px;height:78px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#47d0a6,#15745f 55%,#0a3d34);box-shadow:0 10px 26px rgba(28,179,142,.24);font-size:32px;border:4px solid rgba(255,255,255,.08)}
+.voiceTitle{text-align:center;font-weight:850;font-size:18px}.voiceSub{text-align:center;color:#a9c8c0;font-size:12px;margin-top:4px}
+.bigPlay{width:62px;height:62px;border-radius:50%;border:0;display:grid;place-items:center;margin:12px auto 10px;background:linear-gradient(135deg,#20a37f,#36c59a);color:white;font-size:26px;box-shadow:0 10px 26px rgba(43,192,149,.24)}
+.playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
+.ctrl.active{background:#1a7d67;border-color:#42bd9d}
+.progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:10px;color:#9fc1b8;font-size:11px}
+.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:.12s ease}
+.seg.active{background:#f4c95d;color:#07231f;box-shadow:0 0 0 3px rgba(244,201,93,.22),0 0 18px rgba(244,201,93,.30)}
+.roman .seg.active{color:#07231f;background:#f4c95d}
+.syncNote{font-size:11px;color:#b9d4cd;margin-top:8px;text-align:center}
+.syncAdjust{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.syncAdjust button{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:10px;padding:7px 10px;font-size:11px;font-weight:750}
+#copySyncBtn{background:linear-gradient(135deg,#f4c95d,#e6ad2c);color:#10211d;border:0;font-size:13px;padding:10px 14px;box-shadow:0 8px 20px rgba(244,201,93,.18)}
+.syncAdjust span{display:inline-flex;align-items:center;color:#b9d4cd;font-size:11px;padding:0 5px}
+.calBox{display:none;margin-top:9px;padding:12px;border-radius:14px;border:1px solid #7b6840;background:#2a2414}
+.calBox.show{display:block}.calTitle{font-weight:800;color:#ffe7a0;font-size:13px}.calHelp{font-size:11px;line-height:1.5;color:#dfd3ad;margin-top:5px}
+.calTap{width:100%;margin-top:10px;border:0;border-radius:12px;padding:14px;background:#f4c95d;color:#19211e;font-weight:900;font-size:17px}
+.calTap:disabled{opacity:.45}.calDone{color:#8ef0d0;font-weight:800}
+.progressRow input{width:100%;accent-color:#34c29a}
+.ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}
+.audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 0;color:#b8d0ca;font-size:12px}
+.voiceBadge{display:inline-flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;background:#35d19e;box-shadow:0 0 0 5px rgba(53,209,158,.12)}
+.credit{margin-top:10px;padding:10px 12px;background:#092621;border:1px solid #245149;border-radius:13px;color:#b8d0ca;font-size:11px;line-height:1.5}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.tile{border:1px solid #2e6359;background:#0a2b26;border-radius:13px;padding:10px;color:#dcece7;text-align:center}
+.tile b{display:block;font-size:14px}.tile span{display:block;color:#93b9af;font-size:10px;margin-top:3px}
+.footer{text-align:center;color:#6f9990;font-size:11px;padding:20px 8px 0}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.playerCard{order:-1}}
+@media(max-width:520px){.app{padding:10px 10px 30px}.brandRight{display:none}.card{border-radius:16px}.body{padding:12px}.cardHead{padding:13px 12px 0}.arabicWrap{padding:16px 12px}.roman{font-size:17px}.grid5{grid-template-columns:repeat(5,minmax(76px,1fr));overflow:auto}.tile{min-width:76px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="brand">
+      <div class="brandLeft">
+        <div class="logo">☪</div>
+        <div><h1>5 Kalme Kids</h1><div class="sub">Arabic • Roman Urdu • Kids Madani Channel voice</div></div>
+      </div>
+      <div class="brandRight pill">Personal learning app</div>
+    </div>
+    <div class="nav" id="nav"></div>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <div class="cardHead">
+        <div><h2 id="title">Pehla Kalma Tayyibah</h2><div class="mini" id="number">Kalma 1 of 5</div></div>
+        <div class="pill" id="shortName">Tayyibah</div>
+      </div>
+      <div class="body">
+        <div class="arabicWrap"><div class="arabic" id="arabic"></div></div>
+        <div class="romanTitle">ROMAN URDU</div>
+        <div class="roman" id="roman"></div>
+        <div class="followLine" id="followLine"><span class="followDot"></span><span id="followText">Voice start kijiye — Arabic aur Roman Urdu live glow honge.</span></div>
+        <div class="syncNote" id="syncNote">Pehla Kalma word-by-word highlight hoga.</div>
+        <div class="syncAdjust" id="syncAdjust">
+          <button id="syncMinus">Glow -0.25s</button>
+          <span id="syncValue">Sync 0.00s</span>
+          <button id="syncPlus">Glow +0.25s</button>
+          <button id="syncReset">Reset</button>
+          <button id="calibrateBtn">Fix Word Sync</button>
+          <button id="copySyncBtn">📋 Copy Saved Sync</button>
+        </div>
+        <div class="calBox" id="calBox">
+          <div class="calTitle" id="calTitle">Word Sync Calibration</div>
+          <div class="calHelp" id="calHelp">Voice chalegi. Jis waqt screen par diya word bolna START ho, neeche yellow button ek baar tap kijiye. Sirf 7 taps, ek hi baar.</div>
+          <button class="calTap" id="calTap" disabled>Start calibration</button>
+        </div>
+        <div class="learnRow">
+          <button class="smallBtn active" id="normalBtn">Normal text</button>
+          <button class="smallBtn" id="largeBtn">Large Arabic</button>
+        </div>
+        <div class="note">Arabic aur Roman Urdu ko ek saath dekh kar sunne ke liye banaaya gaya hai. Voice official YouTube player se stream hoti hai, isliye internet chahiye.</div>
+
+        <div class="grid5" id="tiles"></div>
+      </div>
+    </section>
+
+    <aside class="card playerCard">
+      <div class="cardHead">
+        <div><h2>Voice Player</h2><div class="mini">Wahi Kids Madani Channel wali voice</div></div>
+        <div class="pill">Official YouTube</div>
+      </div>
+      <div class="body">
+        <div class="voicePanel">
+          <div class="voiceArt">♫</div>
+          <div class="voiceTitle" id="voiceLabel">Pehla Kalma Tayyibah voice</div>
+          <div class="voiceSub">Kids Madani Channel • original YouTube stream</div>
+          <button class="bigPlay" id="playBtn" aria-label="Play voice">▶</button>
+          <div class="playerControls">
+            <button class="ctrl" id="restartBtn">↺ Restart</button>
+            <button class="ctrl active" id="speed1">1×</button>
+            <button class="ctrl" id="speed075">0.75×</button>
+            <button class="ctrl" id="repeatBtn">Repeat Off</button>
+          </div>
+          <div class="progressRow">
+            <span id="curTime">0:00</span>
+            <input id="seek" type="range" min="0" max="1000" value="0">
+            <span id="durTime">0:00</span>
+          </div>
+        </div>
+        <div id="ytPlayer" class="ytHost" aria-hidden="true"></div>
+        <div class="audioMeta">
+          <div class="voiceBadge"><span class="dot"></span><span id="playState">Ready</span></div>
+          <a id="sourceLink" href="#" target="_blank" rel="noopener" style="color:#b8d0ca">Source video ↗</a>
+        </div>
+        <div class="credit">Screen par video nahi dikhaya gaya; aapko voice-player look milega. Voice Kids Madani Channel ke official YouTube stream se chalti hai, isliye internet zaroori hai.</div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="footer">Phase 1.5.2 • saved sync export visible</div>
+</div>
+
+<script>
+const kalmas=[
+ {n:1,name:'Pehla Kalma Tayyibah',short:'Tayyibah',video:'jSoEVLNeHw0',
+  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ',
+  ro:'La ilaha illallahu, Muhammadur Rasoolullah.'},
+ {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'54JnsbHQPbM',
+  ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',
+  ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.'},
+ {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',
+  ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
+  ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.'},
+ {n:4,name:'Chautha Kalma Tauheed',short:'Tauheed',video:'d05LzqfnpmY',
+  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا، ذُو الْجَلَالِ وَالْإِكْرَامِ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+  ro:'La ilaha illallahu wahdahu la shareeka lah, lahul mulku wa lahul hamdu, yuhyi wa yumitu, wa huwa hayyun la yamutu abadan abada, zul jalali wal ikram, biyadihil khair, wa huwa ala kulli shai-in qadeer.'},
+ {n:5,name:'Panchwa Kalma Astaghfar',short:'Astaghfar',video:'2WrQw-L53fU',
+  ar:'أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ عَمْدًا أَوْ خَطَأً، سِرًّا أَوْ عَلَانِيَةً، وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ، وَسَتَّارُ الْعُيُوبِ، وَغَفَّارُ الذُّنُوبِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
+  ro:'Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu amadan aw khata-an, sirran aw alaniyatan, wa atubu ilaihi minaz-zanbillazi alamu wa minaz-zanbillazi la alamu. Innaka anta allamul-ghuyubi, wa sattarul-uyubi, wa ghaffaruz-zunubi, wa la hawla wa la quwwata illa billahil aliyyil azeem.'}
+];
+let current=0;
+const q=s=>document.querySelector(s);
+function renderNav(){
+ q('#nav').innerHTML=kalmas.map((k,i)=>'<button class="kbtn '+(i===current?'active':'')+'" data-i="'+i+'">'+k.n+'<small>'+k.short+'</small></button>').join('');
+ q('#tiles').innerHTML=kalmas.map((k,i)=>'<button class="tile" data-i="'+i+'"><b>'+k.n+'</b><span>'+k.short+'</span></button>').join('');
+ document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{current=Number(b.dataset.i);render()});
+}
+function render(){
+ const k=kalmas[current];
+ q('#title').textContent=k.name;q('#number').textContent='Kalma '+k.n+' of 5';q('#shortName').textContent=k.short;
+ if(k.n===1){
+   q('#arabic').innerHTML='<span class="seg" data-seg="1">لَا</span> <span class="seg" data-seg="2">إِلٰهَ</span> <span class="seg" data-seg="3">إِلَّا</span> <span class="seg" data-seg="4">اللّٰهُ</span> <span class="seg" data-seg="5">مُحَمَّدٌ</span> <span class="seg" data-seg="6">رَّسُولُ</span> <span class="seg" data-seg="7">اللّٰهِ</span>';
+   q('#roman').innerHTML='<span class="seg" data-seg="1">La</span> <span class="seg" data-seg="2">ilaha</span> <span class="seg" data-seg="3">illa</span> <span class="seg" data-seg="4">llahu</span>, <span class="seg" data-seg="5">Muhammadur</span> <span class="seg" data-seg="6">Rasoolu</span><span class="seg" data-seg="7">llah</span>.';
+ }else{
+   q('#arabic').textContent=k.ar;
+   q('#roman').textContent=k.ro;
+ }
+ q('#voiceLabel').textContent=k.name+' voice';
+ q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
+ q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word highlight hoga. Agar glow aage/piche ho to “Fix Word Sync” se 7 taps me isi voice ke exact timestamps save kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
+ q('#syncAdjust').style.display=k.n===1?'flex':'none';
+ loadVoice(k.video);
+ renderNav();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+let yt=null, ytReady=false, pendingVideo=kalmas[0].video, progressTimer=null, repeatOn=false;
+function fmt(s){s=Math.max(0,Math.floor(Number(s)||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function setPlayUI(playing){
+ q('#playBtn').textContent=playing?'❚❚':'▶';
+ q('#playState').textContent=playing?'Playing':'Paused';
+ q('.arabicWrap').classList.toggle('voiceOn',playing);
+ q('#roman').classList.toggle('voiceOn',playing);
+ q('#followLine').classList.toggle('on',playing);
+ q('#followText').textContent=playing?'Voice chal rahi hai — text ko saath follow kijiye.':'Voice paused.';
+}
+window.onYouTubeIframeAPIReady=function(){
+ yt=new YT.Player('ytPlayer',{
+   height:'1',width:'1',videoId:pendingVideo,
+   playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0},
+   events:{
+     onReady:function(){ytReady=true;q('#playState').textContent='Ready';startProgress()},
+     onStateChange:function(e){
+       if(e.data===YT.PlayerState.PLAYING)setPlayUI(true);
+       if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED)setPlayUI(false);
+       if(e.data===YT.PlayerState.ENDED){if(repeatOn){yt.seekTo(0,true);yt.playVideo()}else setPlayUI(false)}
+     },
+     onError:function(){q('#playState').textContent='Voice unavailable'}
+   }
+ });
+};
+function loadVoice(id){
+ pendingVideo=id;
+ setPlayUI(false);
+ q('#followText').textContent='Voice start kijiye — Arabic aur Roman Urdu live glow honge.';
+ document.querySelectorAll('.seg').forEach(s=>s.classList.remove('active'));
+ q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
+ if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
+}
+let syncOffset=0;
+let firstKalmaWordTimes=[
+ {i:1,s:2.10,e:2.85,label:'La'},
+ {i:2,s:2.85,e:3.75,label:'ilaha'},
+ {i:3,s:3.75,e:4.55,label:'illa'},
+ {i:4,s:4.55,e:6.85,label:'llahu'},
+ {i:5,s:7.10,e:8.65,label:'Muhammadur'},
+ {i:6,s:8.65,e:10.15,label:'Rasoolu'},
+ {i:7,s:10.15,e:12.40,label:'llah'}
+];
+try{
+ const saved=JSON.parse(localStorage.getItem('kalma1WordSync')||'null');
+ if(Array.isArray(saved)&&saved.length===7) firstKalmaWordTimes=saved;
+}catch(e){}
+function updateSyncLabel(){
+ q('#syncValue').textContent='Sync '+(syncOffset>=0?'+':'')+syncOffset.toFixed(2)+'s';
+}
+function updatePhraseSync(t){
+ const segs=[...document.querySelectorAll('.seg')];
+ segs.forEach(s=>s.classList.remove('active'));
+ if(kalmas[current].n!==1)return;
+ const tt=t+syncOffset;
+ const hit=firstKalmaWordTimes.find(x=>tt>=x.s&&tt<x.e);
+ if(hit){
+   document.querySelectorAll('.seg[data-seg="'+hit.i+'"]').forEach(s=>s.classList.add('active'));
+   q('#followText').textContent=hit.label+' — isi word ko voice ke saath follow kijiye.';
+ }else if(tt>=12.4){
+   q('#followText').textContent='Poem/repeat section — first recitation sync complete.';
+ }else{
+   q('#followText').textContent='Voice start ho rahi hai…';
+ }
+}
+q('#syncMinus').onclick=()=>{syncOffset=Math.max(-2,syncOffset-.25);updateSyncLabel()};
+q('#syncPlus').onclick=()=>{syncOffset=Math.min(2,syncOffset+.25);updateSyncLabel()};
+q('#syncReset').onclick=()=>{syncOffset=0;updateSyncLabel()};
+updateSyncLabel();
+
+const calWords=['La','ilaha','illa','llahu','Muhammadur','Rasoolu','llah'];
+let calibrating=false, calStep=0, calStarts=[];
+function setCalUI(){
+ const box=q('#calBox'), tap=q('#calTap');
+ box.classList.toggle('show',calibrating);
+ if(!calibrating)return;
+ if(calStep===0){tap.textContent='Start calibration';tap.disabled=false;return}
+ if(calStep<=7){
+   tap.textContent='Tap when “'+calWords[calStep-1]+'” starts';
+   tap.disabled=false;
+ }
+}
+q('#copySyncBtn').onclick=async()=>{
+  try{
+    const saved=localStorage.getItem('kalma1WordSync');
+    if(!saved){alert('Pehle Fix Word Sync complete kijiye.');return;}
+    const arr=JSON.parse(saved);
+    const compact=arr.map(x=>Number(x.s).toFixed(2)).join(', ');
+    await navigator.clipboard.writeText(compact);
+    q('#copySyncBtn').textContent='Copied ✓';
+    setTimeout(()=>q('#copySyncBtn').textContent='Copy Saved Sync',1500);
+  }catch(e){
+    alert('Copy nahi hua. Sync dobara open karke try kijiye.');
+  }
+};
+
+q('#calibrateBtn').onclick=()=>{
+ if(kalmas[current].n!==1)return;
+ calibrating=!calibrating;calStep=0;calStarts=[];
+ q('#calTitle').textContent='Word Sync Calibration';
+ q('#calHelp').textContent='Voice chalegi. Jis waqt diya word bolna START ho, yellow button tap kijiye. 7 taps ke baad timing save ho jayegi.';
+ setCalUI();
+};
+q('#calTap').onclick=()=>{
+ if(!ytReady||!yt){q('#calHelp').textContent='Voice player abhi load ho raha hai. 2 second baad try kijiye.';return}
+ if(calStep===0){
+   calStarts=[];calStep=1;
+   yt.setPlaybackRate(1);
+   yt.seekTo(1.2,true);yt.playVideo();
+   q('#calHelp').textContent='Dhyan se suniye. “La” start hote hi tap kijiye.';
+   setCalUI();return;
+ }
+ const t=yt.getCurrentTime();
+ calStarts.push(t);
+ calStep++;
+ if(calStep<=7){
+   q('#calHelp').textContent='Saved '+calStarts.length+'/7. Ab “'+calWords[calStep-1]+'” start hote hi tap kijiye.';
+   setCalUI();return;
+ }
+ // Build intervals from the user's exact taps.
+ firstKalmaWordTimes=calStarts.map((s,idx)=>({
+   i:idx+1,
+   s:s,
+   e:idx<calStarts.length-1?calStarts[idx+1]:s+2.4,
+   label:calWords[idx]
+ }));
+ localStorage.setItem('kalma1WordSync',JSON.stringify(firstKalmaWordTimes));
+ calibrating=false;
+ q('#calTitle').innerHTML='<span class="calDone">Sync saved ✓</span>';
+ q('#calHelp').textContent='Ab test ke liye voice wapas shuru se chal rahi hai. Ye timing isi phone/browser me save rahegi.';
+ q('#calBox').classList.add('show');
+ q('#calTap').textContent='Calibrated';
+ q('#calTap').disabled=true;
+ yt.seekTo(Math.max(0,firstKalmaWordTimes[0].s-1),true);yt.playVideo();
+ setTimeout(()=>q('#calBox').classList.remove('show'),5000);
+};
+
+function startProgress(){
+ if(progressTimer)clearInterval(progressTimer);
+ progressTimer=setInterval(()=>{
+   if(!ytReady||!yt)return;
+   const d=yt.getDuration?yt.getDuration():0, t=yt.getCurrentTime?yt.getCurrentTime():0;
+   q('#curTime').textContent=fmt(t);q('#durTime').textContent=fmt(d);
+   updatePhraseSync(t);
+   if(d>0&&!q('#seek').matches(':active'))q('#seek').value=Math.round((t/d)*1000);
+ },500);
+}
+q('#playBtn').onclick=()=>{
+ if(!ytReady||!yt){q('#playState').textContent='Loading…';return}
+ const st=yt.getPlayerState();
+ if(st===YT.PlayerState.PLAYING)yt.pauseVideo();else yt.playVideo();
+};
+q('#restartBtn').onclick=()=>{if(ytReady&&yt){yt.seekTo(0,true);yt.playVideo()}};
+q('#speed1').onclick=()=>{if(ytReady&&yt){yt.setPlaybackRate(1);q('#speed1').classList.add('active');q('#speed075').classList.remove('active')}};
+q('#speed075').onclick=()=>{if(ytReady&&yt){yt.setPlaybackRate(.75);q('#speed075').classList.add('active');q('#speed1').classList.remove('active')}};
+q('#repeatBtn').onclick=()=>{repeatOn=!repeatOn;q('#repeatBtn').textContent=repeatOn?'Repeat On':'Repeat Off';q('#repeatBtn').classList.toggle('active',repeatOn)};
+q('#seek').addEventListener('input',()=>{if(ytReady&&yt){const d=yt.getDuration();if(d>0)yt.seekTo((Number(q('#seek').value)/1000)*d,true)}});
+
+q('#largeBtn').onclick=()=>{q('#arabic').style.fontSize='clamp(44px,8vw,70px)';q('#largeBtn').classList.add('active');q('#normalBtn').classList.remove('active')};
+q('#normalBtn').onclick=()=>{q('#arabic').style.fontSize='';q('#normalBtn').classList.add('active');q('#largeBtn').classList.remove('active')};
+render();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=2',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
