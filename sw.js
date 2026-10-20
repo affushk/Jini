@@ -1,0 +1,1 @@
+const CACHE='five-kalme-v1';const ASSETS=['./','./index.html','./app.webmanifest'];self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));self.addEventListener('fetch',e=>{if(e.request.url.includes('youtube.com')||e.request.url.includes('googlevideo.com'))return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})
