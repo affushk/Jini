@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#dff7eb">
-<title>5 Kalme Kids • Baby UI Preview</title>
+<meta name="theme-color" content="#fff4f8">
+<title>5 Kalme Kids</title>
 <link rel="manifest" href="app.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +61,111 @@ linear-gradient(180deg,#fffafb,#fff1f6)}
 .notice{margin-top:10px;text-align:center;color:#9e808c;font-size:9px}.ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}.footer{text-align:center;color:#aa8c98;font-size:8px;padding:17px 6px}
 @media(max-width:600px){.app{padding-left:8px;padding-right:8px}.stage{min-height:336px}.stageWrap{padding:6px 8px 10px}.meta{padding:14px 12px 7px}.focus{padding-left:7px;padding-right:7px}.fullArabic{font-size:27px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+
+/* ===== FINAL BABY PREMIUM POLISH ===== */
+.shell{
+  position:relative;
+  box-shadow:
+    0 26px 58px rgba(103,48,72,.13),
+    0 10px 24px rgba(103,48,72,.08),
+    0 0 0 1px rgba(255,255,255,.88),
+    0 0 0 4px rgba(246,205,222,.34);
+}
+.stage{
+  box-shadow:
+    0 18px 38px rgba(115,56,82,.11),
+    0 7px 16px rgba(115,56,82,.07),
+    inset 0 0 0 1px rgba(255,255,255,.88),
+    inset 0 0 0 5px rgba(255,255,255,.24);
+}
+.player,.fullText{
+  box-shadow:
+    0 13px 28px rgba(117,63,86,.10),
+    0 5px 12px rgba(117,63,86,.055),
+    0 0 0 1px rgba(255,255,255,.88),
+    0 0 0 3px rgba(248,220,232,.22);
+}
+.tab,.action,.count,.liveTag{
+  box-shadow:
+    0 9px 20px rgba(117,63,86,.085),
+    0 3px 8px rgba(117,63,86,.045),
+    0 0 0 1px rgba(255,255,255,.78);
+}
+.play{
+  box-shadow:
+    0 15px 30px rgba(214,119,157,.24),
+    0 6px 14px rgba(120,62,87,.08),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 0 0 1px rgba(255,255,255,.84),
+    0 0 0 4px rgba(239,183,207,.18);
+}
+.tab.active,.action.active{
+  box-shadow:
+    0 13px 28px rgba(211,124,159,.18),
+    0 5px 12px rgba(117,63,86,.06),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 0 0 1px rgba(255,255,255,.86);
+}
+.tab,.action,.play,.fullTextHead{
+  overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  transition:
+    transform .16s cubic-bezier(.2,.75,.2,1),
+    filter .16s ease,
+    box-shadow .20s ease,
+    background-color .20s ease,
+    border-color .20s ease;
+}
+.tab:active,.action:active,.play:active,.fullTextHead:active{
+  transform:scale(.965);
+  filter:brightness(.985);
+}
+.touch-pop{animation:touchPop .24s cubic-bezier(.2,.75,.2,1)}
+@keyframes touchPop{
+  0%{transform:scale(1)}
+  42%{transform:scale(.965)}
+  100%{transform:scale(1)}
+}
+.soft-ripple{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.62) 0%,rgba(255,255,255,.28) 45%,rgba(255,255,255,0) 72%);
+  transform:translate(-50%,-50%) scale(.15);
+  opacity:.9;
+  animation:softRipple .52s ease-out forwards;
+  z-index:20;
+}
+@keyframes softRipple{
+  to{transform:translate(-50%,-50%) scale(1);opacity:0}
+}
+.stage.playing{
+  box-shadow:
+    0 20px 42px rgba(198,116,150,.14),
+    0 8px 18px rgba(110,58,80,.07),
+    inset 0 0 0 1px rgba(255,255,255,.92),
+    inset 0 0 0 5px rgba(255,255,255,.28),
+    0 0 0 3px rgba(245,205,222,.14);
+}
+.kind,.meaning{
+  box-shadow:
+    0 6px 16px rgba(116,62,85,.055),
+    0 0 0 1px rgba(255,255,255,.72);
+}
+.arabicWord{
+  text-shadow:
+    0 7px 18px rgba(108,56,79,.08),
+    0 1px 0 rgba(255,255,255,.48);
+}
+.urduWord,.romanWord{
+  text-shadow:0 4px 10px rgba(108,56,79,.045);
+}
+@media (hover:hover){
+  .tab:hover,.action:hover,.fullTextHead:hover{transform:translateY(-1px)}
+  .play:hover{transform:translateY(-1px) scale(1.01)}
+}
+
 </style>
 </head>
 <body>
@@ -118,7 +223,7 @@ linear-gradient(180deg,#fffafb,#fff1f6)}
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Baby Pink + Cream Preview • Quran-style Arabic • smooth spoken-word learning</div>
+  <div class="footer">Final Baby Pink UI • Quran-style Arabic • soft touch animation • 5 Kalme ready</div>
 </div>
 
 <script>
@@ -381,7 +486,31 @@ function swapCue(c){
  }
  animateFocus();
 }
-function switchKalma(i){current=i;lastCueKey='';render();window.scrollTo({top:0,behavior:'smooth'})}
+function switchKalma(i){current=i;lastCueKey='';
+function addSoftTouch(e){
+  const el=e.target.closest('.tab,.action,.play,.fullTextHead');
+  if(!el)return;
+
+  el.classList.remove('touch-pop');
+  void el.offsetWidth;
+  el.classList.add('touch-pop');
+
+  const r=el.getBoundingClientRect();
+  const size=Math.max(r.width,r.height)*1.55;
+  const dot=document.createElement('span');
+  dot.className='soft-ripple';
+  dot.style.width=size+'px';
+  dot.style.height=size+'px';
+  const x=(typeof e.clientX==='number'&&e.clientX)?e.clientX-r.left:r.width/2;
+  const y=(typeof e.clientY==='number'&&e.clientY)?e.clientY-r.top:r.height/2;
+  dot.style.left=x+'px';
+  dot.style.top=y+'px';
+  el.appendChild(dot);
+  setTimeout(()=>dot.remove(),560);
+}
+document.addEventListener('pointerdown',addSoftTouch,{passive:true});
+
+render();window.scrollTo({top:0,behavior:'smooth'})}
 window.onYouTubeIframeAPIReady=()=>{
  yt=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:pending,playerVars:{playsinline:1,rel:0,controls:0},events:{
   onReady(){ready=true;$('#speakerState').textContent='Ready';startTimer()},
