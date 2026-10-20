@@ -16,6 +16,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.webkit.WebViewAssetLoader;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,7 +59,7 @@ public class MainActivity extends Activity {
         splashStartedAt = System.currentTimeMillis();
         playSplashAnimation();
 
-        webView.loadUrl("https://raw.githack.com/affushk/Jini/main/index.html?apk=final2");
+        webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
 
         // Safety fallback: never leave the user stuck on the splash.
         handler.postDelayed(this::closeSplashIfPossible, 7000);
@@ -75,8 +77,25 @@ public class MainActivity extends Activity {
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
+        final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+                .build();
+
         webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public android.webkit.WebResourceResponse shouldInterceptRequest(
+                    WebView view, android.webkit.WebResourceRequest request) {
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
+            @Override
+            @SuppressWarnings("deprecation")
+            public android.webkit.WebResourceResponse shouldInterceptRequest(
+                    WebView view, String url) {
+                return assetLoader.shouldInterceptRequest(android.net.Uri.parse(url));
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 pageReady = true;
