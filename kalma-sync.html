@@ -160,7 +160,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.5.2 • saved sync export visible</div>
+  <div class="footer">Phase 1.6 • permanent Pehla Kalma word sync</div>
 </div>
 
 <script>
@@ -200,7 +200,7 @@ function render(){
  }
  q('#voiceLabel').textContent=k.name+' voice';
  q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
- q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word highlight hoga. Agar glow aage/piche ho to “Fix Word Sync” se 7 taps me isi voice ke exact timestamps save kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
+ q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word sync permanently calibrated hai. Agar future me voice timing change ho to “Fix Word Sync” se dobara calibrate kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
  q('#syncAdjust').style.display=k.n===1?'flex':'none';
  loadVoice(k.video);
  renderNav();
@@ -241,18 +241,16 @@ function loadVoice(id){
 }
 let syncOffset=0;
 let firstKalmaWordTimes=[
- {i:1,s:2.10,e:2.85,label:'La'},
- {i:2,s:2.85,e:3.75,label:'ilaha'},
- {i:3,s:3.75,e:4.55,label:'illa'},
- {i:4,s:4.55,e:6.85,label:'llahu'},
- {i:5,s:7.10,e:8.65,label:'Muhammadur'},
- {i:6,s:8.65,e:10.15,label:'Rasoolu'},
- {i:7,s:10.15,e:12.40,label:'llah'}
+ {i:1,s:15.76,e:16.37,label:'La'},
+ {i:2,s:16.37,e:17.17,label:'ilaha'},
+ {i:3,s:17.17,e:17.77,label:'illa'},
+ {i:4,s:17.77,e:18.54,label:'llahu'},
+ {i:5,s:18.54,e:19.29,label:'Muhammadur'},
+ {i:6,s:19.29,e:19.89,label:'Rasoolu'},
+ {i:7,s:19.89,e:20.80,label:'llah'}
 ];
-try{
- const saved=JSON.parse(localStorage.getItem('kalma1WordSync')||'null');
- if(Array.isArray(saved)&&saved.length===7) firstKalmaWordTimes=saved;
-}catch(e){}
+// Permanent Pehla Kalma timings calibrated on the target voice.
+localStorage.setItem('kalma1WordSync',JSON.stringify(firstKalmaWordTimes));
 function updateSyncLabel(){
  q('#syncValue').textContent='Sync '+(syncOffset>=0?'+':'')+syncOffset.toFixed(2)+'s';
 }
