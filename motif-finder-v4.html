@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="app">
-  <div class="top"><div class="logo">✦</div><div><h1>Motif Finder</h1><p>Phase 2.1 • fixed Google Lens upload</p></div></div>
+  <div class="top"><div class="logo">✦</div><div><h1>Motif Finder</h1><p>Phase 2.2 • Android Lens share</p></div></div>
   <div class="cols">
     <section class="card">
       <div class="head"><h2>1. Add reference image</h2><span class="pill" id="status">Waiting</span></div>
@@ -58,8 +58,9 @@
         <div class="section">
           <div class="quick">
             <h3>One-tap reverse search</h3>
-            <div class="help">API key ki zarurat nahi. Aapka selected crop Google Lens ko direct upload hoga aur web matches naye tab me khulenge.</div>
-            <button class="bigsearch" id="lensSearch" disabled>Search selected crop on Google Lens</button>
+            <div class="help">Mobile Chrome me Google direct website-upload ko help page par redirect kar raha hai. Isliye reliable Android flow: crop ko phone share-sheet me bhejo, phir Google Lens / Google app choose karo.</div>
+            <button class="bigsearch" id="lensSearch" disabled>Share crop to Google Lens</button>
+            <button class="btn" id="copyLens" disabled style="width:100%;margin-top:8px">Copy crop + Open Google Lens</button>
             <button class="btn" id="yandexSearch" disabled style="width:100%;margin-top:8px">Search selected crop on Yandex</button>
             <div class="searchStatus" id="searchStatus">Crop ready hone ke baad search buttons active honge.</div>
           </div>
@@ -87,7 +88,7 @@
   const status=q('#status'), full=q('#full'), clearSel=q('#clearSel'), make=q('#make'), preview=q('#preview');
   const info=q('#info'), time=q('#time'), copy=q('#copy'), download=q('#download'), ready=q('#ready');
   const srcs=[...document.querySelectorAll('.src')];
-  const lensSearch=q('#lensSearch'), yandexSearch=q('#yandexSearch'), searchStatus=q('#searchStatus');
+  const lensSearch=q('#lensSearch'), copyLens=q('#copyLens'), yandexSearch=q('#yandexSearch'), searchStatus=q('#searchStatus');
   let img=null, sel=null, dragging=false, start=null, blob=null, blobUrl=null;
   let draw={x:0,y:0,w:0,h:0,scale:1};
 
@@ -168,7 +169,7 @@
     preview.innerHTML='<img src="'+blobUrl+'" alt="crop">';
     info.textContent=out.width+' × '+out.height+' px';time.textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
     ready.textContent='Ready ✓';copy.disabled=false;download.disabled=false;srcs.forEach(b=>b.disabled=false);
-    lensSearch.disabled=false;yandexSearch.disabled=false;searchStatus.textContent='Search ready ✓';
+    lensSearch.disabled=false;copyLens.disabled=false;yandexSearch.disabled=false;searchStatus.textContent='Search ready ✓';
   }
   function submitImageForm(action, fieldName, extraFields){
     if(!blob)return;
@@ -194,12 +195,35 @@
     }
   }
 
-  lensSearch.onclick=()=>{
+  lensSearch.onclick=async()=>{
     if(!blob)return;
-    const url='https://lens.google.com/v3/upload';
-    const ok=submitImageForm(url,'encoded_image',{sbisrc:'Google Chrome'});
-    if(ok) searchStatus.textContent='Google Lens naye tab me open ho raha hai…';
-    else {searchStatus.textContent='Direct upload block hua. Crop clipboard me copy karke Lens khol raha hoon.'; copy.click(); window.open('https://lens.google.com/','_blank','noopener');}
+    try{
+      const fileObj=new File([blob],'motif-reference.png',{type:'image/png'});
+      if(navigator.canShare && navigator.canShare({files:[fileObj]})){
+        await navigator.share({
+          files:[fileObj],
+          title:'Motif reference',
+          text:'Search this motif with Google Lens'
+        });
+        searchStatus.textContent='Share sheet open hua — Google Lens / Google app choose kijiye.';
+      }else{
+        throw new Error('File sharing not supported');
+      }
+    }catch(e){
+      if(e && e.name==='AbortError'){searchStatus.textContent='Share cancelled.';return;}
+      searchStatus.textContent='Phone file-share support nahi mila. Copy + Open Google Lens use kijiye.';
+    }
+  };
+
+  copyLens.onclick=async()=>{
+    if(!blob)return;
+    try{
+      await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+      searchStatus.textContent='Crop copied ✓ Ab Google Lens me paste/upload kijiye.';
+    }catch(e){
+      searchStatus.textContent='Clipboard copy block hua; PNG download karke Lens me upload kijiye.';
+    }
+    window.open('https://lens.google.com/','_blank','noopener');
   };
 
   yandexSearch.onclick=()=>{
