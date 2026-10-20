@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -7,321 +7,137 @@
 <title>5 Kalme Kids</title>
 <link rel="manifest" href="app.webmanifest">
 <style>
-:root{
-  --bg:#071a18;--bg2:#0b2723;--card:#0e342f;--line:#245149;--text:#f7f5ea;--muted:#bdd2cc;
-  --gold:#f4c95d;--green:#1e8c72;--green2:#2fb88f;--cream:#fff8df;--shadow:0 20px 55px rgba(0,0,0,.28)
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:
- radial-gradient(circle at 20% 0%,#12463f 0,#071a18 38%,#04100f 100%);
- color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button{font:inherit}
-.app{max-width:1100px;margin:auto;padding:14px 14px 40px}
-.hero{position:sticky;top:0;z-index:10;padding:10px 0 12px;background:linear-gradient(180deg,rgba(7,26,24,.98),rgba(7,26,24,.88),transparent);backdrop-filter:blur(8px)}
-.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brandLeft{display:flex;align-items:center;gap:11px}
-.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#0f6d5a,#31b58f);display:grid;place-items:center;box-shadow:0 10px 28px rgba(27,181,143,.22);font-size:24px}
-h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}
-.pill{padding:7px 10px;border-radius:999px;border:1px solid #32675d;color:#d9eee8;font-size:11px;background:#0b302a}
-.nav{display:flex;gap:8px;overflow:auto;padding:8px 1px 3px;scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.kbtn{min-width:76px;border:1px solid #2a5c52;background:#0b2d28;color:#d8e8e4;border-radius:14px;padding:10px 9px;text-align:center;font-weight:800}
-.kbtn small{display:block;font-size:10px;font-weight:600;color:#9fc1b8;margin-top:2px}
-.kbtn.active{background:linear-gradient(135deg,#16735f,#239b7c);border-color:#35b99a;color:white}
-.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:14px}
-.card{background:linear-gradient(180deg,rgba(14,52,47,.97),rgba(8,34,31,.98));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
-.cardHead{padding:16px 16px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.cardHead h2{margin:0;font-size:18px}.cardHead .mini{font-size:11px;color:var(--muted)}
-.body{padding:16px}
-.arabicWrap{background:linear-gradient(180deg,#fffaf0,#fff4d7);color:#14332c;border-radius:18px;padding:20px 18px;border:2px solid rgba(244,201,93,.75)}
-.arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;direction:rtl;text-align:center;font-size:clamp(34px,6vw,54px);line-height:1.85;font-weight:700;transition:.22s}
-.arabicWrap.voiceOn{box-shadow:0 0 0 3px rgba(47,184,143,.28),0 0 30px rgba(47,184,143,.22);transform:translateY(-1px)}
-.arabicWrap.voiceOn .arabic{color:#0d5f4e;text-shadow:0 0 18px rgba(38,180,137,.2)}
-.roman.voiceOn{border-color:#42b99d;box-shadow:0 0 0 2px rgba(47,184,143,.18),0 0 24px rgba(47,184,143,.12)}
-.followLine{margin-top:12px;padding:10px 12px;border-radius:13px;background:#0a2a26;border:1px solid #2d6458;color:#bfe0d7;font-size:12px;display:flex;align-items:center;gap:8px}
-.followDot{width:9px;height:9px;border-radius:50%;background:#406861}.followLine.on .followDot{background:#39d7aa;box-shadow:0 0 0 6px rgba(57,215,170,.12)}
-.romanTitle{font-size:12px;color:#dfefe9;margin:16px 0 7px;font-weight:800;letter-spacing:.3px}
-.roman{font-size:19px;line-height:1.7;color:#f7f6ed;background:#0a2a26;border:1px solid #275b51;border-radius:15px;padding:14px}
-.learnRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.smallBtn{border:1px solid #347267;background:#0c302b;color:white;border-radius:12px;padding:10px 12px;font-weight:750}
-.smallBtn.active{background:#1a7d67;border-color:#39a98f}
-.note{font-size:11px;line-height:1.55;color:#a9c2bb;margin-top:10px}
-.voicePanel{background:linear-gradient(180deg,#0b2c27,#071f1c);border:1px solid #2f665b;border-radius:18px;padding:18px}
-.voiceArt{width:78px;height:78px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#47d0a6,#15745f 55%,#0a3d34);box-shadow:0 10px 26px rgba(28,179,142,.24);font-size:32px;border:4px solid rgba(255,255,255,.08)}
-.voiceTitle{text-align:center;font-weight:850;font-size:18px}.voiceSub{text-align:center;color:#a9c8c0;font-size:12px;margin-top:4px}
-.bigPlay{width:62px;height:62px;border-radius:50%;border:0;display:grid;place-items:center;margin:12px auto 10px;background:linear-gradient(135deg,#20a37f,#36c59a);color:white;font-size:26px;box-shadow:0 10px 26px rgba(43,192,149,.24)}
-.playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
-.ctrl.active{background:#1a7d67;border-color:#42bd9d}
-.progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:10px;color:#9fc1b8;font-size:11px}
-.seg{display:inline-block;padding:2px 5px;border-radius:10px;background:transparent;color:inherit;box-shadow:0 0 0 0 rgba(244,201,93,0);transform:scale(1);transition:background-color .22s ease-in-out,color .22s ease-in-out,box-shadow .22s ease-in-out,transform .22s ease-in-out;will-change:background-color,color,box-shadow,transform}
-.seg.active{background:#f4c95d;color:#07231f;box-shadow:0 0 0 2px rgba(244,201,93,.16),0 0 16px rgba(244,201,93,.24);transform:scale(1.02)}
-.roman .seg.active{color:#07231f;background:#f4c95d}
-.syncNote{font-size:11px;color:#b9d4cd;margin-top:8px;text-align:center}
-.syncAdjust{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:8px}
-.syncAdjust button{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:10px;padding:7px 10px;font-size:11px;font-weight:750}
-.syncAdjust span{display:inline-flex;align-items:center;color:#b9d4cd;font-size:11px;padding:0 5px}
-.calBox{display:none;margin-top:9px;padding:12px;border-radius:14px;border:1px solid #7b6840;background:#2a2414}
-.calBox.show{display:block}.calTitle{font-weight:800;color:#ffe7a0;font-size:13px}.calHelp{font-size:11px;line-height:1.5;color:#dfd3ad;margin-top:5px}
-.calTap{width:100%;margin-top:10px;border:0;border-radius:12px;padding:14px;background:#f4c95d;color:#19211e;font-weight:900;font-size:17px}
-.calTap:disabled{opacity:.45}.calDone{color:#8ef0d0;font-weight:800}
-.progressRow input{width:100%;accent-color:#34c29a}
-.ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}
-.audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 0;color:#b8d0ca;font-size:12px}
-.voiceBadge{display:inline-flex;align-items:center;gap:7px}
-.dot{width:8px;height:8px;border-radius:50%;background:#35d19e;box-shadow:0 0 0 5px rgba(53,209,158,.12)}
-.credit{margin-top:10px;padding:10px 12px;background:#092621;border:1px solid #245149;border-radius:13px;color:#b8d0ca;font-size:11px;line-height:1.5}
-.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
-.tile{border:1px solid #2e6359;background:#0a2b26;border-radius:13px;padding:10px;color:#dcece7;text-align:center}
-.tile b{display:block;font-size:14px}.tile span{display:block;color:#93b9af;font-size:10px;margin-top:3px}
-.footer{text-align:center;color:#6f9990;font-size:11px;padding:20px 8px 0}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.playerCard{order:-1}}
-@media(max-width:520px){.app{padding:10px 10px 30px}.brandRight{display:none}.card{border-radius:16px}.body{padding:12px}.cardHead{padding:13px 12px 0}.arabicWrap{padding:16px 12px}.roman{font-size:17px}.grid5{grid-template-columns:repeat(5,minmax(76px,1fr));overflow:auto}.tile{min-width:76px}}
+:root{--bg:#061916;--panel:#0b2f2a;--line:#245149;--text:#f8f5e8;--muted:#b9d0c9;--green:#2fb88f;--gold:#f4c95d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#12463f,#061916 38%,#03100e);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button{font:inherit}.app{max-width:980px;margin:auto;padding:10px 10px 34px}.hero{position:sticky;top:0;z-index:20;padding:10px 0 8px;background:linear-gradient(180deg,rgba(6,25,22,.99),rgba(6,25,22,.90),transparent);backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#0f6d5a,#31b58f);display:grid;place-items:center;font-size:24px}.brand h1{margin:0;font-size:21px}.sub{color:var(--muted);font-size:12px;margin-top:2px}
+.nav{display:flex;gap:8px;overflow:auto;padding:8px 0 3px;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.kbtn{min-width:90px;border:1px solid #2a5c52;background:#0b2d28;color:#d9ebe6;border-radius:14px;padding:10px 8px;text-align:center;font-weight:800}.kbtn small{display:block;color:#9fc1b8;font-size:10px;margin-top:2px}.kbtn.active{background:linear-gradient(135deg,#16735f,#239b7c);border-color:#35b99a}.kbtn.done::after{content:" ✓";color:#8ef0d0}
+.card{background:linear-gradient(180deg,rgba(14,52,47,.97),rgba(8,34,31,.98));border:1px solid var(--line);border-radius:18px;margin-top:12px;overflow:hidden}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:15px 15px 0}.head h2{margin:0;font-size:19px}.mini{color:var(--muted);font-size:11px}.pill{border:1px solid #32675d;background:#0b302a;color:#d9eee8;border-radius:999px;padding:7px 10px;font-size:11px}.body{padding:14px}
+.player{background:#08231f;border:1px solid #2c6358;border-radius:17px;padding:14px}.play{width:64px;height:64px;border:0;border-radius:50%;display:grid;place-items:center;margin:4px auto 10px;background:linear-gradient(135deg,#20a37f,#36c59a);color:#fff;font-size:28px}.voiceTitle{text-align:center;font-weight:850}.voiceSub{text-align:center;color:#a7c4bc;font-size:11px;margin-top:3px}.controls{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:11px}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}.ctrl.active{background:#1a7d67}.progress{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:11px;color:#9fc1b8;font-size:11px}.progress input{width:100%;accent-color:#34c29a}.status{display:flex;justify-content:space-between;gap:8px;margin-top:10px;color:#acd0c6;font-size:11px}.lessonNote{margin-top:9px;padding:9px 11px;border:1px solid #386d62;border-radius:12px;color:#c8ded8;font-size:11px;line-height:1.45}
+.arabicBox{margin-top:13px;background:linear-gradient(#fffaf0,#fff4d7);color:#14332c;border:2px solid rgba(244,201,93,.72);border-radius:18px;padding:18px 12px}.arabic{direction:rtl;text-align:center;font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;font-size:clamp(34px,7vw,55px);line-height:1.9;font-weight:700}.romanTitle{font-size:12px;font-weight:850;margin:15px 0 7px}.roman{background:#092a25;border:1px solid #285d52;border-radius:15px;padding:14px;font-size:18px;line-height:1.75}
+.w{display:inline-block;padding:1px 4px;border-radius:9px;background:transparent;transition:background-color .20s ease,color .20s ease,box-shadow .20s ease,transform .20s ease}.w.on{background:var(--gold);color:#06231f;box-shadow:0 0 0 2px rgba(244,201,93,.14),0 0 14px rgba(244,201,93,.22);transform:scale(1.02)}
+.follow{margin-top:10px;border:1px solid #2e665a;border-radius:12px;padding:9px 11px;color:#bcd8d1;font-size:11px}.options{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.toggle{border:1px solid #347267;background:#0c302b;color:white;border-radius:11px;padding:9px 11px;font-weight:750}.toggle.active{background:#1a7d67}
+.progressCards{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:13px}.pt{border:1px solid #2e6359;background:#0a2b26;color:#dcece7;border-radius:12px;padding:9px;text-align:center}.pt.done{background:#135f50}.pt b{display:block}.pt span{font-size:10px;color:#9fc1b8}.ytHost{position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;opacity:.01;pointer-events:none;overflow:hidden}
+.footer{text-align:center;color:#6f9990;font-size:11px;padding:18px 5px}
+@media(max-width:560px){.arabicBox{padding:14px 9px}.roman{font-size:17px}.progressCards{grid-template-columns:repeat(5,minmax(76px,1fr));overflow:auto}.pt{min-width:76px}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="hero">
-    <div class="brand">
-      <div class="brandLeft">
-        <div class="logo">☪</div>
-        <div><h1>5 Kalme Kids</h1><div class="sub">Arabic • Roman Urdu • Kids Madani Channel voice</div></div>
+<header class="hero">
+  <div class="brand"><div class="logo">☪</div><div><h1>5 Kalme Kids</h1><div class="sub">Arabic • Roman Urdu • Kids Madani Channel voice</div></div></div>
+  <div class="nav" id="nav"></div>
+</header>
+
+<section class="card">
+  <div class="head"><div><h2 id="title"></h2><div class="mini" id="num"></div></div><div class="pill" id="short"></div></div>
+  <div class="body">
+    <div class="player">
+      <div class="voiceTitle" id="voiceTitle"></div>
+      <div class="voiceSub">Official YouTube voice stream • video hidden</div>
+      <button class="play" id="play">▶</button>
+      <div class="controls">
+        <button class="ctrl" id="restart">↺ Restart</button>
+        <button class="ctrl active" data-speed="1">1×</button>
+        <button class="ctrl" data-speed=".75">0.75×</button>
+        <button class="ctrl active" data-repeat="1">1×</button>
+        <button class="ctrl" data-repeat="3">3×</button>
+        <button class="ctrl" data-repeat="5">5×</button>
+        <button class="ctrl" data-repeat="10">10×</button>
       </div>
-      <div class="brandRight pill">Personal learning app</div>
+      <div class="progress"><span id="cur">0:00</span><input id="seek" type="range" min="0" max="1000" value="0"><span id="dur">0:00</span></div>
+      <div class="status"><span id="state">Ready</span><span id="repeatState">Repeat 1×</span></div>
+      <div class="lessonNote" id="lessonNote"></div>
     </div>
-    <div class="nav" id="nav"></div>
-  </header>
 
-  <main class="layout">
-    <section class="card">
-      <div class="cardHead">
-        <div><h2 id="title">Pehla Kalma Tayyibah</h2><div class="mini" id="number">Kalma 1 of 5</div></div>
-        <div class="pill" id="shortName">Tayyibah</div>
-      </div>
-      <div class="body">
-        <div class="arabicWrap"><div class="arabic" id="arabic"></div></div>
-        <div class="romanTitle">ROMAN URDU</div>
-        <div class="roman" id="roman"></div>
-        <div class="followLine" id="followLine"><span class="followDot"></span><span id="followText">Voice start kijiye — Arabic aur Roman Urdu live glow honge.</span></div>
-        <div class="syncNote" id="syncNote">Pehla Kalma word-by-word highlight hoga.</div>
-        <div class="syncAdjust" id="syncAdjust">
-          <button id="syncMinus">Glow -0.25s</button>
-          <span id="syncValue">Sync 0.00s</span>
-          <button id="syncPlus">Glow +0.25s</button>
-          <button id="syncReset">Reset</button>
-          <button id="calibrateBtn">Fix Word Sync</button>
-          <button id="copySyncBtn">Copy Saved Sync</button>
-        </div>
-        <div class="calBox" id="calBox">
-          <div class="calTitle" id="calTitle">Word Sync Calibration</div>
-          <div class="calHelp" id="calHelp">Voice chalegi. Jis waqt screen par diya word bolna START ho, neeche yellow button ek baar tap kijiye. Sirf 7 taps, ek hi baar.</div>
-          <button class="calTap" id="calTap" disabled>Start calibration</button>
-        </div>
-        <div class="learnRow">
-          <button class="smallBtn active" id="normalBtn">Normal text</button>
-          <button class="smallBtn" id="largeBtn">Large Arabic</button>
-        </div>
-        <div class="note">Arabic aur Roman Urdu ko ek saath dekh kar sunne ke liye banaaya gaya hai. Voice official YouTube player se stream hoti hai, isliye internet chahiye.</div>
+    <div class="arabicBox"><div class="arabic" id="arabic"></div></div>
+    <div class="romanTitle">ROMAN URDU</div>
+    <div class="roman" id="roman"></div>
+    <div class="follow" id="follow">Play dabaiye aur saath padhaiye.</div>
 
-        <div class="grid5" id="tiles"></div>
-      </div>
-    </section>
-
-    <aside class="card playerCard">
-      <div class="cardHead">
-        <div><h2>Voice Player</h2><div class="mini">Wahi Kids Madani Channel wali voice</div></div>
-        <div class="pill">Official YouTube</div>
-      </div>
-      <div class="body">
-        <div class="voicePanel">
-          <div class="voiceArt">♫</div>
-          <div class="voiceTitle" id="voiceLabel">Pehla Kalma Tayyibah voice</div>
-          <div class="voiceSub">Kids Madani Channel • original YouTube stream</div>
-          <button class="bigPlay" id="playBtn" aria-label="Play voice">▶</button>
-          <div class="playerControls">
-            <button class="ctrl" id="restartBtn">↺ Restart</button>
-            <button class="ctrl active" id="speed1">1×</button>
-            <button class="ctrl" id="speed075">0.75×</button>
-            <button class="ctrl" id="repeatBtn">Repeat Off</button>
-          </div>
-          <div class="progressRow">
-            <span id="curTime">0:00</span>
-            <input id="seek" type="range" min="0" max="1000" value="0">
-            <span id="durTime">0:00</span>
-          </div>
-        </div>
-        <div id="ytPlayer" class="ytHost" aria-hidden="true"></div>
-        <div class="audioMeta">
-          <div class="voiceBadge"><span class="dot"></span><span id="playState">Ready</span></div>
-          <a id="sourceLink" href="#" target="_blank" rel="noopener" style="color:#b8d0ca">Source video ↗</a>
-        </div>
-        <div class="credit">Screen par video nahi dikhaya gaya; aapko voice-player look milega. Voice Kids Madani Channel ke official YouTube stream se chalti hai, isliye internet zaroori hai.</div>
-      </div>
-    </aside>
-  </main>
-
-  <div class="footer">Phase 1.9 • smooth cross-fade word sync</div>
+    <div class="options">
+      <button class="toggle" id="autoNext">Auto Next: Off</button>
+      <button class="toggle" id="markDone">✓ Mark Learned</button>
+      <a id="source" target="_blank" rel="noopener" class="toggle" style="text-decoration:none">Source ↗</a>
+    </div>
+    <div class="progressCards" id="progressCards"></div>
+  </div>
+</section>
+<div id="ytPlayer" class="ytHost"></div>
+<div class="footer">Phase 2 + 3 complete • precise lesson clip + repeat + progress • Phase 4 APK project added</div>
 </div>
 
 <script>
-const kalmas=[
+const K=[
  {n:1,name:'Pehla Kalma Tayyibah',short:'Tayyibah',video:'jSoEVLNeHw0',
-  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ',
-  ro:'La ilaha illallahu, Muhammadur Rasoolullah.'},
- {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'54JnsbHQPbM',
-  ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',
-  ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.'},
- {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',
-  ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
-  ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.'},
- {n:4,name:'Chautha Kalma Tauheed',short:'Tauheed',video:'d05LzqfnpmY',
-  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا، ذُو الْجَلَالِ وَالْإِكْرَامِ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
-  ro:'La ilaha illallahu wahdahu la shareeka lah, lahul mulku wa lahul hamdu, yuhyi wa yumitu, wa huwa hayyun la yamutu abadan abada, zul jalali wal ikram, biyadihil khair, wa huwa ala kulli shai-in qadeer.'},
- {n:5,name:'Panchwa Kalma Astaghfar',short:'Astaghfar',video:'2WrQw-L53fU',
-  ar:'أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ عَمْدًا أَوْ خَطَأً، سِرًّا أَوْ عَلَانِيَةً، وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ، وَسَتَّارُ الْعُيُوبِ، وَغَفَّارُ الذُّنُوبِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',
-  ro:'Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu amadan aw khata-an, sirran aw alaniyatan, wa atubu ilaihi minaz-zanbillazi alamu wa minaz-zanbillazi la alamu. Innaka anta allamul-ghuyubi, wa sattarul-uyubi, wa ghaffaruz-zunubi, wa la hawla wa la quwwata illa billahil aliyyil azeem.'}
+  ar:'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ',ro:'La ilaha illallahu, Muhammadur Rasoolullah.',
+  clip:[15.76,20.80],
+  words:[
+   {a:'لَا',r:'La',s:15.76,e:16.37},{a:'إِلٰهَ',r:'ilaha',s:16.37,e:17.17},{a:'إِلَّا',r:'illa',s:17.17,e:17.77},
+   {a:'اللّٰهُ',r:'llahu',s:17.77,e:18.54},{a:'مُحَمَّدٌ',r:'Muhammadur',s:18.54,e:19.29},{a:'رَّسُولُ',r:'Rasoolu',s:19.29,e:19.89},{a:'اللّٰهِ',r:'llah',s:19.89,e:20.80}
+  ]},
+ {n:2,name:'Dusra Kalma Shahadat',short:'Shahadat',video:'54JnsbHQPbM',ar:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ',ro:'Ashhadu an la ilaha illallahu wahdahu la shareeka lahu, wa ashhadu anna Muhammadan abduhu wa rasooluhu.'},
+ {n:3,name:'Teesra Kalma Tamjeed',short:'Tamjeed',video:'5ivzNZRs5IM',ar:'سُبْحَانَ اللّٰهِ وَالْحَمْدُ لِلّٰهِ وَلَا إِلٰهَ إِلَّا اللّٰهُ وَاللّٰهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',ro:'Subhanallahi walhamdu lillahi wa la ilaha illallahu wallahu akbar. Wa la hawla wa la quwwata illa billahil aliyyil azeem.'},
+ {n:4,name:'Chautha Kalma Tauheed',short:'Tauheed',video:'d05LzqfnpmY',ar:'لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ أَبَدًا أَبَدًا، ذُو الْجَلَالِ وَالْإِكْرَامِ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',ro:'La ilaha illallahu wahdahu la shareeka lah, lahul mulku wa lahul hamdu, yuhyi wa yumitu, wa huwa hayyun la yamutu abadan abada, zul jalali wal ikram, biyadihil khair, wa huwa ala kulli shai-in qadeer.'},
+ {n:5,name:'Panchwa Kalma Astaghfar',short:'Astaghfar',video:'2WrQw-L53fU',ar:'أَسْتَغْفِرُ اللّٰهَ رَبِّي مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ عَمْدًا أَوْ خَطَأً، سِرًّا أَوْ عَلَانِيَةً، وَأَتُوبُ إِلَيْهِ مِنَ الذَّنْبِ الَّذِي أَعْلَمُ وَمِنَ الذَّنْبِ الَّذِي لَا أَعْلَمُ، إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ، وَسَتَّارُ الْعُيُوبِ، وَغَفَّارُ الذُّنُوبِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيمِ',ro:'Astaghfirullaha rabbi min kulli dhanbin adhnabtuhu amadan aw khata-an, sirran aw alaniyatan, wa atubu ilaihi minaz-zanbillazi alamu wa minaz-zanbillazi la alamu. Innaka anta allamul-ghuyubi, wa sattarul-uyubi, wa ghaffaruz-zunubi, wa la hawla wa la quwwata illa billahil aliyyil azeem.'}
 ];
-let current=0;
 const q=s=>document.querySelector(s);
+let cur=0,yt=null,ready=false,timer=null,repeatTarget=1,repeatDone=0,autoNext=false,lastWord=-1;
+let learned=JSON.parse(localStorage.getItem('kalmaLearned')||'[false,false,false,false,false]');
+function fmt(s){s=Math.max(0,Math.floor(+s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 function renderNav(){
- q('#nav').innerHTML=kalmas.map((k,i)=>'<button class="kbtn '+(i===current?'active':'')+'" data-i="'+i+'">'+k.n+'<small>'+k.short+'</small></button>').join('');
- q('#tiles').innerHTML=kalmas.map((k,i)=>'<button class="tile" data-i="'+i+'"><b>'+k.n+'</b><span>'+k.short+'</span></button>').join('');
- document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{current=Number(b.dataset.i);render()});
+ q('#nav').innerHTML=K.map((k,i)=>'<button class="kbtn '+(i===cur?'active ':'')+(learned[i]?'done':'')+'" data-i="'+i+'">'+k.n+'<small>'+k.short+'</small></button>').join('');
+ document.querySelectorAll('.kbtn').forEach(b=>b.onclick=()=>switchKalma(+b.dataset.i));
+ q('#progressCards').innerHTML=K.map((k,i)=>'<button class="pt '+(learned[i]?'done':'')+'" data-p="'+i+'"><b>'+k.n+(learned[i]?' ✓':'')+'</b><span>'+k.short+'</span></button>').join('');
+ document.querySelectorAll('.pt').forEach(b=>b.onclick=()=>switchKalma(+b.dataset.p));
+ setTimeout(()=>q('.kbtn.active')?.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}),50);
+}
+function renderText(){
+ const k=K[cur];
+ if(k.words){
+  q('#arabic').innerHTML=k.words.map((w,i)=>'<span class="w" data-w="'+i+'">'+w.a+'</span>').join(' ');
+  q('#roman').innerHTML=k.words.map((w,i)=>'<span class="w" data-w="'+i+'">'+w.r+'</span>').join(' ');
+ }else{q('#arabic').textContent=k.ar;q('#roman').textContent=k.ro}
 }
 function render(){
- const k=kalmas[current];
- q('#title').textContent=k.name;q('#number').textContent='Kalma '+k.n+' of 5';q('#shortName').textContent=k.short;
- if(k.n===1){
-   q('#arabic').innerHTML='<span class="seg" data-seg="1">لَا</span> <span class="seg" data-seg="2">إِلٰهَ</span> <span class="seg" data-seg="3">إِلَّا</span> <span class="seg" data-seg="4">اللّٰهُ</span> <span class="seg" data-seg="5">مُحَمَّدٌ</span> <span class="seg" data-seg="6">رَّسُولُ</span> <span class="seg" data-seg="7">اللّٰهِ</span>';
-   q('#roman').innerHTML='<span class="seg" data-seg="1">La</span> <span class="seg" data-seg="2">ilaha</span> <span class="seg" data-seg="3">illa</span> <span class="seg" data-seg="4">llahu</span>, <span class="seg" data-seg="5">Muhammadur</span> <span class="seg" data-seg="6">Rasoolu</span><span class="seg" data-seg="7">llah</span>.';
- }else{
-   q('#arabic').textContent=k.ar;
-   q('#roman').textContent=k.ro;
- }
- q('#voiceLabel').textContent=k.name+' voice';
- q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
- q('#syncNote').textContent=k.n===1?'Pehla Kalma me highlight calibrated start 15.76s se chalega. Sirf current word active rahega; same word ko har timer tick par dobara animate nahi kiya jayega.':'Is Kalme ka exact word timing next sync pass me add hoga.';
- q('#syncAdjust').style.display=k.n===1?'flex':'none';
- loadVoice(k.video);
- renderNav();
- window.scrollTo({top:0,behavior:'smooth'});
+ const k=K[cur];q('#title').textContent=k.name;q('#num').textContent='Kalma '+k.n+' of 5';q('#short').textContent=k.short;q('#voiceTitle').textContent=k.name+' voice';
+ q('#source').href='https://www.youtube.com/watch?v='+k.video;
+ q('#lessonNote').textContent=k.clip?'Lesson mode: sirf clean Kalma segment chalega. Har repeat exact same segment se restart hoga, isliye highlight drift nahi karega.':'Full voice mode. Word sync is Kalma ke liye next timing pass me add hoga.';
+ renderText();renderNav();q('#markDone').classList.toggle('active',!!learned[cur]);q('#markDone').textContent=learned[cur]?'✓ Learned':'✓ Mark Learned';
+ q('#seek').value=0;q('#cur').textContent='0:00';q('#dur').textContent='0:00';q('#follow').textContent='Play dabaiye aur saath padhaiye.';clearWord();
+ if(ready){yt.cueVideoById(k.video);q('#state').textContent='Ready'}else pending=k.video;
 }
-let yt=null, ytReady=false, pendingVideo=kalmas[0].video, progressTimer=null, repeatOn=false;
-function fmt(s){s=Math.max(0,Math.floor(Number(s)||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
-function setPlayUI(playing){
- q('#playBtn').textContent=playing?'❚❚':'▶';
- q('#playState').textContent=playing?'Playing':'Paused';
- q('.arabicWrap').classList.remove('voiceOn');
- q('#roman').classList.remove('voiceOn');
- q('#followLine').classList.toggle('on',playing);
- q('#followText').textContent=playing?'Voice chal rahi hai — text ko saath follow kijiye.':'Voice paused.';
-}
-window.onYouTubeIframeAPIReady=function(){
- yt=new YT.Player('ytPlayer',{
-   height:'1',width:'1',videoId:pendingVideo,
-   playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0},
-   events:{
-     onReady:function(){ytReady=true;q('#playState').textContent='Ready';startProgress()},
-     onStateChange:function(e){
-       if(e.data===YT.PlayerState.PLAYING)setPlayUI(true);
-       if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED)setPlayUI(false);
-       if(e.data===YT.PlayerState.ENDED){if(repeatOn){yt.seekTo(0,true);yt.playVideo()}else setPlayUI(false)}
-     },
-     onError:function(){q('#playState').textContent='Voice unavailable'}
+function clearWord(){if(lastWord>=0)document.querySelectorAll('.w[data-w="'+lastWord+'"]').forEach(x=>x.classList.remove('on'));lastWord=-1}
+function setWord(i){if(lastWord===i)return;clearWord();lastWord=i;if(i>=0)document.querySelectorAll('.w[data-w="'+i+'"]').forEach(x=>x.classList.add('on'))}
+function switchKalma(i){cur=i;repeatDone=0;render();window.scrollTo({top:0,behavior:'smooth'})}
+let pending=K[0].video;
+window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:pending,playerVars:{playsinline:1,rel:0,controls:0},events:{onReady(){ready=true;q('#state').textContent='Ready';startTimer()},onStateChange(e){if(e.data===YT.PlayerState.PLAYING){q('#play').textContent='❚❚';q('#state').textContent='Playing'}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){q('#play').textContent='▶';q('#state').textContent='Paused'}},onError(){q('#state').textContent='Voice unavailable'}}})};
+function startTimer(){clearInterval(timer);timer=setInterval(()=>{
+ if(!ready)return;const k=K[cur],t=yt.getCurrentTime()||0,d=yt.getDuration()||0;
+ if(k.clip){
+   const [s,e]=k.clip,span=e-s,pos=Math.min(Math.max(t-s,0),span);
+   q('#cur').textContent=fmt(pos);q('#dur').textContent=fmt(span);q('#seek').value=Math.round(pos/span*1000);
+   const wi=k.words.findIndex(w=>t>=w.s&&t<w.e);setWord(wi);if(wi>=0)q('#follow').textContent=k.words[wi].r+' — isi word ko follow kijiye.';
+   if(t>=e-.08&&yt.getPlayerState()===YT.PlayerState.PLAYING){
+     repeatDone++;
+     if(repeatDone<repeatTarget){yt.seekTo(s,true);yt.playVideo();q('#repeatState').textContent='Repeat '+(repeatDone+1)+'/'+repeatTarget}
+     else{yt.pauseVideo();yt.seekTo(s,true);setWord(-1);learned[cur]=true;saveProgress();q('#repeatState').textContent='Done ✓';if(autoNext&&cur<K.length-1){setTimeout(()=>{switchKalma(cur+1);setTimeout(playCurrent,500)},450)}}
    }
- });
-};
-function loadVoice(id){
- pendingVideo=id;
- setPlayUI(false);
- q('#followText').textContent='Voice start kijiye — Arabic aur Roman Urdu live glow honge.';
- setActiveWord(0);
- q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
- if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
-}
-let syncOffset=0;
-let firstKalmaWordTimes=[
- {i:1,s:15.76,e:16.37,label:'La'},
- {i:2,s:16.37,e:17.17,label:'ilaha'},
- {i:3,s:17.17,e:17.77,label:'illa'},
- {i:4,s:17.77,e:18.54,label:'llahu'},
- {i:5,s:18.54,e:19.29,label:'Muhammadur'},
- {i:6,s:19.29,e:19.89,label:'Rasoolu'},
- {i:7,s:19.89,e:20.80,label:'llah'}
-];
-// Permanent Pehla Kalma timings calibrated on the target voice.
-localStorage.setItem('kalma1WordSync',JSON.stringify(firstKalmaWordTimes));
-function updateSyncLabel(){
- q('#syncValue').textContent='Sync '+(syncOffset>=0?'+':'')+syncOffset.toFixed(2)+'s';
-}
-const repeatCycleSeconds=5.34;
-const calibratedCycleStart=15.76;
-const firstUsableCycleStart=calibratedCycleStart;
-let lastActiveWord=0;
-const relativeWordTimes=firstKalmaWordTimes.map((x,idx)=>({
-  i:x.i,
-  s:x.s-calibratedCycleStart,
-  e:(idx<firstKalmaWordTimes.length-1?firstKalmaWordTimes[idx+1].s:20.80)-calibratedCycleStart,
-  label:x.label
-}));
-function setActiveWord(wordIndex){
-  if(lastActiveWord===wordIndex)return;
-  if(lastActiveWord){
-    document.querySelectorAll('.seg[data-seg="'+lastActiveWord+'"]').forEach(s=>s.classList.remove('active'));
-  }
-  lastActiveWord=wordIndex||0;
-  if(lastActiveWord){
-    document.querySelectorAll('.seg[data-seg="'+lastActiveWord+'"]').forEach(s=>s.classList.add('active'));
-  }
-}
-function updatePhraseSync(t){
-  if(kalmas[current].n!==1){setActiveWord(0);return;}
-  const tt=t+syncOffset;
-
-  if(tt<firstUsableCycleStart){
-    setActiveWord(0);
-    q('#followText').textContent='Kalma recitation start hone ka wait…';
-    return;
-  }
-
-  const cycleIndex=Math.floor((tt-firstUsableCycleStart)/repeatCycleSeconds);
-  const cycleStart=firstUsableCycleStart+(cycleIndex*repeatCycleSeconds);
-  const rel=tt-cycleStart;
-  const hit=relativeWordTimes.find(x=>rel>=x.s&&rel<x.e);
-
-  if(hit){
-    setActiveWord(hit.i);
-    q('#followText').textContent=hit.label+' — isi word ko voice ke saath follow kijiye.';
-  }else{
-    setActiveWord(0);
-    q('#followText').textContent='Agli repetition ka wait…';
-  }
-}
-
-function startProgress(){
- if(progressTimer)clearInterval(progressTimer);
- progressTimer=setInterval(()=>{
-   if(!ytReady||!yt)return;
-   const d=yt.getDuration?yt.getDuration():0, t=yt.getCurrentTime?yt.getCurrentTime():0;
-   q('#curTime').textContent=fmt(t);q('#durTime').textContent=fmt(d);
-   updatePhraseSync(t);
-   if(d>0&&!q('#seek').matches(':active'))q('#seek').value=Math.round((t/d)*1000);
- },60);
-}
-q('#playBtn').onclick=()=>{
- if(!ytReady||!yt){q('#playState').textContent='Loading…';return}
- const st=yt.getPlayerState();
- if(st===YT.PlayerState.PLAYING)yt.pauseVideo();else yt.playVideo();
-};
-q('#restartBtn').onclick=()=>{if(ytReady&&yt){yt.seekTo(0,true);yt.playVideo()}};
-q('#speed1').onclick=()=>{if(ytReady&&yt){yt.setPlaybackRate(1);q('#speed1').classList.add('active');q('#speed075').classList.remove('active')}};
-q('#speed075').onclick=()=>{if(ytReady&&yt){yt.setPlaybackRate(.75);q('#speed075').classList.add('active');q('#speed1').classList.remove('active')}};
-q('#repeatBtn').onclick=()=>{repeatOn=!repeatOn;q('#repeatBtn').textContent=repeatOn?'Repeat On':'Repeat Off';q('#repeatBtn').classList.toggle('active',repeatOn)};
-q('#seek').addEventListener('input',()=>{if(ytReady&&yt){const d=yt.getDuration();if(d>0)yt.seekTo((Number(q('#seek').value)/1000)*d,true)}});
-
-q('#largeBtn').onclick=()=>{q('#arabic').style.fontSize='clamp(44px,8vw,70px)';q('#largeBtn').classList.add('active');q('#normalBtn').classList.remove('active')};
-q('#normalBtn').onclick=()=>{q('#arabic').style.fontSize='';q('#normalBtn').classList.add('active');q('#largeBtn').classList.remove('active')};
+ }else{
+   q('#cur').textContent=fmt(t);q('#dur').textContent=fmt(d);if(d>0)q('#seek').value=Math.round(t/d*1000);
+ }
+},60)}
+function playCurrent(){if(!ready)return;const k=K[cur];if(k.clip){const [s,e]=k.clip,t=yt.getCurrentTime();if(t<s-.2||t>=e-.05)yt.seekTo(s,true);repeatDone=0;q('#repeatState').textContent='Repeat 1/'+repeatTarget}yt.playVideo()}
+q('#play').onclick=()=>{if(!ready)return;if(yt.getPlayerState()===YT.PlayerState.PLAYING)yt.pauseVideo();else playCurrent()};
+q('#restart').onclick=()=>{if(!ready)return;const k=K[cur];repeatDone=0;yt.seekTo(k.clip?k.clip[0]:0,true);yt.playVideo()};
+document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-speed]').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(ready)yt.setPlaybackRate(+b.dataset.speed)});
+document.querySelectorAll('[data-repeat]').forEach(b=>b.onclick=()=>{repeatTarget=+b.dataset.repeat;repeatDone=0;document.querySelectorAll('[data-repeat]').forEach(x=>x.classList.remove('active'));b.classList.add('active');q('#repeatState').textContent='Repeat '+repeatTarget+'×'});
+q('#seek').oninput=()=>{if(!ready)return;const k=K[cur],v=+q('#seek').value/1000;if(k.clip)yt.seekTo(k.clip[0]+v*(k.clip[1]-k.clip[0]),true);else yt.seekTo(v*(yt.getDuration()||0),true)};
+q('#autoNext').onclick=()=>{autoNext=!autoNext;q('#autoNext').classList.toggle('active',autoNext);q('#autoNext').textContent='Auto Next: '+(autoNext?'On':'Off')};
+q('#markDone').onclick=()=>{learned[cur]=!learned[cur];saveProgress();renderNav();q('#markDone').classList.toggle('active',learned[cur]);q('#markDone').textContent=learned[cur]?'✓ Learned':'✓ Mark Learned'};
+function saveProgress(){localStorage.setItem('kalmaLearned',JSON.stringify(learned));renderNav()}
 render();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=2',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=3',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
