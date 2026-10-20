@@ -64,14 +64,18 @@ button{font:inherit}.app{max-width:980px;margin:auto;padding:10px 10px 34px}.her
   </div>
 </section>
 <div id="ytPlayer" class="ytHost"></div>
-<div class="footer">Phase 2 + 3 complete • precise lesson clip + repeat + progress • Phase 4 APK project added</div>
+<div class="footer">Phase 2.1 • full voice sync • glow pause 0:26–0:39 • Phase 3 progress • Phase 4 APK</div>
 </div>
 
 <script>
 const K=[
  {n:1,name:'Pehla Kalma Tayyibah',short:'Tayyibah',video:'jSoEVLNeHw0',
   ar:'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَّسُولُ اللّٰهِ',ro:'La ilaha illallahu, Muhammadur Rasoolullah.',
-  clip:[15.76,20.80],
+  clip:null,
+  syncWindows:[
+    {start:15.76,end:26.00,cycleStart:15.76},
+    {start:39.00,end:134.00,cycleStart:39.00}
+  ],
   words:[
    {a:'لَا',r:'La',s:15.76,e:16.37},{a:'إِلٰهَ',r:'ilaha',s:16.37,e:17.17},{a:'إِلَّا',r:'illa',s:17.17,e:17.77},
    {a:'اللّٰهُ',r:'llahu',s:17.77,e:18.54},{a:'مُحَمَّدٌ',r:'Muhammadur',s:18.54,e:19.29},{a:'رَّسُولُ',r:'Rasoolu',s:19.29,e:19.89},{a:'اللّٰهِ',r:'llah',s:19.89,e:20.80}
@@ -99,10 +103,21 @@ function renderText(){
   q('#roman').innerHTML=k.words.map((w,i)=>'<span class="w" data-w="'+i+'">'+w.r+'</span>').join(' ');
  }else{q('#arabic').textContent=k.ar;q('#roman').textContent=k.ro}
 }
+function getSyncHit(k,t){
+ if(k.n!==1||!k.words||!k.syncWindows)return -1;
+ const win=k.syncWindows.find(w=>t>=w.start&&t<w.end);
+ if(!win)return -1;
+ const cycleLen=5.34;
+ const rel=(t-win.cycleStart)%cycleLen;
+ const starts=[0,.61,1.41,2.01,2.78,3.53,4.13];
+ const ends=[.61,1.41,2.01,2.78,3.53,4.13,5.04];
+ for(let i=0;i<starts.length;i++) if(rel>=starts[i]&&rel<ends[i]) return i;
+ return -1;
+}
 function render(){
  const k=K[cur];q('#title').textContent=k.name;q('#num').textContent='Kalma '+k.n+' of 5';q('#short').textContent=k.short;q('#voiceTitle').textContent=k.name+' voice';
  q('#source').href='https://www.youtube.com/watch?v='+k.video;
- q('#lessonNote').textContent=k.clip?'Lesson mode: sirf clean Kalma segment chalega. Har repeat exact same segment se restart hoga, isliye highlight drift nahi karega.':'Full voice mode. Word sync is Kalma ke liye next timing pass me add hoga.';
+ q('#lessonNote').textContent=k.n===1?'Full voice mode: 0:26–0:39 Urdu explanation me glow band rahega. 0:39 ke baad word glow phir start hoga.':'Full voice mode. Word sync is Kalma ke liye next timing pass me add hoga.';
  renderText();renderNav();q('#markDone').classList.toggle('active',!!learned[cur]);q('#markDone').textContent=learned[cur]?'✓ Learned':'✓ Mark Learned';
  q('#seek').value=0;q('#cur').textContent='0:00';q('#dur').textContent='0:00';q('#follow').textContent='Play dabaiye aur saath padhaiye.';clearWord();
  if(ready){yt.cueVideoById(k.video);q('#state').textContent='Ready'}else pending=k.video;
@@ -113,26 +128,40 @@ function switchKalma(i){cur=i;repeatDone=0;render();window.scrollTo({top:0,behav
 let pending=K[0].video;
 window.onYouTubeIframeAPIReady=()=>{yt=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:pending,playerVars:{playsinline:1,rel:0,controls:0},events:{onReady(){ready=true;q('#state').textContent='Ready';startTimer()},onStateChange(e){if(e.data===YT.PlayerState.PLAYING){q('#play').textContent='❚❚';q('#state').textContent='Playing'}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){q('#play').textContent='▶';q('#state').textContent='Paused'}},onError(){q('#state').textContent='Voice unavailable'}}})};
 function startTimer(){clearInterval(timer);timer=setInterval(()=>{
- if(!ready)return;const k=K[cur],t=yt.getCurrentTime()||0,d=yt.getDuration()||0;
+ if(!ready)return;
+ const k=K[cur],t=yt.getCurrentTime()||0,d=yt.getDuration()||0;
+
+ q('#cur').textContent=fmt(t);q('#dur').textContent=fmt(d);
+ if(d>0)q('#seek').value=Math.round(t/d*1000);
+
+ if(k.n===1&&k.words){
+   const wi=getSyncHit(k,t);
+   setWord(wi);
+   if(t>=26&&t<39){
+     q('#follow').textContent='Urdu explanation chal rahi hai — glow pause.';
+   }else if(wi>=0){
+     q('#follow').textContent=k.words[wi].r+' — isi word ko follow kijiye.';
+   }else{
+     q('#follow').textContent='Kalma voice ka wait…';
+   }
+ }
+
  if(k.clip){
-   const [s,e]=k.clip,span=e-s,pos=Math.min(Math.max(t-s,0),span);
-   q('#cur').textContent=fmt(pos);q('#dur').textContent=fmt(span);q('#seek').value=Math.round(pos/span*1000);
-   const wi=k.words.findIndex(w=>t>=w.s&&t<w.e);setWord(wi);if(wi>=0)q('#follow').textContent=k.words[wi].r+' — isi word ko follow kijiye.';
+   const [s,e]=k.clip;
    if(t>=e-.08&&yt.getPlayerState()===YT.PlayerState.PLAYING){
      repeatDone++;
      if(repeatDone<repeatTarget){yt.seekTo(s,true);yt.playVideo();q('#repeatState').textContent='Repeat '+(repeatDone+1)+'/'+repeatTarget}
      else{yt.pauseVideo();yt.seekTo(s,true);setWord(-1);learned[cur]=true;saveProgress();q('#repeatState').textContent='Done ✓';if(autoNext&&cur<K.length-1){setTimeout(()=>{switchKalma(cur+1);setTimeout(playCurrent,500)},450)}}
    }
- }else{
-   q('#cur').textContent=fmt(t);q('#dur').textContent=fmt(d);if(d>0)q('#seek').value=Math.round(t/d*1000);
  }
 },60)}
-function playCurrent(){if(!ready)return;const k=K[cur];if(k.clip){const [s,e]=k.clip,t=yt.getCurrentTime();if(t<s-.2||t>=e-.05)yt.seekTo(s,true);repeatDone=0;q('#repeatState').textContent='Repeat 1/'+repeatTarget}yt.playVideo()}
+
+function playCurrent(){if(!ready)return;const k=K[cur];if(k.clip){const [s,e]=k.clip,t=yt.getCurrentTime();if(t<s-.2||t>=e-.05)yt.seekTo(s,true);repeatDone=0;q('#repeatState').textContent='Repeat 1/'+repeatTarget}else{q('#repeatState').textContent='Full voice'}yt.playVideo()}
 q('#play').onclick=()=>{if(!ready)return;if(yt.getPlayerState()===YT.PlayerState.PLAYING)yt.pauseVideo();else playCurrent()};
-q('#restart').onclick=()=>{if(!ready)return;const k=K[cur];repeatDone=0;yt.seekTo(k.clip?k.clip[0]:0,true);yt.playVideo()};
+q('#restart').onclick=()=>{if(!ready)return;const k=K[cur];repeatDone=0;yt.seekTo(0,true);yt.playVideo()};
 document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-speed]').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(ready)yt.setPlaybackRate(+b.dataset.speed)});
 document.querySelectorAll('[data-repeat]').forEach(b=>b.onclick=()=>{repeatTarget=+b.dataset.repeat;repeatDone=0;document.querySelectorAll('[data-repeat]').forEach(x=>x.classList.remove('active'));b.classList.add('active');q('#repeatState').textContent='Repeat '+repeatTarget+'×'});
-q('#seek').oninput=()=>{if(!ready)return;const k=K[cur],v=+q('#seek').value/1000;if(k.clip)yt.seekTo(k.clip[0]+v*(k.clip[1]-k.clip[0]),true);else yt.seekTo(v*(yt.getDuration()||0),true)};
+q('#seek').oninput=()=>{if(!ready)return;const v=+q('#seek').value/1000;yt.seekTo(v*(yt.getDuration()||0),true)};
 q('#autoNext').onclick=()=>{autoNext=!autoNext;q('#autoNext').classList.toggle('active',autoNext);q('#autoNext').textContent='Auto Next: '+(autoNext?'On':'Off')};
 q('#markDone').onclick=()=>{learned[cur]=!learned[cur];saveProgress();renderNav();q('#markDone').classList.toggle('active',learned[cur]);q('#markDone').textContent=learned[cur]?'✓ Learned':'✓ Mark Learned'};
 function saveProgress(){localStorage.setItem('kalmaLearned',JSON.stringify(learned));renderNav()}
