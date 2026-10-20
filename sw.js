@@ -1,4 +1,4 @@
-const CACHE='five-kalme-v7';
+const CACHE='five-kalme-v8';
 const ASSETS=['./app.webmanifest'];
 self.addEventListener('install',e=>{
   self.skipWaiting();
