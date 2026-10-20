@@ -41,9 +41,16 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .smallBtn{border:1px solid #347267;background:#0c302b;color:white;border-radius:12px;padding:10px 12px;font-weight:750}
 .smallBtn.active{background:#1a7d67;border-color:#39a98f}
 .note{font-size:11px;line-height:1.55;color:#a9c2bb;margin-top:10px}
-.playerBox{aspect-ratio:16/9;background:#020807;border:1px solid #245149;border-radius:16px;overflow:hidden}
-.playerBox iframe{width:100%;height:100%;border:0}
-.audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:10px 0 0;color:#b8d0ca;font-size:12px}
+.voicePanel{background:linear-gradient(180deg,#0b2c27,#071f1c);border:1px solid #2f665b;border-radius:18px;padding:18px}
+.voiceArt{width:104px;height:104px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#47d0a6,#15745f 55%,#0a3d34);box-shadow:0 12px 34px rgba(28,179,142,.28);font-size:42px;border:5px solid rgba(255,255,255,.08)}
+.voiceTitle{text-align:center;font-weight:850;font-size:18px}.voiceSub{text-align:center;color:#a9c8c0;font-size:12px;margin-top:4px}
+.bigPlay{width:72px;height:72px;border-radius:50%;border:0;display:grid;place-items:center;margin:16px auto 12px;background:linear-gradient(135deg,#20a37f,#36c59a);color:white;font-size:30px;box-shadow:0 12px 30px rgba(43,192,149,.28)}
+.playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
+.ctrl.active{background:#1a7d67;border-color:#42bd9d}
+.progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:13px;color:#9fc1b8;font-size:11px}
+.progressRow input{width:100%;accent-color:#34c29a}
+.ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}
+.audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 0;color:#b8d0ca;font-size:12px}
 .voiceBadge{display:inline-flex;align-items:center;gap:7px}
 .dot{width:8px;height:8px;border-radius:50%;background:#35d19e;box-shadow:0 0 0 5px rgba(53,209,158,.12)}
 .credit{margin-top:10px;padding:10px 12px;background:#092621;border:1px solid #245149;border-radius:13px;color:#b8d0ca;font-size:11px;line-height:1.5}
@@ -51,7 +58,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .tile{border:1px solid #2e6359;background:#0a2b26;border-radius:13px;padding:10px;color:#dcece7;text-align:center}
 .tile b{display:block;font-size:14px}.tile span{display:block;color:#93b9af;font-size:10px;margin-top:3px}
 .footer{text-align:center;color:#6f9990;font-size:11px;padding:20px 8px 0}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.playerCard{order:-1}.playerBox{max-height:270px}}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.playerCard{order:-1}}
 @media(max-width:520px){.app{padding:10px 10px 30px}.brandRight{display:none}.card{border-radius:16px}.body{padding:12px}.cardHead{padding:13px 12px 0}.arabicWrap{padding:16px 12px}.roman{font-size:17px}.grid5{grid-template-columns:repeat(5,minmax(76px,1fr));overflow:auto}.tile{min-width:76px}}
 </style>
 </head>
@@ -94,19 +101,34 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
         <div class="pill">Official YouTube</div>
       </div>
       <div class="body">
-        <div class="playerBox">
-          <iframe id="player" title="Kalma voice" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="voicePanel">
+          <div class="voiceArt">♫</div>
+          <div class="voiceTitle" id="voiceLabel">Pehla Kalma Tayyibah voice</div>
+          <div class="voiceSub">Kids Madani Channel • original YouTube stream</div>
+          <button class="bigPlay" id="playBtn" aria-label="Play voice">▶</button>
+          <div class="playerControls">
+            <button class="ctrl" id="restartBtn">↺ Restart</button>
+            <button class="ctrl active" id="speed1">1×</button>
+            <button class="ctrl" id="speed075">0.75×</button>
+            <button class="ctrl" id="repeatBtn">Repeat Off</button>
+          </div>
+          <div class="progressRow">
+            <span id="curTime">0:00</span>
+            <input id="seek" type="range" min="0" max="1000" value="0">
+            <span id="durTime">0:00</span>
+          </div>
         </div>
+        <div id="ytPlayer" class="ytHost" aria-hidden="true"></div>
         <div class="audioMeta">
-          <div class="voiceBadge"><span class="dot"></span><span id="voiceLabel">Pehla Kalma voice</span></div>
-          <span id="videoId"></span>
+          <div class="voiceBadge"><span class="dot"></span><span id="playState">Ready</span></div>
+          <a id="sourceLink" href="#" target="_blank" rel="noopener" style="color:#b8d0ca">Source video ↗</a>
         </div>
-        <div class="credit">Voice/video Kids Madani Channel ke official YouTube embed se chalti hai. Audio ko copy ya APK ke andar extract nahi kiya gaya. Isliye aapko wahi original voice sunai degi jab internet available ho.</div>
+        <div class="credit">Screen par video nahi dikhaya gaya; aapko voice-player look milega. Voice Kids Madani Channel ke official YouTube stream se chalti hai, isliye internet zaroori hai.</div>
       </div>
     </aside>
   </main>
 
-  <div class="footer">Phase 1 • 5 Kalme text + exact channel voice streaming</div>
+  <div class="footer">Phase 1.1 • audio-style voice player + 5 Kalme text</div>
 </div>
 
 <script>
@@ -138,15 +160,63 @@ function render(){
  const k=kalmas[current];
  q('#title').textContent=k.name;q('#number').textContent='Kalma '+k.n+' of 5';q('#shortName').textContent=k.short;
  q('#arabic').textContent=k.ar;q('#roman').textContent=k.ro;q('#voiceLabel').textContent=k.name+' voice';
- q('#videoId').textContent='Video '+k.n;
- q('#player').src='https://www.youtube.com/embed/'+k.video+'?rel=0&modestbranding=1&playsinline=1';
+ q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
+ loadVoice(k.video);
  renderNav();
  window.scrollTo({top:0,behavior:'smooth'});
 }
+let yt=null, ytReady=false, pendingVideo=kalmas[0].video, progressTimer=null, repeatOn=false;
+function fmt(s){s=Math.max(0,Math.floor(Number(s)||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function setPlayUI(playing){
+ q('#playBtn').textContent=playing?'❚❚':'▶';
+ q('#playState').textContent=playing?'Playing':'Paused';
+}
+window.onYouTubeIframeAPIReady=function(){
+ yt=new YT.Player('ytPlayer',{
+   height:'1',width:'1',videoId:pendingVideo,
+   playerVars:{playsinline:1,rel:0,modestbranding:1,controls:0},
+   events:{
+     onReady:function(){ytReady=true;q('#playState').textContent='Ready';startProgress()},
+     onStateChange:function(e){
+       if(e.data===YT.PlayerState.PLAYING)setPlayUI(true);
+       if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED)setPlayUI(false);
+       if(e.data===YT.PlayerState.ENDED){if(repeatOn){yt.seekTo(0,true);yt.playVideo()}else setPlayUI(false)}
+     },
+     onError:function(){q('#playState').textContent='Voice unavailable'}
+   }
+ });
+};
+function loadVoice(id){
+ pendingVideo=id;
+ setPlayUI(false);
+ q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
+ if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
+}
+function startProgress(){
+ if(progressTimer)clearInterval(progressTimer);
+ progressTimer=setInterval(()=>{
+   if(!ytReady||!yt)return;
+   const d=yt.getDuration?yt.getDuration():0, t=yt.getCurrentTime?yt.getCurrentTime():0;
+   q('#curTime').textContent=fmt(t);q('#durTime').textContent=fmt(d);
+   if(d>0&&!q('#seek').matches(':active'))q('#seek').value=Math.round((t/d)*1000);
+ },500);
+}
+q('#playBtn').onclick=()=>{
+ if(!ytReady||!yt){q('#playState').textContent='Loading…';return}
+ const st=yt.getPlayerState();
+ if(st===YT.PlayerState.PLAYING)yt.pauseVideo();else yt.playVideo();
+};
+q('#restartBtn').onclick=()=>{if(ytReady&&yt){yt.seekTo(0,true);yt.playVideo()}};
+q('#speed1').onclick=()=>{if(ytReady&&yt){yt.setPlaybackRate(1);q('#speed1').classList.add('active');q('#speed075').classList.remove('active')}};
+q('#speed075').onclick=()=>{if(ytReady&&yt){yt.setPlaybackRate(.75);q('#speed075').classList.add('active');q('#speed1').classList.remove('active')}};
+q('#repeatBtn').onclick=()=>{repeatOn=!repeatOn;q('#repeatBtn').textContent=repeatOn?'Repeat On':'Repeat Off';q('#repeatBtn').classList.toggle('active',repeatOn)};
+q('#seek').addEventListener('input',()=>{if(ytReady&&yt){const d=yt.getDuration();if(d>0)yt.seekTo((Number(q('#seek').value)/1000)*d,true)}});
+
 q('#largeBtn').onclick=()=>{q('#arabic').style.fontSize='clamp(44px,8vw,70px)';q('#largeBtn').classList.add('active');q('#normalBtn').classList.remove('active')};
 q('#normalBtn').onclick=()=>{q('#arabic').style.fontSize='';q('#normalBtn').classList.add('active');q('#largeBtn').classList.remove('active')};
 render();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 </script>
+<script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
