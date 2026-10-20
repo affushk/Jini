@@ -1,9 +1,11 @@
 package com.altaf.fivekalme;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,38 +14,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import androidx.webkit.WebViewAssetLoader;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.webkit.WebViewAssetLoader;
+
 public class MainActivity extends Activity {
     private WebView webView;
     private FrameLayout splash;
+    private FrameLayout root;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private long splashStartedAt;
     private boolean pageReady = false;
     private boolean splashClosed = false;
+    private SharedPreferences prefs;
+    private String currentTheme = "amoled";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Window w = getWindow();
-        w.setStatusBarColor(Color.parseColor("#FFF4F8"));
-        w.setNavigationBarColor(Color.parseColor("#FFF4F8"));
+        prefs = getSharedPreferences("noor_kids", MODE_PRIVATE);
+        currentTheme = prefs.getString("theme", "amoled");
+        if (!"pink".equals(currentTheme) && !"amoled".equals(currentTheme)) currentTheme = "amoled";
 
-        FrameLayout root = new FrameLayout(this);
-        root.setBackgroundColor(Color.parseColor("#FFF4F8"));
+        applySystemTheme(currentTheme);
+
+        root = new FrameLayout(this);
+        root.setBackgroundColor(Color.parseColor(isAmoled() ? "#000000" : "#FFF4F8"));
         setContentView(root);
 
         webView = new WebView(this);
         webView.setAlpha(0f);
+        webView.setBackgroundColor(Color.TRANSPARENT);
         root.addView(webView, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -60,9 +69,11 @@ public class MainActivity extends Activity {
         playSplashAnimation();
 
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
-
-        // Safety fallback: never leave the user stuck on the splash.
         handler.postDelayed(this::closeSplashIfPossible, 7000);
+    }
+
+    private boolean isAmoled() {
+        return "amoled".equals(currentTheme);
     }
 
     private void setupWebView() {
@@ -76,6 +87,8 @@ public class MainActivity extends Activity {
 
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
+
+        webView.addJavascriptInterface(new ThemeBridge(), "ThemeBridge");
 
         final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
                 .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
@@ -104,22 +117,60 @@ public class MainActivity extends Activity {
         });
     }
 
+    public class ThemeBridge {
+        @JavascriptInterface
+        public String getTheme() {
+            return currentTheme;
+        }
+
+        @JavascriptInterface
+        public void setTheme(String theme) {
+            if (!"amoled".equals(theme) && !"pink".equals(theme)) return;
+            currentTheme = theme;
+            prefs.edit().putString("theme", theme).apply();
+            runOnUiThread(() -> {
+                applySystemTheme(theme);
+                if (root != null) root.setBackgroundColor(Color.parseColor(
+                        "amoled".equals(theme) ? "#000000" : "#FFF4F8"
+                ));
+            });
+        }
+    }
+
+    private void applySystemTheme(String theme) {
+        boolean dark = "amoled".equals(theme);
+        Window w = getWindow();
+        w.setStatusBarColor(Color.parseColor(dark ? "#000000" : "#FFF4F8"));
+        w.setNavigationBarColor(Color.parseColor(dark ? "#000000" : "#FFF4F8"));
+
+        int flags = w.getDecorView().getSystemUiVisibility();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (dark) flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            else flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (dark) flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            else flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        }
+        w.getDecorView().setSystemUiVisibility(flags);
+    }
+
     private FrameLayout buildSplash() {
+        boolean dark = isAmoled();
         FrameLayout page = new FrameLayout(this);
+
         GradientDrawable bg = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{
-                        Color.parseColor("#FFF9FC"),
-                        Color.parseColor("#FCE4EE"),
-                        Color.parseColor("#FFF8F2")
-                }
+                dark
+                        ? new int[]{Color.BLACK, Color.parseColor("#050205"), Color.BLACK}
+                        : new int[]{Color.parseColor("#FFF9FC"), Color.parseColor("#FCE4EE"), Color.parseColor("#FFF8F2")}
         );
         page.setBackground(bg);
 
-        addDecoration(page, "✦", 18, "#E9A8C2", Gravity.TOP | Gravity.START, 28, 62);
+        addDecoration(page, "✦", 18, dark ? "#7C445C" : "#E9A8C2", Gravity.TOP | Gravity.START, 28, 62);
         addDecoration(page, "★", 14, "#E9C66E", Gravity.TOP | Gravity.END, 34, 92);
-        addDecoration(page, "☾", 22, "#E7B2C7", Gravity.BOTTOM | Gravity.START, 34, 78);
-        addDecoration(page, "✦", 13, "#E8B7CA", Gravity.BOTTOM | Gravity.END, 48, 120);
+        addDecoration(page, "☾", 22, dark ? "#704052" : "#E7B2C7", Gravity.BOTTOM | Gravity.START, 34, 78);
+        addDecoration(page, "✦", 13, dark ? "#6A394C" : "#E8B7CA", Gravity.BOTTOM | Gravity.END, 48, 120);
 
         LinearLayout center = new LinearLayout(this);
         center.setOrientation(LinearLayout.VERTICAL);
@@ -136,11 +187,16 @@ public class MainActivity extends Activity {
         FrameLayout logo = new FrameLayout(this);
         logo.setId(View.generateViewId());
         logo.setElevation(dp(12));
-        logo.setBackground(roundBg("#FFFDFE", 34, "#F2BCD1", 2));
+        logo.setBackground(roundBg(
+                dark ? "#090609" : "#FFFDFE",
+                34,
+                dark ? "#5E2F43" : "#F2BCD1",
+                2
+        ));
         LinearLayout.LayoutParams lpLogo = new LinearLayout.LayoutParams(dp(112), dp(112));
         center.addView(logo, lpLogo);
 
-        TextView moon = text("☾", 58, "#B85E82", Typeface.BOLD);
+        TextView moon = text("☾", 58, dark ? "#E58FB1" : "#B85E82", Typeface.BOLD);
         moon.setGravity(Gravity.CENTER);
         logo.addView(moon, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -154,7 +210,7 @@ public class MainActivity extends Activity {
         sp.rightMargin = dp(11);
         logo.addView(star, sp);
 
-        TextView title = text("NOOR KIDS", 29, "#643F50", Typeface.BOLD);
+        TextView title = text("NOOR KIDS", 29, dark ? "#FFFFFF" : "#643F50", Typeface.BOLD);
         title.setLetterSpacing(.08f);
         title.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(
@@ -164,7 +220,7 @@ public class MainActivity extends Activity {
         tp.topMargin = dp(22);
         center.addView(title, tp);
 
-        TextView kalme = text("5 KALME", 15, "#B86C8B", Typeface.BOLD);
+        TextView kalme = text("5 KALME", 15, dark ? "#E9A1BD" : "#B86C8B", Typeface.BOLD);
         kalme.setLetterSpacing(.16f);
         kalme.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams kp = new LinearLayout.LayoutParams(
@@ -179,7 +235,7 @@ public class MainActivity extends Activity {
                 GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         Color.TRANSPARENT,
-                        Color.parseColor("#E8AFC6"),
+                        Color.parseColor(dark ? "#6B344B" : "#E8AFC6"),
                         Color.TRANSPARENT
                 }
         );
@@ -188,10 +244,15 @@ public class MainActivity extends Activity {
         lineP.topMargin = dp(24);
         center.addView(line, lineP);
 
-        TextView designed = text("DESIGNED BY", 10, "#A48190", Typeface.BOLD);
+        TextView designed = text("DESIGNED BY", 10, dark ? "#AD8B99" : "#A48190", Typeface.BOLD);
         designed.setLetterSpacing(.22f);
         designed.setGravity(Gravity.CENTER);
-        designed.setBackground(roundBg("#FFF7FA", 18, "#F0CDD9", 1));
+        designed.setBackground(roundBg(
+                dark ? "#0B0709" : "#FFF7FA",
+                18,
+                dark ? "#3D222D" : "#F0CDD9",
+                1
+        ));
         designed.setPadding(dp(13), dp(7), dp(13), dp(7));
         LinearLayout.LayoutParams dp1 = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -200,7 +261,7 @@ public class MainActivity extends Activity {
         dp1.topMargin = dp(18);
         center.addView(designed, dp1);
 
-        TextView designer = text("Altaf Shaikh", 18, "#6D4355", Typeface.BOLD);
+        TextView designer = text("Altaf Shaikh", 18, dark ? "#F4DCE6" : "#6D4355", Typeface.BOLD);
         designer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams dp2 = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -209,7 +270,7 @@ public class MainActivity extends Activity {
         dp2.topMargin = dp(9);
         center.addView(designer, dp2);
 
-        TextView tagline = text("Listen  •  See  •  Repeat", 11, "#9E7E8B", Typeface.NORMAL);
+        TextView tagline = text("Listen  •  See  •  Repeat", 11, dark ? "#88767D" : "#9E7E8B", Typeface.NORMAL);
         tagline.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams tg = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -218,7 +279,6 @@ public class MainActivity extends Activity {
         tg.topMargin = dp(13);
         center.addView(tagline, tg);
 
-        // Store animation targets via tags.
         page.setTag(new View[]{logo, title, kalme, line, designed, designer, tagline, star});
         return page;
     }
@@ -252,7 +312,6 @@ public class MainActivity extends Activity {
         v[7].animate().alpha(1f).scaleX(1f).scaleY(1f)
                 .rotationBy(18f).setStartDelay(520).setDuration(650).start();
 
-        // Very subtle logo breathing after the intro animation.
         handler.postDelayed(() -> {
             if (!splashClosed) {
                 v[0].animate().scaleX(1.025f).scaleY(1.025f)
