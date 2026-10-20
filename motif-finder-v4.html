@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="app">
-  <div class="top"><div class="logo">✦</div><div><h1>Motif Finder</h1><p>Phase 2 • zero-key reverse image search</p></div></div>
+  <div class="top"><div class="logo">✦</div><div><h1>Motif Finder</h1><p>Phase 2.1 • fixed Google Lens upload</p></div></div>
   <div class="cols">
     <section class="card">
       <div class="head"><h2>1. Add reference image</h2><span class="pill" id="status">Waiting</span></div>
@@ -196,8 +196,8 @@
 
   lensSearch.onclick=()=>{
     if(!blob)return;
-    const url='https://lens.google.com/upload?ep=fntpubb&st='+Date.now()+'&vpw='+window.innerWidth+'&vph='+window.innerHeight+'&hl=en';
-    const ok=submitImageForm(url,'encoded_image',{processed_image_dimensions:(info.textContent||'').replace(' px','').replace(' × ', ',')});
+    const url='https://lens.google.com/v3/upload';
+    const ok=submitImageForm(url,'encoded_image',{sbisrc:'Google Chrome'});
     if(ok) searchStatus.textContent='Google Lens naye tab me open ho raha hai…';
     else {searchStatus.textContent='Direct upload block hua. Crop clipboard me copy karke Lens khol raha hoon.'; copy.click(); window.open('https://lens.google.com/','_blank','noopener');}
   };
