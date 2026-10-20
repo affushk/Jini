@@ -53,10 +53,13 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
 .playerControls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.ctrl{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:11px;padding:9px 11px;font-weight:750}
 .ctrl.active{background:#1a7d67;border-color:#42bd9d}
 .progressRow{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin-top:10px;color:#9fc1b8;font-size:11px}
-.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:.2s ease}
-.seg.active{background:#2fb88f;color:#062f2a;box-shadow:0 0 0 3px rgba(47,184,143,.18),0 0 22px rgba(47,184,143,.22)}
-.roman .seg.active{color:#fff;background:#1f8d73}
+.seg{display:inline-block;padding:2px 5px;border-radius:10px;transition:.12s ease}
+.seg.active{background:#f4c95d;color:#07231f;box-shadow:0 0 0 3px rgba(244,201,93,.22),0 0 18px rgba(244,201,93,.30)}
+.roman .seg.active{color:#07231f;background:#f4c95d}
 .syncNote{font-size:11px;color:#b9d4cd;margin-top:8px;text-align:center}
+.syncAdjust{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.syncAdjust button{border:1px solid #347267;background:#0c302b;color:#fff;border-radius:10px;padding:7px 10px;font-size:11px;font-weight:750}
+.syncAdjust span{display:inline-flex;align-items:center;color:#b9d4cd;font-size:11px;padding:0 5px}
 .progressRow input{width:100%;accent-color:#34c29a}
 .ytHost{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:.01!important;pointer-events:none!important;left:-9999px!important;top:-9999px!important}
 .audioMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 0;color:#b8d0ca;font-size:12px}
@@ -95,7 +98,13 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
         <div class="romanTitle">ROMAN URDU</div>
         <div class="roman" id="roman"></div>
         <div class="followLine" id="followLine"><span class="followDot"></span><span id="followText">Voice start kijiye — Arabic aur Roman Urdu live glow honge.</span></div>
-        <div class="syncNote" id="syncNote">Pehle Kalme ke verified starting phrases timing ke saath highlight honge.</div>
+        <div class="syncNote" id="syncNote">Pehla Kalma word-by-word highlight hoga.</div>
+        <div class="syncAdjust" id="syncAdjust">
+          <button id="syncMinus">Glow -0.25s</button>
+          <span id="syncValue">Sync 0.00s</span>
+          <button id="syncPlus">Glow +0.25s</button>
+          <button id="syncReset">Reset</button>
+        </div>
         <div class="learnRow">
           <button class="smallBtn active" id="normalBtn">Normal text</button>
           <button class="smallBtn" id="largeBtn">Large Arabic</button>
@@ -139,7 +148,7 @@ h1{font-size:21px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px
     </aside>
   </main>
 
-  <div class="footer">Phase 1.3 • first Kalma phrase sync + compact voice player</div>
+  <div class="footer">Phase 1.4 • first Kalma word-by-word sync + timing adjust</div>
 </div>
 
 <script>
@@ -171,15 +180,16 @@ function render(){
  const k=kalmas[current];
  q('#title').textContent=k.name;q('#number').textContent='Kalma '+k.n+' of 5';q('#shortName').textContent=k.short;
  if(k.n===1){
-   q('#arabic').innerHTML='<span class="seg" data-seg="1">لَا إِلٰهَ إِلَّا اللّٰهُ</span> <span class="seg" data-seg="2">مُحَمَّدٌ رَّسُولُ اللّٰهِ</span>';
-   q('#roman').innerHTML='<span class="seg" data-seg="1">La ilaha illallahu</span>, <span class="seg" data-seg="2">Muhammadur Rasoolullah</span>.';
+   q('#arabic').innerHTML='<span class="seg" data-seg="1">لَا</span> <span class="seg" data-seg="2">إِلٰهَ</span> <span class="seg" data-seg="3">إِلَّا</span> <span class="seg" data-seg="4">اللّٰهُ</span> <span class="seg" data-seg="5">مُحَمَّدٌ</span> <span class="seg" data-seg="6">رَّسُولُ</span> <span class="seg" data-seg="7">اللّٰهِ</span>';
+   q('#roman').innerHTML='<span class="seg" data-seg="1">La</span> <span class="seg" data-seg="2">ilaha</span> <span class="seg" data-seg="3">illa</span> <span class="seg" data-seg="4">llahu</span>, <span class="seg" data-seg="5">Muhammadur</span> <span class="seg" data-seg="6">Rasoolu</span><span class="seg" data-seg="7">llah</span>.';
  }else{
    q('#arabic').textContent=k.ar;
    q('#roman').textContent=k.ro;
  }
  q('#voiceLabel').textContent=k.name+' voice';
  q('#sourceLink').href='https://www.youtube.com/watch?v='+k.video;
- q('#syncNote').textContent=k.n===1?'Pehle Kalme ke verified starting phrases timing ke saath highlight honge.':'Is Kalme ka exact phrase timing next sync pass me add hoga.';
+ q('#syncNote').textContent=k.n===1?'Pehla Kalma word-by-word highlight hoga. Agar glow thoda aage/piche lage to Sync buttons se 0.25s adjust kar sakte hain.':'Is Kalme ka exact word timing next sync pass me add hoga.';
+ q('#syncAdjust').style.display=k.n===1?'flex':'none';
  loadVoice(k.video);
  renderNav();
  window.scrollTo({top:0,behavior:'smooth'});
@@ -217,20 +227,39 @@ function loadVoice(id){
  q('#seek').value=0;q('#curTime').textContent='0:00';q('#durTime').textContent='0:00';
  if(ytReady&&yt){yt.cueVideoById(id);q('#playState').textContent='Ready'}
 }
+let syncOffset=0;
+const firstKalmaWordTimes=[
+ {i:1,s:2.10,e:2.85,label:'La'},
+ {i:2,s:2.85,e:3.75,label:'ilaha'},
+ {i:3,s:3.75,e:4.55,label:'illa'},
+ {i:4,s:4.55,e:6.85,label:'llahu'},
+ {i:5,s:7.10,e:8.65,label:'Muhammadur'},
+ {i:6,s:8.65,e:10.15,label:'Rasoolu'},
+ {i:7,s:10.15,e:12.40,label:'llah'}
+];
+function updateSyncLabel(){
+ q('#syncValue').textContent='Sync '+(syncOffset>=0?'+':'')+syncOffset.toFixed(2)+'s';
+}
 function updatePhraseSync(t){
  const segs=[...document.querySelectorAll('.seg')];
  segs.forEach(s=>s.classList.remove('active'));
  if(kalmas[current].n!==1)return;
- let active=0;
- if(t>=2 && t<7) active=1;
- else if(t>=7 && t<13) active=2;
- if(active){
-   document.querySelectorAll('.seg[data-seg="'+active+'"]').forEach(s=>s.classList.add('active'));
-   q('#followText').textContent=active===1?'La ilaha illallahu — is phrase ko follow kijiye.':'Muhammadur Rasoolullah — is phrase ko follow kijiye.';
- } else if(t>=13){
-   q('#followText').textContent='Poem/repeat section — full text ko voice ke saath follow kijiye.';
+ const tt=t+syncOffset;
+ const hit=firstKalmaWordTimes.find(x=>tt>=x.s&&tt<x.e);
+ if(hit){
+   document.querySelectorAll('.seg[data-seg="'+hit.i+'"]').forEach(s=>s.classList.add('active'));
+   q('#followText').textContent=hit.label+' — isi word ko voice ke saath follow kijiye.';
+ }else if(tt>=12.4){
+   q('#followText').textContent='Poem/repeat section — first recitation sync complete.';
+ }else{
+   q('#followText').textContent='Voice start ho rahi hai…';
  }
 }
+q('#syncMinus').onclick=()=>{syncOffset=Math.max(-2,syncOffset-.25);updateSyncLabel()};
+q('#syncPlus').onclick=()=>{syncOffset=Math.min(2,syncOffset+.25);updateSyncLabel()};
+q('#syncReset').onclick=()=>{syncOffset=0;updateSyncLabel()};
+updateSyncLabel();
+
 function startProgress(){
  if(progressTimer)clearInterval(progressTimer);
  progressTimer=setInterval(()=>{
