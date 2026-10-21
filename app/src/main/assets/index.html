@@ -465,6 +465,108 @@ body.amoled .progressKids{color:#8f8187}
   .kidSparkles{inset:44px 16px 58px}
 }
 
+
+/* ===== FINAL MOBILE POLISH V25 ===== */
+.meta{
+  position:relative;
+  z-index:3;
+  min-height:78px;
+  padding:16px 17px 12px;
+  border-bottom:1px solid rgba(255,255,255,.025)
+}
+.meta>div:first-child{min-width:0;flex:1}
+.meta h2{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+.meta .sub,.count{
+  opacity:1!important;
+  visibility:visible!important
+}
+body.amoled .meta{
+  background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,0))
+}
+body.amoled .meta h2{color:#fff!important}
+body.amoled .meta .sub{color:#9b8d93!important}
+body.amoled .count{
+  color:#f2dce5!important;
+  background:#0a0809!important;
+  border-color:rgba(244,155,192,.20)!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.025)
+}
+.actions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  overflow:visible!important;
+  padding:0!important
+}
+.action{
+  min-width:0!important;
+  width:100%;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8px 6px!important;
+  white-space:normal!important;
+  line-height:1.1;
+  font-size:9px!important
+}
+.repeatBtn.active{font-weight:900}
+.babyHint{
+  padding:0 6px;
+  line-height:1.45
+}
+.themeControls{
+  flex-shrink:0;
+}
+.themeToggle,.liveTag{
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+body.amoled .themeToggle{
+  color:#ffd4e4!important;
+  border-color:rgba(244,155,192,.22)!important
+}
+.stage{
+  min-height:330px
+}
+.focus{
+  min-height:245px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center
+}
+body.amoled .player{
+  border-color:rgba(244,155,192,.09)
+}
+body.amoled .play{
+  background:linear-gradient(145deg,#df7da5,#9b4869);
+  box-shadow:0 16px 34px rgba(223,125,165,.18),0 8px 18px rgba(0,0,0,.52),inset 0 1px rgba(255,255,255,.17),0 0 0 1px rgba(255,255,255,.08)
+}
+@media(max-width:430px){
+  .app{padding-left:7px;padding-right:7px}
+  .brand{gap:7px}
+  .brand h1{font-size:17px}
+  .brand p{font-size:9px}
+  .liveTag{display:none}
+  .themeToggle{padding:7px 9px}
+  .meta{min-height:74px;padding-left:13px;padding-right:13px}
+  .meta h2{font-size:16px}
+  .count{min-width:54px}
+  .stage{min-height:315px}
+  .action{font-size:8.5px!important;padding:7px 4px!important}
+}
+
 </style>
 </head>
 <body class="amoled">
@@ -481,7 +583,7 @@ body.amoled .progressKids{color:#8f8187}
   </header>
 
   <main class="shell">
-    <div class="meta"><div><h2 id="title"></h2><div class="sub" id="subtitle"></div></div><div class="count" id="count"></div></div>
+    <div class="meta"><div><h2 id="title">Pehla Kalma Tayyibah</h2><div class="sub" id="subtitle">Kids learning • single-focus reading</div></div><div class="count" id="count">1 / 5</div></div>
 
     <div class="stageWrap">
       <section class="stage">
@@ -509,10 +611,10 @@ body.amoled .progressKids{color:#8f8187}
         <div class="timeline"><span id="cur">0:00</span><input id="seek" type="range" min="0" max="1000" value="0"><span id="dur">0:00</span></div>
         <div class="actions">
           <button class="action" id="restart">↺ Restart</button>
-          <button class="action repeatBtn" id="repeatBtn" type="button">∞ Repeat: Off</button>
+          <button class="action repeatBtn" id="repeatBtn" type="button">∞ Repeat Off</button>
           <button class="action active" data-speed="1">1×</button>
           <button class="action" data-speed=".75">0.75×</button>
-          <button class="action active" id="focusMode">Focus animation: On</button>
+          <button class="action active" id="focusMode">Focus On</button>
           <a class="action" id="source" target="_blank" rel="noopener" style="text-decoration:none">Source ↗</a>
         </div>
         <div class="babyHint">Repeat ∞ ON karoge to yahi Kalma baar-baar chalta rahega.</div>
@@ -532,7 +634,7 @@ body.amoled .progressKids{color:#8f8187}
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Noor Kids • Baby AMOLED • Repeat ∞ • colorful focus learning</div>
+  <div class="footer">Noor Kids • Baby AMOLED v2.5 • Repeat ∞ • polished mobile controls</div>
 </div>
 
 <script>
@@ -746,7 +848,7 @@ function render(){
  $('#trackTitle').textContent=k.name;$('#source').href='https://www.youtube.com/watch?v='+k.video;
  $('#fullArabic').textContent=k.ar;$('#fullRoman').textContent=k.ro;
  $('#notice').textContent=k.cues?((['Pehla','Dusra','Teesra','Chautha','Panchwa'][k.n-1]||('Kalma '+k.n))+' Kalma full audio mapped hai. Spoken words smooth focus animation ke saath chalenge.'):'Baby UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
- nav();showWaiting();updateRepeatUI();
+ nav();showWaiting();updateRepeatUI();syncThemeButton();
  if(ready){yt.cueVideoById(k.video);$('#speakerState').textContent='Ready'}else pending=k.video;
 }
 function showWaiting(){
@@ -835,6 +937,13 @@ function addSoftTouch(e){
 document.addEventListener('pointerdown',addSoftTouch,{passive:true});
 
 
+
+function syncThemeButton(){
+  const btn=document.getElementById('themeToggle');
+  if(!btn)return;
+  btn.textContent=document.body.classList.contains('amoled')?'☀ Pink':'◐ AMOLED';
+}
+
 function getInitialTheme(){
   try{
     if(window.ThemeBridge&&typeof window.ThemeBridge.getTheme==='function'){
@@ -861,7 +970,7 @@ document.getElementById('themeToggle').addEventListener('click',()=>{
 });
 applyTheme(getInitialTheme(),false);
 
-render();window.scrollTo({top:0,behavior:'smooth'})}
+render();syncThemeButton();setTimeout(syncThemeButton,120);setTimeout(syncThemeButton,700);window.scrollTo({top:0,behavior:'smooth'})}
 window.onYouTubeIframeAPIReady=()=>{
  yt=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:pending,playerVars:{playsinline:1,rel:0,controls:0},events:{
   onReady(){ready=true;$('#speakerState').textContent='Ready';startTimer()},
@@ -908,7 +1017,7 @@ $('#play').onclick=()=>{
 function updateRepeatUI(){
  const b=$('#repeatBtn');if(!b)return;
  b.classList.toggle('active',repeatForever);
- b.textContent=repeatForever?'∞ Repeat: ON':'∞ Repeat: Off';
+ b.textContent=repeatForever?'∞ Repeat ON':'∞ Repeat Off';
 }
 $('#repeatBtn').onclick=()=>{
  repeatForever=!repeatForever;
@@ -927,7 +1036,7 @@ $('#repeatMode').onclick=()=>{
 };
 $('#seek').oninput=()=>{if(!ready)return;lastCueKey='';yt.seekTo((+$('#seek').value/1000)*(yt.getDuration()||0),true)};
 document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-speed]').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(ready)yt.setPlaybackRate(+b.dataset.speed)});
-$('#focusMode').onclick=()=>{focusOn=!focusOn;$('#focusMode').classList.toggle('active',focusOn);$('#focusMode').textContent='Focus animation: '+(focusOn?'On':'Off');if(!focusOn)showWaiting();else lastCueKey=''};
+$('#focusMode').onclick=()=>{focusOn=!focusOn;$('#focusMode').classList.toggle('active',focusOn);$('#focusMode').textContent='Focus '+(focusOn?'On':'Off');if(!focusOn)showWaiting();else lastCueKey=''};
 $('#fullTextToggle').onclick=()=>$('#fullTextCard').classList.toggle('compact');
 render();
 
