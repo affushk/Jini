@@ -704,7 +704,7 @@ body:not(.amoled) .pickerHead small{color:#a38491}
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Noor Kids • v2.6 • direct Kalma picker • Repeat ∞ • Baby AMOLED</div>
+  <div class="footer">Noor Kids • v2.7 • fixed direct Kalma picker • Repeat ∞ • Baby AMOLED</div>
 </div>
 
 <script>
@@ -896,7 +896,7 @@ const K=[
   ]}
 ];
 const $=s=>document.querySelector(s);
-let current=0,yt=null,ready=false,timer=null,lastCueKey='',focusOn=true,repeatOn=false,pending=K[0].video,swapTimer=null;
+let current=0,yt=null,ready=false,timer=null,lastCueKey='',focusOn=true,pending=K[0].video,swapTimer=null;
 let repeatForever=localStorage.getItem('noorRepeat')==='on';
 const babyPalette=[
   ['#f49bc0','rgba(244,155,192,.16)'],
@@ -1011,7 +1011,7 @@ document.addEventListener('pointerdown',addSoftTouch,{passive:true});
 function syncThemeButton(){
   const btn=document.getElementById('themeToggle');
   if(!btn)return;
-  btn.textContent=document.body.classList.contains('amoled')?'☀ Pink':'◐ AMOLED';
+  btn.textContent=document.body.classList.contains('amoled')?'☀ Pink Mode':'◐ AMOLED Mode';
 }
 
 function getInitialTheme(){
@@ -1027,7 +1027,7 @@ function applyTheme(theme,save=true){
   const amoled=theme==='amoled';
   document.body.classList.toggle('amoled',amoled);
   const btn=document.getElementById('themeToggle');
-  if(btn)btn.textContent=amoled?'☀ Pink':'◐ AMOLED';
+  if(btn)btn.textContent=amoled?'☀ Pink Mode':'◐ AMOLED Mode';
   const meta=document.querySelector('meta[name="theme-color"]');
   if(meta)meta.setAttribute('content',amoled?'#000000':'#fff4f8');
   if(save){
@@ -1098,12 +1098,6 @@ $('#repeatBtn').onclick=()=>{
  }
 };
 $('#restart').onclick=()=>{if(!ready)return;lastCueKey='';yt.seekTo(0,true);yt.playVideo()};
-$('#repeatMode').onclick=()=>{
-  repeatOn=!repeatOn;
-  $('#repeatMode').classList.toggle('active',repeatOn);
-  $('#repeatMode').textContent=repeatOn?'🔁 Repeat: On':'🔁 Repeat: Off';
-  $('#speakerState').textContent=repeatOn?'Repeat ready':'Ready';
-};
 $('#seek').oninput=()=>{if(!ready)return;lastCueKey='';yt.seekTo((+$('#seek').value/1000)*(yt.getDuration()||0),true)};
 document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-speed]').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(ready)yt.setPlaybackRate(+b.dataset.speed)});
 $('#focusMode').onclick=()=>{focusOn=!focusOn;$('#focusMode').classList.toggle('active',focusOn);$('#focusMode').textContent='Focus '+(focusOn?'On':'Off');if(!focusOn)showWaiting();else lastCueKey=''};
