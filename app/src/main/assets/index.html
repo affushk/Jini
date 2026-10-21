@@ -633,6 +633,12 @@ body:not(.amoled) .pickerHead small{color:#a38491}
   .kalmaPicker .tab{min-width:88px!important;min-height:54px}
 }
 
+
+/* ===== AUDIO SWITCH FIX V28 ===== */
+.kalmaPicker .tab.loading{
+  opacity:.72;
+  transform:scale(.98);
+}
 </style>
 </head>
 <body class="amoled">
@@ -703,7 +709,7 @@ body:not(.amoled) .pickerHead small{color:#a38491}
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Noor Kids • v2.7 • fixed direct Kalma picker • Repeat ∞ • Baby AMOLED</div>
+  <div class="footer">Noor Kids • v2.8 • fixed per-Kalma audio switching • Repeat ∞ • Baby AMOLED</div>
 </div>
 
 <script>
@@ -918,7 +924,7 @@ function render(){
  $('#fullArabic').textContent=k.ar;$('#fullRoman').textContent=k.ro;
  $('#notice').textContent=k.cues?((['Pehla','Dusra','Teesra','Chautha','Panchwa'][k.n-1]||('Kalma '+k.n))+' Kalma full audio mapped hai. Spoken words smooth focus animation ke saath chalenge.'):'Baby UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
  nav();showWaiting();updateRepeatUI();syncThemeButton();
- if(ready){yt.cueVideoById(k.video);$('#speakerState').textContent='Ready'}else pending=k.video;
+ if(ready){$('#speakerState').textContent='Ready'}else pending=k.video;
 }
 function showWaiting(){
  lastCueKey='';const f=$('#focus');f.classList.add('waiting');
@@ -1045,6 +1051,16 @@ window.onYouTubeIframeAPIReady=()=>{
   onReady(){ready=true;$('#speakerState').textContent='Ready';startTimer()},
   onStateChange(e){
    const playing=e.data===YT.PlayerState.PLAYING;
+   if(playing){
+     try{
+       const actual=(yt.getVideoData&&yt.getVideoData().video_id)||'';
+       const wanted=K[current].video;
+       if(actual&&wanted&&actual!==wanted){
+         yt.loadVideoById({videoId:wanted,startSeconds:0});
+         return;
+       }
+     }catch(_){}
+   }
    $('.stage').classList.toggle('playing',playing);
    $('#play').classList.toggle('playing',playing);
    if(playing){$('#play').textContent='❚❚';$('#speakerState').textContent=repeatForever?'Playing • Repeat ∞':'Playing'}
