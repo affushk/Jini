@@ -312,6 +312,95 @@ body.amoled .soft-ripple{
   background:radial-gradient(circle,rgba(229,143,177,.38) 0%,rgba(229,143,177,.16) 44%,rgba(229,143,177,0) 72%)
 }
 
+
+/* ===== BABY AMOLED V24 ===== */
+:root{
+  --babyAccent:#f49bc0;
+  --babyAccent2:#8bdcf0;
+  --babyAccentSoft:rgba(244,155,192,.16);
+}
+.repeatBtn.active{
+  background:linear-gradient(145deg,#2a111b,#16090e)!important;
+  color:#ffd4e4!important;
+  border-color:rgba(244,155,192,.42)!important;
+  box-shadow:0 8px 22px rgba(244,155,192,.13),0 0 18px rgba(244,155,192,.08)!important
+}
+body:not(.amoled) .repeatBtn.active{
+  background:linear-gradient(145deg,#ffe4ef,#f8c7db)!important;
+  color:#8e4b68!important
+}
+body.amoled .tab:nth-child(1).active{border-color:rgba(244,155,192,.42);box-shadow:0 10px 26px rgba(244,155,192,.09)}
+body.amoled .tab:nth-child(2).active{border-color:rgba(139,220,240,.42);box-shadow:0 10px 26px rgba(139,220,240,.09)}
+body.amoled .tab:nth-child(3).active{border-color:rgba(202,167,255,.42);box-shadow:0 10px 26px rgba(202,167,255,.09)}
+body.amoled .tab:nth-child(4).active{border-color:rgba(255,211,112,.42);box-shadow:0 10px 26px rgba(255,211,112,.09)}
+body.amoled .tab:nth-child(5).active{border-color:rgba(121,232,190,.42);box-shadow:0 10px 26px rgba(121,232,190,.09)}
+.stage{isolation:isolate}
+.focus:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:50%;top:50%;
+  width:min(76vw,330px);height:min(76vw,330px);
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,var(--babyAccentSoft) 0%,rgba(0,0,0,0) 68%);
+  filter:blur(2px);
+  transition:background .35s ease;
+  pointer-events:none
+}
+body.amoled .arabicWord,
+body.amoled .urduWord{
+  text-shadow:0 0 22px var(--babyAccentSoft),0 8px 28px rgba(0,0,0,.55)
+}
+body.amoled .romanWord{color:var(--babyAccent)}
+body.amoled .kind{
+  color:var(--babyAccent);
+  border-color:color-mix(in srgb,var(--babyAccent) 28%,transparent)
+}
+.babyDecor{
+  position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;border-radius:inherit
+}
+.babyDecor span{
+  position:absolute;display:block;opacity:.42;
+  filter:drop-shadow(0 0 8px currentColor);
+  animation:babyFloat 4.8s ease-in-out infinite
+}
+.babyDecor .d1{left:7%;top:23%;color:#f49bc0;font-size:15px}
+.babyDecor .d2{left:13%;bottom:21%;color:#8bdcf0;font-size:10px;animation-delay:.7s}
+.babyDecor .d3{right:9%;top:31%;color:#ffd370;font-size:17px;animation-delay:1.2s}
+.babyDecor .d4{right:13%;bottom:24%;color:#79e8be;font-size:9px;animation-delay:.35s}
+.babyDecor .d5{left:23%;top:13%;color:#caa7ff;font-size:12px;animation-delay:1.8s}
+.babyDecor .d6{right:24%;bottom:12%;color:#f7a992;font-size:8px;animation-delay:1.45s}
+@keyframes babyFloat{
+  0%,100%{transform:translateY(0) scale(.9);opacity:.3}
+  50%{transform:translateY(-9px) scale(1.08);opacity:.62}
+}
+.stage.playing .babyDecor span{animation-duration:3.4s}
+.stage.playing .focus{animation:babyFocusBreath 3.6s ease-in-out infinite}
+@keyframes babyFocusBreath{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.012)}
+}
+body.amoled .stage.playing{
+  box-shadow:
+    0 20px 44px rgba(0,0,0,.82),
+    inset 0 0 0 1px rgba(255,255,255,.025),
+    0 0 28px var(--babyAccentSoft)
+}
+.babyHint{
+  margin-top:6px;
+  color:#8e7f85;
+  font-size:8px;
+  text-align:center
+}
+body.amoled .meaning{
+  background:linear-gradient(145deg,#171008,#0f0a0c);
+  border:1px solid rgba(255,211,112,.08)
+}
+@supports not (color:color-mix(in srgb,red 10%,transparent)){
+  body.amoled .kind{border-color:rgba(244,155,192,.2)}
+}
+
 </style>
 </head>
 <body class="amoled">
@@ -334,6 +423,10 @@ body.amoled .soft-ripple{
       <section class="stage">
         <div class="speaker"><span class="pulse"></span><span id="speakerState">Ready</span></div>
         <div class="visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="babyDecor" aria-hidden="true">
+          <span class="d1">★</span><span class="d2">●</span><span class="d3">✦</span>
+          <span class="d4">●</span><span class="d5">★</span><span class="d6">●</span>
+        </div>
         <div class="focus waiting" id="focus">
           <div class="kind" id="kind">Now speaking</div>
           <div class="arabicWord" id="arabicWord">بِسْمِ الله</div>
@@ -351,11 +444,13 @@ body.amoled .soft-ripple{
         <div class="timeline"><span id="cur">0:00</span><input id="seek" type="range" min="0" max="1000" value="0"><span id="dur">0:00</span></div>
         <div class="actions">
           <button class="action" id="restart">↺ Restart</button>
+          <button class="action repeatBtn" id="repeatBtn" type="button">∞ Repeat: Off</button>
           <button class="action active" data-speed="1">1×</button>
           <button class="action" data-speed=".75">0.75×</button>
           <button class="action active" id="focusMode">Focus animation: On</button>
           <a class="action" id="source" target="_blank" rel="noopener" style="text-decoration:none">Source ↗</a>
         </div>
+        <div class="babyHint">Repeat ∞ ON karoge to yahi Kalma baar-baar chalta rahega.</div>
       </section>
 
       <section class="fullText compact" id="fullTextCard">
@@ -372,7 +467,7 @@ body.amoled .soft-ripple{
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Noor Kids • Pink + AMOLED themes • Quran-style Arabic • 5 Kalme ready</div>
+  <div class="footer">Noor Kids • Baby AMOLED • Repeat ∞ • colorful focus learning</div>
 </div>
 
 <script>
@@ -565,6 +660,15 @@ const K=[
 ];
 const $=s=>document.querySelector(s);
 let current=0,yt=null,ready=false,timer=null,lastCueKey='',focusOn=true,pending=K[0].video,swapTimer=null;
+let repeatForever=localStorage.getItem('noorRepeat')==='on';
+const babyPalette=[
+  ['#f49bc0','rgba(244,155,192,.16)'],
+  ['#8bdcf0','rgba(139,220,240,.16)'],
+  ['#caa7ff','rgba(202,167,255,.16)'],
+  ['#ffd370','rgba(255,211,112,.15)'],
+  ['#79e8be','rgba(121,232,190,.15)'],
+  ['#f7a992','rgba(247,169,146,.15)']
+];
 function fmt(v){v=Math.max(0,Math.floor(+v||0));return Math.floor(v/60)+':'+String(v%60).padStart(2,'0')}
 function nav(){
  $('#nav').innerHTML=K.map((k,i)=>'<button class="tab '+(i===current?'active':'')+'" data-i="'+i+'">'+k.n+'<small>'+k.short+'</small></button>').join('');
@@ -577,7 +681,7 @@ function render(){
  $('#trackTitle').textContent=k.name;$('#source').href='https://www.youtube.com/watch?v='+k.video;
  $('#fullArabic').textContent=k.ar;$('#fullRoman').textContent=k.ro;
  $('#notice').textContent=k.cues?((['Pehla','Dusra','Teesra','Chautha','Panchwa'][k.n-1]||('Kalma '+k.n))+' Kalma full audio mapped hai. Spoken words smooth focus animation ke saath chalenge.'):'Baby UI ready. Exact word timing is Kalma ke liye next timing pass me add hogi.';
- nav();showWaiting();
+ nav();showWaiting();updateRepeatUI();
  if(ready){yt.cueVideoById(k.video);$('#speakerState').textContent='Ready'}else pending=k.video;
 }
 function showWaiting(){
@@ -608,10 +712,16 @@ function animateFocus(){
    {opacity:1,transform:'translateY(0) scale(1)',filter:'blur(0px)'}
  ],{duration:175,easing:'cubic-bezier(.2,.78,.2,1)',fill:'both'});
 }
+function setBabyAccent(c){
+ const idx=c?Math.abs(Math.floor((c.s||0)*10))%babyPalette.length:0;
+ document.documentElement.style.setProperty('--babyAccent',babyPalette[idx][0]);
+ document.documentElement.style.setProperty('--babyAccentSoft',babyPalette[idx][1]);
+}
 function swapCue(c){
  const key=c?JSON.stringify([c.s,c.e,c.type,c.a,c.u,c.r]):'none';
  if(key===lastCueKey)return;
  lastCueKey=key;
+ setBabyAccent(c);
  const f=$('#focus');
  f.classList.remove('waiting');
  if(!c){
@@ -694,8 +804,18 @@ window.onYouTubeIframeAPIReady=()=>{
    const playing=e.data===YT.PlayerState.PLAYING;
    $('.stage').classList.toggle('playing',playing);
    $('#play').classList.toggle('playing',playing);
-   if(playing){$('#play').textContent='❚❚';$('#speakerState').textContent='Playing'}
-   else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED||e.data===YT.PlayerState.ENDED){$('#play').textContent='▶';$('#speakerState').textContent=e.data===YT.PlayerState.ENDED?'Finished':'Paused'}
+   if(playing){$('#play').textContent='❚❚';$('#speakerState').textContent=repeatForever?'Playing • Repeat ∞':'Playing'}
+   else if(e.data===YT.PlayerState.ENDED){
+     if(repeatForever){
+       lastCueKey='';
+       $('#speakerState').textContent='Repeating…';
+       setTimeout(()=>{if(yt){yt.seekTo(0,true);yt.playVideo();}},180);
+     }else{
+       $('#play').textContent='▶';$('#speakerState').textContent='Finished';
+     }
+   }else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){
+     $('#play').textContent='▶';$('#speakerState').textContent='Paused';
+   }
  },
   onError(){ $('#speakerState').textContent='Voice unavailable' }
  }});
@@ -711,7 +831,28 @@ function startTimer(){clearInterval(timer);timer=setInterval(()=>{
  }
  if(focusOn&&k.cues)swapCue(cueFor(k,t));
 },45)}
-$('#play').onclick=()=>{if(!ready)return;if(yt.getPlayerState()===YT.PlayerState.PLAYING)yt.pauseVideo();else yt.playVideo()};
+$('#play').onclick=()=>{
+ if(!ready)return;
+ const st=yt.getPlayerState();
+ if(st===YT.PlayerState.PLAYING)yt.pauseVideo();
+ else{
+   if(st===YT.PlayerState.ENDED){lastCueKey='';yt.seekTo(0,true);}
+   yt.playVideo();
+ }
+};
+function updateRepeatUI(){
+ const b=$('#repeatBtn');if(!b)return;
+ b.classList.toggle('active',repeatForever);
+ b.textContent=repeatForever?'∞ Repeat: ON':'∞ Repeat: Off';
+}
+$('#repeatBtn').onclick=()=>{
+ repeatForever=!repeatForever;
+ localStorage.setItem('noorRepeat',repeatForever?'on':'off');
+ updateRepeatUI();
+ if(ready&&yt.getPlayerState()===YT.PlayerState.PLAYING){
+   $('#speakerState').textContent=repeatForever?'Playing • Repeat ∞':'Playing';
+ }
+};
 $('#restart').onclick=()=>{if(!ready)return;lastCueKey='';yt.seekTo(0,true);yt.playVideo()};
 $('#seek').oninput=()=>{if(!ready)return;lastCueKey='';yt.seekTo((+$('#seek').value/1000)*(yt.getDuration()||0),true)};
 document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-speed]').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(ready)yt.setPlaybackRate(+b.dataset.speed)});
