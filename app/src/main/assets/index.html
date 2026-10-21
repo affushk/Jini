@@ -401,6 +401,70 @@ body.amoled .meaning{
   body.amoled .kind{border-color:rgba(244,155,192,.2)}
 }
 
+
+/* ===== AMOLED KIDS COLOR PACK V1 ===== */
+.kidSparkles{position:absolute;inset:42px 28px 62px;z-index:1;pointer-events:none}
+.kidSparkles span{position:absolute;font-size:14px;opacity:.34;filter:drop-shadow(0 0 8px currentColor);animation:kidFloat 3.8s ease-in-out infinite paused}
+.kidSparkles span:nth-child(1){left:7%;top:18%;color:#ff8eb8;animation-delay:.1s}
+.kidSparkles span:nth-child(2){right:8%;top:25%;color:#7ddcff;animation-delay:.7s}
+.kidSparkles span:nth-child(3){left:13%;bottom:20%;color:#ffd36f;animation-delay:1.1s}
+.kidSparkles span:nth-child(4){right:14%;bottom:17%;color:#88efc2;animation-delay:.45s}
+.kidSparkles span:nth-child(5){right:26%;top:9%;color:#c9a2ff;animation-delay:1.45s}
+.stage.playing .kidSparkles span{animation-play-state:running;opacity:.72}
+@keyframes kidFloat{0%,100%{transform:translateY(0) scale(.92) rotate(-5deg)}50%{transform:translateY(-10px) scale(1.12) rotate(7deg)}}
+.listenGuide{position:absolute;z-index:4;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:7px;white-space:nowrap;border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.72);border:1px solid rgba(177,105,134,.11);color:#926979;font-size:9px;font-weight:900;box-shadow:0 7px 18px rgba(117,63,86,.055)}
+.listenGuide b{opacity:.35}
+.repeatBtn{font-weight:900}
+.repeatBtn.active{animation:repeatGlow 1.8s ease-in-out infinite}
+@keyframes repeatGlow{0%,100%{box-shadow:0 7px 16px rgba(117,63,86,.08)}50%{box-shadow:0 9px 24px rgba(226,131,169,.22)}}
+
+/* AMOLED stays true-black, but gets baby-friendly colored accents */
+body.amoled .stage{
+  background:
+    radial-gradient(circle at 22% 18%,rgba(125,220,255,.065),transparent 22%),
+    radial-gradient(circle at 78% 22%,rgba(255,142,184,.075),transparent 23%),
+    radial-gradient(circle at 50% 76%,rgba(136,239,194,.055),transparent 24%),
+    #000
+}
+body.amoled .listenGuide{
+  background:#080808;
+  color:#d8cdd2;
+  border-color:rgba(255,255,255,.075);
+  box-shadow:0 8px 20px rgba(0,0,0,.62)
+}
+body.amoled .listenGuide span:nth-child(1){color:#ff9abd}
+body.amoled .listenGuide span:nth-child(3){color:#83dfff}
+body.amoled .listenGuide span:nth-child(5){color:#90efc4}
+body.amoled .tab:nth-child(1){border-color:rgba(255,142,184,.22)}
+body.amoled .tab:nth-child(2){border-color:rgba(125,220,255,.20)}
+body.amoled .tab:nth-child(3){border-color:rgba(201,162,255,.20)}
+body.amoled .tab:nth-child(4){border-color:rgba(255,211,111,.18)}
+body.amoled .tab:nth-child(5){border-color:rgba(136,239,194,.19)}
+body.amoled .tab:nth-child(1).active{background:linear-gradient(145deg,#341521,#16090e)!important;box-shadow:0 12px 28px rgba(0,0,0,.7),0 0 24px rgba(255,142,184,.12)}
+body.amoled .tab:nth-child(2).active{background:linear-gradient(145deg,#10242d,#070e12)!important;box-shadow:0 12px 28px rgba(0,0,0,.7),0 0 24px rgba(125,220,255,.10)}
+body.amoled .tab:nth-child(3).active{background:linear-gradient(145deg,#241732,#0d0912)!important;box-shadow:0 12px 28px rgba(0,0,0,.7),0 0 24px rgba(201,162,255,.10)}
+body.amoled .tab:nth-child(4).active{background:linear-gradient(145deg,#2b2210,#0f0c05)!important;box-shadow:0 12px 28px rgba(0,0,0,.7),0 0 24px rgba(255,211,111,.09)}
+body.amoled .tab:nth-child(5).active{background:linear-gradient(145deg,#10271e,#06100c)!important;box-shadow:0 12px 28px rgba(0,0,0,.7),0 0 24px rgba(136,239,194,.09)}
+body.amoled .arabicWord{color:#fff;text-shadow:0 0 18px rgba(255,142,184,.10),0 8px 28px rgba(0,0,0,.45)}
+body.amoled .urduWord{color:#f9f5f7;text-shadow:0 0 18px rgba(125,220,255,.08),0 8px 28px rgba(0,0,0,.45)}
+body.amoled .romanWord{color:#aeead1}
+body.amoled .kind{color:#f0b2ca;border-color:rgba(255,142,184,.17)}
+body.amoled .repeatBtn.active{
+  background:linear-gradient(145deg,#2e1220,#12080d);
+  color:#ffb4cf;
+  border-color:rgba(255,142,184,.28);
+  box-shadow:0 0 0 1px rgba(255,142,184,.05),0 0 22px rgba(255,142,184,.11)
+}
+body.amoled .play.playing{
+  background:linear-gradient(145deg,#e77aa5,#8d3f5e);
+  box-shadow:0 0 0 5px rgba(255,142,184,.07),0 16px 36px rgba(229,111,153,.16)
+}
+body.amoled .progressKids{color:#8f8187}
+@media(max-width:520px){
+  .listenGuide{bottom:11px;font-size:8px;padding:6px 9px;gap:5px}
+  .kidSparkles{inset:44px 16px 58px}
+}
+
 </style>
 </head>
 <body class="amoled">
@@ -434,6 +498,7 @@ body.amoled .meaning{
           <div class="romanWord" id="romanWord">Play dabaiye</div>
           <div class="meaning" id="meaning">Jo audio me bolega, wahi yahan animation ke saath aayega.</div>
         </div>
+        <div class="listenGuide" aria-hidden="true"><span>👂 Suno</span><b>•</b><span>👀 Dekho</span><b>•</b><span>🔁 Yaad karo</span></div>
       </section>
 
       <section class="player">
@@ -659,7 +724,7 @@ const K=[
   ]}
 ];
 const $=s=>document.querySelector(s);
-let current=0,yt=null,ready=false,timer=null,lastCueKey='',focusOn=true,pending=K[0].video,swapTimer=null;
+let current=0,yt=null,ready=false,timer=null,lastCueKey='',focusOn=true,repeatOn=false,pending=K[0].video,swapTimer=null;
 let repeatForever=localStorage.getItem('noorRepeat')==='on';
 const babyPalette=[
   ['#f49bc0','rgba(244,155,192,.16)'],
@@ -854,6 +919,12 @@ $('#repeatBtn').onclick=()=>{
  }
 };
 $('#restart').onclick=()=>{if(!ready)return;lastCueKey='';yt.seekTo(0,true);yt.playVideo()};
+$('#repeatMode').onclick=()=>{
+  repeatOn=!repeatOn;
+  $('#repeatMode').classList.toggle('active',repeatOn);
+  $('#repeatMode').textContent=repeatOn?'🔁 Repeat: On':'🔁 Repeat: Off';
+  $('#speakerState').textContent=repeatOn?'Repeat ready':'Ready';
+};
 $('#seek').oninput=()=>{if(!ready)return;lastCueKey='';yt.seekTo((+$('#seek').value/1000)*(yt.getDuration()||0),true)};
 document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-speed]').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(ready)yt.setPlaybackRate(+b.dataset.speed)});
 $('#focusMode').onclick=()=>{focusOn=!focusOn;$('#focusMode').classList.toggle('active',focusOn);$('#focusMode').textContent='Focus animation: '+(focusOn?'On':'Off');if(!focusOn)showWaiting();else lastCueKey=''};
