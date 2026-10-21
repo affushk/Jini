@@ -41,7 +41,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         prefs = getSharedPreferences("noor_kids", MODE_PRIVATE);
-        currentTheme = prefs.getString("theme", "amoled");
+        if (!prefs.getBoolean("amoled_v23_migrated", false)) {
+            currentTheme = "amoled";
+            prefs.edit().putString("theme", "amoled").putBoolean("amoled_v23_migrated", true).apply();
+        } else {
+            currentTheme = prefs.getString("theme", "amoled");
+        }
         if (!"pink".equals(currentTheme) && !"amoled".equals(currentTheme)) currentTheme = "amoled";
 
         applySystemTheme(currentTheme);
