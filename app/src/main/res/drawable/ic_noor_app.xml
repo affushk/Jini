@@ -3,17 +3,69 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path
-        android:fillColor="#F7D2E2"
-        android:pathData="M0,0 L108,0 L108,108 L0,108 Z"/>
-    <path
-        android:fillColor="#FFF9F1"
-        android:fillType="evenOdd"
-        android:pathData="M54,18 A36,36 0,1 0,54,90 A36,36 0,0 0,54,18 Z M68,27 A28,28 0,1 1,50,81 A36,36 0,0 0,68,27 Z"/>
-    <path
-        android:fillColor="#E7BC55"
-        android:pathData="M80,20 L83.5,29.5 L93,33 L83.5,36.5 L80,46 L76.5,36.5 L67,33 L76.5,29.5 Z"/>
-    <path
-        android:fillColor="#EAA5C0"
-        android:pathData="M82,59 L84,64 L89,66 L84,68 L82,73 L80,68 L75,66 L80,64 Z"/>
+
+    <!-- AMOLED/navy base -->
+    <path android:fillColor="#070817" android:pathData="M0,0H108V108H0Z"/>
+
+    <!-- soft pink inner frame -->
+    <path android:fillColor="#FF7EB6" android:fillAlpha="0.22"
+        android:pathData="M6,6H102V102H6Z"/>
+
+    <!-- mosque arch -->
+    <path android:fillColor="#16183A"
+        android:pathData="M14,85V42C14,24 30,12 54,12C78,12 94,24 94,42V85Z"/>
+    <path android:strokeColor="#FFD76A" android:strokeWidth="2.2" android:fillColor="@android:color/transparent"
+        android:pathData="M14,85V42C14,24 30,12 54,12C78,12 94,24 94,42V85"/>
+
+    <!-- crescent -->
+    <path android:fillColor="#FFD76A" android:fillType="evenOdd"
+        android:pathData="M70,19
+        A19,19 0,1 0,70,57
+        A15,15 0,1 1,70,19Z"/>
+
+    <!-- five stars -->
+    <path android:fillColor="#FFD76A" android:pathData="M28,20L30,24L34,26L30,28L28,32L26,28L22,26L26,24Z"/>
+    <path android:fillColor="#FF9BC4" android:pathData="M40,15L41.7,18.5L45,20L41.7,21.5L40,25L38.3,21.5L35,20L38.3,18.5Z"/>
+    <path android:fillColor="#78DCCB" android:pathData="M82,27L84,31L88,33L84,35L82,39L80,35L76,33L80,31Z"/>
+    <path android:fillColor="#B79CFF" android:pathData="M22,39L23.7,42.5L27,44L23.7,45.5L22,49L20.3,45.5L17,44L20.3,42.5Z"/>
+    <path android:fillColor="#FFB36A" android:pathData="M88,47L89.7,50.5L93,52L89.7,53.5L88,57L86.3,53.5L83,52L86.3,50.5Z"/>
+
+    <!-- two child heads -->
+    <path android:fillColor="#F2B18F" android:pathData="M31,48A10,10 0,1 0,51,48A10,10 0,1 0,31,48Z"/>
+    <path android:fillColor="#F2B18F" android:pathData="M57,48A10,10 0,1 0,77,48A10,10 0,1 0,57,48Z"/>
+
+    <!-- boy cap -->
+    <path android:fillColor="#FFF7E9" android:pathData="M31,47C32,39 38,35 41,35C46,35 50,39 51,47C45,43 37,43 31,47Z"/>
+    <path android:strokeColor="#FFD76A" android:strokeWidth="1.2" android:fillColor="@android:color/transparent"
+        android:pathData="M33,42H49M35,39H47"/>
+
+    <!-- girl hijab -->
+    <path android:fillColor="#FF83B6"
+        android:pathData="M57,48C58,38 63,34 68,34C74,34 79,40 79,50V66H57Z"/>
+    <path android:fillColor="#FFC7DD" android:pathData="M60,48C61,41 64,38 68,38C72,38 76,42 76,48C72,45 64,45 60,48Z"/>
+
+    <!-- eyes/smiles -->
+    <path android:fillColor="#2A1A1F" android:pathData="M37,49A1.5,1.5 0,1 0,40,49A1.5,1.5 0,1 0,37,49Z"/>
+    <path android:fillColor="#2A1A1F" android:pathData="M44,49A1.5,1.5 0,1 0,47,49A1.5,1.5 0,1 0,44,49Z"/>
+    <path android:strokeColor="#7A3C4D" android:strokeWidth="1.2" android:strokeLineCap="round" android:fillColor="@android:color/transparent"
+        android:pathData="M38,54Q41,57 45,54"/>
+    <path android:fillColor="#2A1A1F" android:pathData="M63,49A1.5,1.5 0,1 0,66,49A1.5,1.5 0,1 0,63,49Z"/>
+    <path android:fillColor="#2A1A1F" android:pathData="M70,49A1.5,1.5 0,1 0,73,49A1.5,1.5 0,1 0,70,49Z"/>
+    <path android:strokeColor="#7A3C4D" android:strokeWidth="1.2" android:strokeLineCap="round" android:fillColor="@android:color/transparent"
+        android:pathData="M64,54Q67,57 71,54"/>
+
+    <!-- open Quran/book -->
+    <path android:fillColor="#123D35" android:pathData="M18,66L50,61V84L18,78Z"/>
+    <path android:fillColor="#123D35" android:pathData="M90,66L58,61V84L90,78Z"/>
+    <path android:strokeColor="#FFD76A" android:strokeWidth="2" android:fillColor="@android:color/transparent"
+        android:pathData="M18,66L50,61V84L18,78ZM90,66L58,61V84L90,78ZM54,62V85"/>
+
+    <!-- crisp number 5 -->
+    <path android:strokeColor="#FFD76A" android:strokeWidth="5.8"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M69,69H57V77H66C72,77 75,80 75,85C75,91 71,94 64,94C60,94 56,92 53,89"/>
+
+    <!-- bottom pink accent -->
+    <path android:fillColor="#FF70AE" android:pathData="M18,96H90V100H18Z"/>
 </vector>
