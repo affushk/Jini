@@ -568,6 +568,72 @@ body.amoled .play{
   .action{font-size:8.5px!important;padding:7px 4px!important}
 }
 
+
+/* ===== QUICK KALMA PICKER V26 ===== */
+.kalmaPickerWrap{
+  position:relative;
+  z-index:4;
+  margin:0 12px 10px;
+  padding:10px;
+  border-radius:18px;
+  border:1px solid rgba(244,155,192,.10);
+  background:rgba(255,255,255,.018);
+  box-shadow:0 10px 26px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.025)
+}
+.pickerHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0 2px 8px;
+  font-size:10px;
+  font-weight:900;
+  color:#d9c8cf;
+  letter-spacing:.2px
+}
+.pickerHead small{
+  font-size:8px;
+  font-weight:700;
+  color:#7f7076
+}
+.kalmaPicker{
+  margin:0!important;
+  padding:1px 1px 4px!important;
+  gap:8px!important
+}
+.kalmaPicker .tab{
+  min-width:98px!important;
+  min-height:58px;
+  border-radius:15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:15px!important;
+  font-weight:900!important
+}
+.kalmaPicker .tab small{
+  margin-top:3px!important;
+  font-size:9px!important
+}
+body.amoled .kalmaPickerWrap{
+  background:#030303;
+  border-color:rgba(244,155,192,.10);
+  box-shadow:0 12px 28px rgba(0,0,0,.52),inset 0 1px rgba(255,255,255,.02)
+}
+body.amoled .pickerHead{color:#e7d8de}
+body:not(.amoled) .kalmaPickerWrap{
+  background:rgba(255,255,255,.62);
+  border-color:rgba(164,92,122,.10);
+  box-shadow:0 10px 24px rgba(150,91,117,.08)
+}
+body:not(.amoled) .pickerHead{color:#7c5566}
+body:not(.amoled) .pickerHead small{color:#a38491}
+@media(max-width:430px){
+  .kalmaPickerWrap{margin:0 9px 9px;padding:9px}
+  .kalmaPicker .tab{min-width:88px!important;min-height:54px}
+}
+
 </style>
 </head>
 <body>
@@ -580,11 +646,14 @@ body.amoled .play{
         <button class="themeToggle" id="themeToggle" type="button">◐ AMOLED</button>
       </div>
     </div>
-    <nav class="nav" id="nav"></nav>
   </header>
 
   <main class="shell">
     <div class="meta"><div><h2 id="title">Pehla Kalma Tayyibah</h2><div class="sub" id="subtitle">Kids learning • single-focus reading</div></div><div class="count" id="count">1 / 5</div></div>
+    <div class="kalmaPickerWrap">
+      <div class="pickerHead"><span>Choose Kalma</span><small>Tap karke direct suno</small></div>
+      <nav class="nav kalmaPicker" id="nav"></nav>
+    </div>
 
     <div class="stageWrap">
       <section class="stage">
@@ -635,7 +704,7 @@ body.amoled .play{
     </div>
   </main>
   <div id="ytPlayer" class="ytHost"></div>
-  <div class="footer">Noor Kids • Baby AMOLED v2.5 • Repeat ∞ • polished mobile controls</div>
+  <div class="footer">Noor Kids • v2.6 • direct Kalma picker • Repeat ∞ • Baby AMOLED</div>
 </div>
 
 <script>
